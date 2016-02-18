@@ -30,7 +30,3 @@ proguard/
 
 # Android Studio captures folder
 captures/
-
-#Generic JetBrains
-*.iml
-.idea/
