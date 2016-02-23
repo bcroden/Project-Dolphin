@@ -1,4 +1,4 @@
-package com.projectdolphin;
+package com.projectdolphin.layout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,10 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.projectdolphin.R;
+
 import java.util.List;
 
 /**
- * Created by Alex on 2/22/2016.
+ * Custom ArrayAdapter for ListItems
+ *
+ * @author Alex
  */
 public class ListItemAdapter extends ArrayAdapter<ListItem> {
     public ListItemAdapter(Context context, int resource, List<ListItem> objects) {
