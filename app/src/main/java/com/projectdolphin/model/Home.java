@@ -21,6 +21,11 @@ public class Home {
         for (int i = 0; i < 10; i++) {
             ListItem item = new ListItem() {
                 @Override
+                public String getWeight() {
+                    return "4 hours";
+                }
+
+                @Override
                 public String getTitle() {
                     return "Dummy Title";
                 }

@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Activity to try out displaying list of information
+ * Home activity for displaying all of the classes
  */
 public class HomeActivity extends AppCompatActivity {
 
