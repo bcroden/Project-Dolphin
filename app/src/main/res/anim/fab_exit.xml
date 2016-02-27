@@ -6,4 +6,8 @@
         android:fromXDelta="0%"
         android:toYDelta="25%"
         android:fromYDelta="0%" />
+    <alpha
+        android:duration="1000"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0"/>
 </set>
