@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Project Dolphin</string>
     <string name="item_icon_desc">item_icon</string>
+    <string name="title_activity_view">ViewActivity</string>
 </resources>
