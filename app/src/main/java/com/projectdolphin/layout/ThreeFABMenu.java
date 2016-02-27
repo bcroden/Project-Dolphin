@@ -14,13 +14,21 @@ import android.view.animation.AnimationUtils;
 import com.projectdolphin.R;
 
 /**
- * Created by Alex on 2/27/2016.
+ * Helper class which abstracts the implementation of the a FloatingActionButton menu
+ *
+ * TODO: Add and animate other
+ * TODO: Add methods for users to set custom onClick listeners for the other three FABs
+ *
+ * @author Alex
  */
 public class ThreeFABMenu {
-    public void addFABMenuToLayout(Activity activity, ViewGroup parent) {
+    public ThreeFABMenu(Activity activity, ViewGroup parent) {
+        //Inflate the menu
         LayoutInflater inflater = activity.getLayoutInflater();
         inflater.inflate(R.layout.fab_menu, parent);
 
+        //load the main FAB and set it onClick listener
+        //This will always be the same
         FloatingActionButton mainFAB = (FloatingActionButton) activity.findViewById(R.id.main_fab);
         mainFAB.setOnClickListener(new View.OnClickListener() {
             @Override
