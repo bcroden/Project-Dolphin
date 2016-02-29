@@ -37,7 +37,8 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //add the FloatingActionButton menu
-        new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout), getListener(), getListener(), getListener());
+        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
+        fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
 
         /* Initialize the List View */
         items = new LinkedList<>();
@@ -59,11 +60,11 @@ public class HomeActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private View.OnClickListener getListener() {
+    private View.OnClickListener getAddFABOnClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Option FAB Clicked", Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Add FAB Clicked", Toast.LENGTH_SHORT).show();
             }
         };
     }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.projectdolphin.R;
 
@@ -16,6 +17,9 @@ import com.projectdolphin.R;
  * @author Alex
  */
 public class ThreeFABMenu {
+    public ThreeFABMenu(Activity activity, ViewGroup parent) {
+        this(activity, parent, null, null, null);
+    }
     public ThreeFABMenu(Activity activity,
                         ViewGroup parent,
                         View.OnClickListener addFABListener,
@@ -33,27 +37,61 @@ public class ThreeFABMenu {
         fabs = new FAB[3];
 
         FloatingActionButton addFab = (FloatingActionButton) activity.findViewById(R.id.add_fab);
-        addFab.setOnClickListener(addFABListener);
+        if(addFABListener != null)
+            addFab.setOnClickListener(addFABListener);
+        else
+            addFab.setOnClickListener(getDefaultOnClickListener(activity));
         Animation addFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.top_fab_reveal);
         Animation addFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.top_fab_exit);
-        fabs[0] = new FAB(addFab, addFabEnter, addFabExit);
+        fabs[ADD_FAB_INDEX] = new FAB(addFab, addFabEnter, addFabExit);
 
         FloatingActionButton editFab = (FloatingActionButton) activity.findViewById(R.id.edit_fab);
-        editFab.setOnClickListener(editFABListener);
+        if(editFABListener != null)
+            editFab.setOnClickListener(editFABListener);
+        else
+            editFab.setOnClickListener(getDefaultOnClickListener(activity));
         Animation editFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.corner_fab_reveal);
         Animation editFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.corner_fab_exit);
-        fabs[1] = new FAB(editFab, editFabEnter, editFabExit);
+        fabs[EDIT_FAB_INDEX] = new FAB(editFab, editFabEnter, editFabExit);
 
         FloatingActionButton delFab = (FloatingActionButton) activity.findViewById(R.id.delete_fab);
-        delFab.setOnClickListener(deleteFABListener);
+        if(deleteFABListener != null)
+            delFab.setOnClickListener(deleteFABListener);
+        else
+            delFab.setOnClickListener(getDefaultOnClickListener(activity));
         Animation delFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
         Animation delFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
-        fabs[2] = new FAB(delFab, delFabEnter, delFabExit);
+        fabs[DEL_FAB_INDEX] = new FAB(delFab, delFabEnter, delFabExit);
 
         for(FAB fab : fabs) {
             fab.getEnter().setDuration(ANIMATION_DURATION);
             fab.getExit().setDuration(ANIMATION_DURATION);
         }
+    }
+
+    public void setAddFABOnClickListener(View.OnClickListener listener) {
+        fabs[ADD_FAB_INDEX].getFab().setOnClickListener(listener);
+    }
+
+    public void setEditFABOnClickListener(View.OnClickListener listener) {
+        fabs[EDIT_FAB_INDEX].getFab().setOnClickListener(listener);
+    }
+
+    public void setDeleteFABOnClickListener(View.OnClickListener listener) {
+        fabs[DEL_FAB_INDEX].getFab().setOnClickListener(listener);
+    }
+
+
+    public View.OnClickListener getDefaultOnClickListener(final Activity activity) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity.getApplicationContext(),
+                                "OnClickListener is not defined for this FAB",
+                                Toast.LENGTH_SHORT)
+                                .show();
+            }
+        };
     }
 
     private View.OnClickListener getMainFabOnClickListener() {
@@ -83,6 +121,7 @@ public class ThreeFABMenu {
 
     private boolean isFABMenuOut;
     private final int ANIMATION_DURATION = 500;
+    private final int ADD_FAB_INDEX = 0, EDIT_FAB_INDEX = 1, DEL_FAB_INDEX = 2;
     private FAB[] fabs;
 
     private class FAB {
