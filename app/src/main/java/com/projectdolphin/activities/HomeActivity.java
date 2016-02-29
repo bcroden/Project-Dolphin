@@ -39,8 +39,6 @@ public class HomeActivity extends AppCompatActivity {
         //add the FloatingActionButton menu
         new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout), getListener(), getListener(), getListener());
 
-        //TODO: call ThreeFABMenu's other functions to initialize the onClick listeners once they are added
-
         /* Initialize the List View */
         items = new LinkedList<>();
         adapter = new ListItemAdapter(this, R.layout.list_item, items);

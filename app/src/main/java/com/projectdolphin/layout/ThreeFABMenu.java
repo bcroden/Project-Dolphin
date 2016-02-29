@@ -13,9 +13,6 @@ import com.projectdolphin.R;
 /**
  * Helper class which abstracts the implementation of the a FloatingActionButton menu
  *
- * TODO: Add and animate other
- * TODO: Add methods for users to set custom onClick listeners for the other three FABs
- *
  * @author Alex
  */
 public class ThreeFABMenu {
@@ -37,14 +34,14 @@ public class ThreeFABMenu {
 
         FloatingActionButton addFab = (FloatingActionButton) activity.findViewById(R.id.add_fab);
         addFab.setOnClickListener(addFABListener);
-        Animation addFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
-        Animation addFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
+        Animation addFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.top_fab_reveal);
+        Animation addFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.top_fab_exit);
         fabs[0] = new FAB(addFab, addFabEnter, addFabExit);
 
         FloatingActionButton editFab = (FloatingActionButton) activity.findViewById(R.id.edit_fab);
         editFab.setOnClickListener(editFABListener);
-        Animation editFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
-        Animation editFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
+        Animation editFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.corner_fab_reveal);
+        Animation editFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.corner_fab_exit);
         fabs[1] = new FAB(editFab, editFabEnter, editFabExit);
 
         FloatingActionButton delFab = (FloatingActionButton) activity.findViewById(R.id.delete_fab);
@@ -52,6 +49,11 @@ public class ThreeFABMenu {
         Animation delFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
         Animation delFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
         fabs[2] = new FAB(delFab, delFabEnter, delFabExit);
+
+        for(FAB fab : fabs) {
+            fab.getEnter().setDuration(ANIMATION_DURATION);
+            fab.getExit().setDuration(ANIMATION_DURATION);
+        }
     }
 
     private View.OnClickListener getMainFabOnClickListener() {
@@ -80,6 +82,7 @@ public class ThreeFABMenu {
     }
 
     private boolean isFABMenuOut;
+    private final int ANIMATION_DURATION = 500;
     private FAB[] fabs;
 
     private class FAB {
