@@ -1,10 +1,7 @@
 package com.projectdolphin.layout;
 
 import android.app.Activity;
-import android.app.Application;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +19,11 @@ import com.projectdolphin.R;
  * @author Alex
  */
 public class ThreeFABMenu {
-    public ThreeFABMenu(Activity activity, ViewGroup parent) {
+    public ThreeFABMenu(Activity activity,
+                        ViewGroup parent,
+                        View.OnClickListener addFABListener,
+                        View.OnClickListener editFABListener,
+                        View.OnClickListener deleteFABListener) {
         //Inflate the menu
         LayoutInflater inflater = activity.getLayoutInflater();
         inflater.inflate(R.layout.fab_menu, parent, true);
@@ -30,41 +31,77 @@ public class ThreeFABMenu {
         //load the main FAB and set it onClick listener
         //This will always be the same
         FloatingActionButton mainFAB = (FloatingActionButton) activity.findViewById(R.id.main_fab);
-        mainFAB.setOnClickListener(new View.OnClickListener() {
+        mainFAB.setOnClickListener(getMainFabOnClickListener());
+
+        fabs = new FAB[3];
+
+        FloatingActionButton addFab = (FloatingActionButton) activity.findViewById(R.id.add_fab);
+        addFab.setOnClickListener(addFABListener);
+        Animation addFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
+        Animation addFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
+        fabs[0] = new FAB(addFab, addFabEnter, addFabExit);
+
+        FloatingActionButton editFab = (FloatingActionButton) activity.findViewById(R.id.edit_fab);
+        editFab.setOnClickListener(editFABListener);
+        Animation editFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
+        Animation editFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
+        fabs[1] = new FAB(editFab, editFabEnter, editFabExit);
+
+        FloatingActionButton delFab = (FloatingActionButton) activity.findViewById(R.id.delete_fab);
+        delFab.setOnClickListener(deleteFABListener);
+        Animation delFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
+        Animation delFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
+        fabs[2] = new FAB(delFab, delFabEnter, delFabExit);
+    }
+
+    private View.OnClickListener getMainFabOnClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation animation;
                 if(isFABMenuOut) {
                     //retract menu
+                    for(FAB fab : fabs) {
+                        fab.getFab().setVisibility(View.INVISIBLE);
+                        fab.getFab().startAnimation(fab.getExit());
+                    }
 
-                    Log.i("MY_TAG", "Menu in");
-                    animation = addFabExit;
-                    addFab.setVisibility(View.INVISIBLE);
                     isFABMenuOut = false;
                 } else {
                     //extend menu
-                    Log.i("MY_TAG", "Menu out");
-                    animation = addFabEnter;
-                    addFab.setVisibility(View.VISIBLE);
+                    for(FAB fab : fabs) {
+                        fab.getFab().setVisibility(View.VISIBLE);
+                        fab.getFab().startAnimation(fab.getEnter());
+                    }
+
                     isFABMenuOut = true;
                 }
-
-                addFab.startAnimation(animation);
             }
-        });
-
-        addFab = (FloatingActionButton) activity.findViewById(R.id.add_fab);
-        addFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Option FAB Clicked", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-        addFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.fab_reveal);
-        addFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.fab_exit);
+        };
     }
 
     private boolean isFABMenuOut;
-    private FloatingActionButton addFab;
-    private Animation addFabEnter, addFabExit;
+    private FAB[] fabs;
+
+    private class FAB {
+        public FAB(FloatingActionButton fab, Animation enter, Animation exit) {
+            this.fab = fab;
+            this.enter = enter;
+            this.exit = exit;
+        }
+
+        public FloatingActionButton getFab() {
+            return fab;
+        }
+
+        public Animation getEnter() {
+            return enter;
+        }
+
+        public Animation getExit() {
+            return exit;
+        }
+
+        private FloatingActionButton fab;
+        private Animation enter, exit;
+    }
 }

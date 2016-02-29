@@ -1,5 +1,6 @@
 package com.projectdolphin.activities;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -36,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //add the FloatingActionButton menu
-        new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
+        new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout), getListener(), getListener(), getListener());
 
         //TODO: call ThreeFABMenu's other functions to initialize the onClick listeners once they are added
 
@@ -58,6 +59,15 @@ public class HomeActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         items.addAll(Home.getClassListItems()); //load the information from somewhere
         adapter.notifyDataSetChanged();
+    }
+
+    private View.OnClickListener getListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Option FAB Clicked", Snackbar.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private List<ListItem> items;

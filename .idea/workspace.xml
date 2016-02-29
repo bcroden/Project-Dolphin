@@ -11,6 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="127916a8-482d-48a8-96c1-42b856613d29" name="Default" comment="">
+      <change type="MOVED" beforePath="C:\Users\Alex\AndroidStudioProjects\Project-Dolphin\app\src\main\res\anim\fab_exit.xml" afterPath="$PROJECT_DIR$/app/src/main/res/anim/left_fab_exit.xml" />
+      <change type="MOVED" beforePath="C:\Users\Alex\AndroidStudioProjects\Project-Dolphin\app\src\main\res\anim\fab_reveal.xml" afterPath="$PROJECT_DIR$/app/src/main/res/anim/left_fab_reveal.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/activities/HomeActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/activities/HomeActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/layout/ThreeFABMenu.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/layout/ThreeFABMenu.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -54,20 +57,26 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projectdolphin/activities/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="75" selection-start-line="38" selection-start-column="75" selection-end-line="38" selection-end-column="75" />
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1730#2105#0" expanded="true" />
+                <element signature="e#2104#2105#0" expanded="true" />
+                <element signature="e#2344#2552#0" expanded="true" />
+                <element signature="e#2551#2552#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fab_menu.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="fab_menu.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.1034484">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.42032966">
+              <caret line="33" column="38" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
+              <folding>
+                <element signature="e#545#564#0" expanded="true" />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-designer">
@@ -75,13 +84,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ThreeFABMenu.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ThreeFABMenu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projectdolphin/layout/ThreeFABMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.77862597">
-              <caret line="27" column="56" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="docComment;class#ThreeFABMenu#0" expanded="false" />
+                <element signature="e#1031#1078#0" expanded="false" />
+                <element signature="method#getMainFabOnClickListener#0;class#ThreeFABMenu#0" expanded="false" />
+                <element signature="e#2710#3457#0" expanded="true" />
+                <element signature="e#3456#3457#0" expanded="true" />
+                <element signature="class#FAB#0;class#ThreeFABMenu#0" expanded="false" />
+                <element signature="method#FAB#0;class#FAB#0;class#ThreeFABMenu#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -90,8 +105,8 @@
       <file leaf-file-name="activity_home.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.586207">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state vertical-scroll-proportion="-11.965517">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1732,10 +1747,10 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/home_content.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/activities/HomeActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/activities/HomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projectdolphin/layout/ThreeFABMenu.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml" />
       </list>
     </option>
   </component>
@@ -2260,7 +2275,13 @@
       <option name="project" value="LOCAL" />
       <updated>1456612952125</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fix miniFAB property">
+      <created>1456705070172</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1456705070172</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2321,7 +2342,8 @@
     <MESSAGE value="Android doesn't support Java 8 :(" />
     <MESSAGE value="Refactor FAB menu into its own layout file" />
     <MESSAGE value="Refactor back into HomeActivity and add comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor back into HomeActivity and add comments" />
+    <MESSAGE value="Fix miniFAB property" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix miniFAB property" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2388,6 +2410,10 @@
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2453,6 +2479,10 @@
           <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2500,6 +2530,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2510,6 +2544,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2520,6 +2558,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2530,6 +2572,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2540,6 +2586,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2550,6 +2600,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2577,6 +2631,10 @@
           <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2604,6 +2662,10 @@
           <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2624,6 +2686,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2714,7 +2780,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/fab_reveal.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/left_fab_reveal.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4751553">
           <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
@@ -2722,7 +2788,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/fab_exit.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/left_fab_exit.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.58074534">
           <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
@@ -2759,46 +2825,58 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.965517">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projectdolphin/activities/HomeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="75" selection-start-line="38" selection-start-column="75" selection-end-line="38" selection-end-column="75" />
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1730#2105#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2344#2552#0" expanded="true" />
+            <element signature="e#2551#2552#0" expanded="true" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.586207">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.1034484">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projectdolphin/layout/ThreeFABMenu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77862597">
-          <caret line="27" column="56" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#ThreeFABMenu#0" expanded="false" />
+            <element signature="e#1031#1078#0" expanded="false" />
+            <element signature="method#getMainFabOnClickListener#0;class#ThreeFABMenu#0" expanded="false" />
+            <element signature="e#2710#3457#0" expanded="true" />
+            <element signature="e#3456#3457#0" expanded="true" />
+            <element signature="class#FAB#0;class#ThreeFABMenu#0" expanded="false" />
+            <element signature="method#FAB#0;class#FAB#0;class#ThreeFABMenu#0" expanded="false" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fab_menu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42032966">
+          <caret line="33" column="38" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
+          <folding>
+            <element signature="e#545#564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>
