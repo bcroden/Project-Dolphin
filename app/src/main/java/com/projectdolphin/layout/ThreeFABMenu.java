@@ -25,7 +25,7 @@ public class ThreeFABMenu {
     public ThreeFABMenu(Activity activity, ViewGroup parent) {
         //Inflate the menu
         LayoutInflater inflater = activity.getLayoutInflater();
-        inflater.inflate(R.layout.fab_menu, parent);
+        inflater.inflate(R.layout.fab_menu, parent, true);
 
         //load the main FAB and set it onClick listener
         //This will always be the same
