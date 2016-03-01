@@ -1,6 +1,5 @@
 package com.projectdolphin.activities;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +15,7 @@ import com.projectdolphin.layout.ListItem;
 import com.projectdolphin.layout.ListItemAdapter;
 import com.projectdolphin.R;
 import com.projectdolphin.layout.ThreeFABMenu;
-import com.projectdolphin.model.Home;
+import com.projectdolphin.data.Home;
 
 import java.util.LinkedList;
 import java.util.List;

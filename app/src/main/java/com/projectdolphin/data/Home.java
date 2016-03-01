@@ -1,4 +1,4 @@
-package com.projectdolphin.model;
+package com.projectdolphin.data;
 
 import com.projectdolphin.layout.ListItem;
 
