@@ -1,5 +1,7 @@
 package com.projectdolphin.data.model;
 
+import com.projectdolphin.layout.ListItem;
+
 import java.util.List;
 
 /**
@@ -7,7 +9,27 @@ import java.util.List;
  *
  * @author Alex
  */
-public class Class {
+public class Class implements ListItem {
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getGradeAsString() {
+        return null;
+    }
+
+    @Override
+    public String getWeightAsString() {
+        return null;
+    }
+
+    @Override
+    public String getTimeSpentAsString() {
+        return null;
+    }
 
     public List<Category> getCategories() {
         return categories;

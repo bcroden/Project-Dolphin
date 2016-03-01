@@ -21,7 +21,7 @@ public class Home {
         for (int i = 0; i < 10; i++) {
             ListItem item = new ListItem() {
                 @Override
-                public String getWeight() {
+                public String getWeightAsString() {
                     return "4 hours";
                 }
 
@@ -31,12 +31,12 @@ public class Home {
                 }
 
                 @Override
-                public String getGrade() {
+                public String getGradeAsString() {
                     return "95.4%";
                 }
 
                 @Override
-                public String getTimeSpent() {
+                public String getTimeSpentAsString() {
                     return "32:16:08";
                 }
             };
