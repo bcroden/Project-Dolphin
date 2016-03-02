@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * Holds all of the information for a specific category
  *
+ * Note: methods and members should to be added as needed
+ *
  * @author Alex
  */
 public class Category implements ListItem {

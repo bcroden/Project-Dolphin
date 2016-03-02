@@ -5,6 +5,8 @@ import com.projectdolphin.layout.ListItem;
 /**
  * Holds all of the information for a specific assignment
  *
+ * Note: methods and members should to be added as needed
+ *
  * @author Alex
  */
 public class Assignment implements ListItem {

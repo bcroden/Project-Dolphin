@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * Holds all of the class level information
  *
+ * Note: methods and members should to be added as needed
+ *
  * @author Alex
  */
 public class Class implements ListItem {
