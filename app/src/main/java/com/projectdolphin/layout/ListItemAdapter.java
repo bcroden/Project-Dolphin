@@ -31,13 +31,13 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
         ListItem item = getItem(position);
         if(item != null) {
             TextView weight = (TextView) view.findViewById(R.id.weight);
-            weight.setText(item.getWeight());
+            weight.setText(item.getWeightAsString());
             TextView title = (TextView) view.findViewById(R.id.title);
             title.setText(item.getTitle());
             TextView grade = (TextView) view.findViewById(R.id.grade);
-            grade.setText(item.getGrade());
+            grade.setText(item.getGradeAsString());
             TextView timeSpent = (TextView) view.findViewById(R.id.time_spent);
-            timeSpent.setText(item.getTimeSpent());
+            timeSpent.setText(item.getTimeSpentAsString());
         }
 
         return view;
