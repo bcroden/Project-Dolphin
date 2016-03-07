@@ -1,6 +1,7 @@
 package com.projectdolphin.layout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,17 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
 
         ListItem item = getItem(position);
         if(item != null) {
+            double gradeValue = item.getGrade();
+            int green = (int) (255 * gradeValue);
+            int red = (int) (255 * (1-gradeValue));
+            view.setBackgroundColor(Color.rgb(red, green, 0));
+
             TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
             weight.setText(item.getWeightAsString());
             TextView title = (TextView) view.findViewById(R.id.view_list_item_title);
             title.setText(item.getTitle());
             TextView grade = (TextView) view.findViewById(R.id.view_list_item_grade);
-            grade.setText(item.getGradeAsString());
+            grade.setText(String.format("%.2f%%", gradeValue*100));
             TextView timeSpent = (TextView) view.findViewById(R.id.view_list_item_time_spent);
             timeSpent.setText(item.getTimeSpentAsString());
         }

@@ -19,8 +19,8 @@ public class Category implements ListItem {
     }
 
     @Override
-    public String getGradeAsString() {
-        return null;
+    public double getGrade() {
+        return 0.954;
     }
 
     @Override

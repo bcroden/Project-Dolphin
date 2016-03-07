@@ -4,6 +4,7 @@ import com.projectdolphin.layout.ListItem;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Helper object for HomeActivity
@@ -31,8 +32,8 @@ public class Home {
                 }
 
                 @Override
-                public String getGradeAsString() {
-                    return "95.4%";
+                public double getGrade() {
+                    return new Random().nextDouble();
                 }
 
                 @Override
