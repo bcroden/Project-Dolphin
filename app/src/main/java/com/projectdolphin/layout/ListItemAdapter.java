@@ -1,6 +1,7 @@
 package com.projectdolphin.layout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +26,22 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
     public View getView(int position, View view, ViewGroup viewGroup) {
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_item, null);
+            view = inflater.inflate(R.layout.view_list_item, null);
         }
 
         ListItem item = getItem(position);
         if(item != null) {
-            TextView weight = (TextView) view.findViewById(R.id.weight);
+            double gradeValue = item.getGrade();
+            int alpha = (int) (255 * gradeValue);
+            view.setBackgroundColor(Color.argb(alpha, 0, 230, 0));
+
+            TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
             weight.setText(item.getWeightAsString());
-            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView title = (TextView) view.findViewById(R.id.view_list_item_title);
             title.setText(item.getTitle());
-            TextView grade = (TextView) view.findViewById(R.id.grade);
-            grade.setText(item.getGradeAsString());
-            TextView timeSpent = (TextView) view.findViewById(R.id.time_spent);
+            TextView grade = (TextView) view.findViewById(R.id.view_list_item_grade);
+            grade.setText(String.format("%.2f%%", gradeValue*100));
+            TextView timeSpent = (TextView) view.findViewById(R.id.view_list_item_time_spent);
             timeSpent.setText(item.getTimeSpentAsString());
         }
 
