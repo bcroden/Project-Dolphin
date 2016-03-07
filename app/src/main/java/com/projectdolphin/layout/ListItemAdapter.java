@@ -25,18 +25,18 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
     public View getView(int position, View view, ViewGroup viewGroup) {
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_item, null);
+            view = inflater.inflate(R.layout.view_list_item, null);
         }
 
         ListItem item = getItem(position);
         if(item != null) {
-            TextView weight = (TextView) view.findViewById(R.id.weight);
+            TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
             weight.setText(item.getWeightAsString());
-            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView title = (TextView) view.findViewById(R.id.view_list_item_title);
             title.setText(item.getTitle());
-            TextView grade = (TextView) view.findViewById(R.id.grade);
+            TextView grade = (TextView) view.findViewById(R.id.view_list_item_grade);
             grade.setText(item.getGradeAsString());
-            TextView timeSpent = (TextView) view.findViewById(R.id.time_spent);
+            TextView timeSpent = (TextView) view.findViewById(R.id.view_list_item_time_spent);
             timeSpent.setText(item.getTimeSpentAsString());
         }
 

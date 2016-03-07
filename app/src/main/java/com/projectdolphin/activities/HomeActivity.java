@@ -4,7 +4,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
         /* Initialize the List View */
         items = new LinkedList<>();
-        adapter = new ListItemAdapter(this, R.layout.list_item, items);
+        adapter = new ListItemAdapter(this, R.layout.view_list_item, items);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
 
@@ -51,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String s = ((TextView) view.findViewById(R.id.title)).getText().toString() + " at pos=" + position;
+                String s = ((TextView) view.findViewById(R.id.view_list_item_title)).getText().toString() + " at pos=" + position;
                 Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
             }
         });
@@ -60,11 +59,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Snackbar.make(view, "LongClick", Snackbar.LENGTH_SHORT).show();
-                int visibility = view.findViewById(R.id.right).getVisibility();
+                int visibility = view.findViewById(R.id.view_list_item_hidden).getVisibility();
                 if(visibility != View.VISIBLE)
-                    view.findViewById(R.id.right).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.view_list_item_hidden).setVisibility(View.VISIBLE);
                 else
-                    view.findViewById(R.id.right).setVisibility(View.GONE);
+                    view.findViewById(R.id.view_list_item_hidden).setVisibility(View.GONE);
                 return true;
             }
         });
