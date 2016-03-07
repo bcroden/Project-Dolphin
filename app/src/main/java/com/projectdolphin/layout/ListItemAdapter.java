@@ -32,9 +32,8 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
         ListItem item = getItem(position);
         if(item != null) {
             double gradeValue = item.getGrade();
-            int green = (int) (255 * gradeValue);
-            int red = (int) (255 * (1-gradeValue));
-            view.setBackgroundColor(Color.rgb(red, green, 0));
+            int alpha = (int) (255 * gradeValue);
+            view.setBackgroundColor(Color.argb(alpha, 0, 230, 0));
 
             TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
             weight.setText(item.getWeightAsString());
