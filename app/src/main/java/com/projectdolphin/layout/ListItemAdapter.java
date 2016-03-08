@@ -36,7 +36,7 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
             view.setBackgroundColor(Color.argb(alpha, 0, 230, 0));
 
 //            TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
-//            weight.setText(item.Fat());
+//            weight.setText(item.Weight());
 //            TextView title = (TextView) view.findViewById(R.id.view_list_item_title);
 //            title.setText(item.Title());
 //            TextView grade = (TextView) view.findViewById(R.id.view_list_item_grade);

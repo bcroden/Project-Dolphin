@@ -31,7 +31,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ListItem.class.getMethods().length;
+        return ListItemDisplayHelper.getInstance().getNumberOfPairs();
     }
 
     @Override
@@ -78,24 +78,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ListItem childText = (ListItem) getChild(groupPosition, childPosition);
+        ListItem item = (ListItem) getChild(groupPosition, childPosition);
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.view_list_item, null);
         }
-        Method method = ListItem.class.getMethods()[childPosition];
-        Object result = null;
-        try {
-            result = method.invoke(childText);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        TextView key = (TextView) convertView.findViewById(R.id.expand_child_key);
-        TextView value = (TextView) convertView.findViewById(R.id.expand_child_value);
-        key.setText(method.getName());
-        value.setText(result.toString());
+        ListItemDisplayHelper.Pair pair = ListItemDisplayHelper.getInstance().getNthPair(childPosition, item);
+        TextView keyView = (TextView) convertView.findViewById(R.id.expand_child_key);
+        TextView valueView = (TextView) convertView.findViewById(R.id.expand_child_value);
+        keyView.setText(pair.getKey());
+        valueView.setText(pair.getValue());
         return convertView;
     }
 

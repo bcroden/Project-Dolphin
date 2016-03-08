@@ -24,7 +24,7 @@ public class Category implements ListItem {
     }
 
     @Override
-    public String Fat() {
+    public String Weight() {
         return null;
     }
 

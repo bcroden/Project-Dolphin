@@ -21,7 +21,7 @@ public class Assignment implements ListItem {
     }
 
     @Override
-    public String Fat() {
+    public String Weight() {
         return null;
     }
 

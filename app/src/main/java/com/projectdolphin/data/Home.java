@@ -22,7 +22,7 @@ public class Home {
         for (int i = 0; i < 10; i++) {
             ListItem item = new ListItem() {
                 @Override
-                public String Fat() {
+                public String Weight() {
                     return "4 hours";
                 }
 
