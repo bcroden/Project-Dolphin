@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.projectdolphin.R;
@@ -71,6 +72,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.expand_list_header, null);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.expandable_list_header);
+        Button viewButton = (Button) convertView.findViewById(R.id.expandable_header_view_btn);
+        viewButton.setFocusable(false);
         textView.setText(headerTitle);
         return convertView;
     }
