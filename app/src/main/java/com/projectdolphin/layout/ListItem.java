@@ -7,8 +7,8 @@ package com.projectdolphin.layout;
  * @author Alex
  */
 public interface ListItem {
-    public String getTitle();
-    public double getGrade();
-    public String getWeightAsString();
-    public String getTimeSpentAsString();
+    public String Title();
+    public double Grade();
+    public String Fat();
+    public String TimeSpent();
 }

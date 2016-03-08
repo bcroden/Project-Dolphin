@@ -1,6 +1,7 @@
 package com.projectdolphin.layout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,43 +11,37 @@ import android.widget.TextView;
 
 import com.projectdolphin.R;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Alex on 3/7/2016.
  */
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
-    /**
-     *
-     * @param context
-     * @param headers   List of headers
-     * @param childData mapping from a header to a list of items under it
-     */
-    public ExpandableListAdapter(Context context, List<String> headers, Map<String, List<String>> childData) {
+    public ExpandableListAdapter(Context context, List<ListItem> items) {
         this.context = context;
-        this.headers = headers;
-        this.childData = childData;
+        this.items = items;
     }
 
     @Override
     public int getGroupCount() {
-        return headers.size();
+        return items.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return childData.get(headers.get(groupPosition)).size();
+        return ListItem.class.getMethods().length;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return headers.get(groupPosition);
+        return items.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return childData.get(headers.get(groupPosition)).get(childPosition);
+        return items.get(groupPosition);
     }
 
     @Override
@@ -66,7 +61,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+        ListItem item = (ListItem) getGroup(groupPosition);
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.expand_list_header, null);
@@ -74,17 +69,33 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.expandable_list_header);
         Button viewButton = (Button) convertView.findViewById(R.id.expandable_header_view_btn);
         viewButton.setFocusable(false);
-        textView.setText(headerTitle);
+        textView.setText(item.Title());
+        double gradeValue = item.Grade();
+        int alpha = (int) (255 * gradeValue);
+        convertView.setBackgroundColor(Color.argb(alpha, 0, 230, 0));
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String childText = (String) getChild(groupPosition, childPosition);
+        ListItem childText = (ListItem) getChild(groupPosition, childPosition);
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.view_list_item, null);
         }
+        Method method = ListItem.class.getMethods()[childPosition];
+        Object result = null;
+        try {
+            result = method.invoke(childText);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        TextView key = (TextView) convertView.findViewById(R.id.expand_child_key);
+        TextView value = (TextView) convertView.findViewById(R.id.expand_child_value);
+        key.setText(method.getName());
+        value.setText(result.toString());
         return convertView;
     }
 
@@ -94,6 +105,5 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private Context context;
-    private List<String> headers;
-    private Map<String, List<String>> childData;
+    private List<ListItem> items;
 }

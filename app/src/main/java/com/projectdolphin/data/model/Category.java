@@ -14,22 +14,22 @@ import java.util.List;
 public class Category implements ListItem {
 
     @Override
-    public String getTitle() {
+    public String Title() {
         return null;
     }
 
     @Override
-    public double getGrade() {
+    public double Grade() {
         return 0.954;
     }
 
     @Override
-    public String getWeightAsString() {
+    public String Fat() {
         return null;
     }
 
     @Override
-    public String getTimeSpentAsString() {
+    public String TimeSpent() {
         return null;
     }
 

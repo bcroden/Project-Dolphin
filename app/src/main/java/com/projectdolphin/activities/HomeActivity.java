@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
             data.put(header, list);
         }
 
-        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(this, headers, data);
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(this, Home.getClassListItems());
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
         expandableListView.setAdapter(expandableListAdapter);
 

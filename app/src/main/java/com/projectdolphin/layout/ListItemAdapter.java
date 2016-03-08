@@ -31,18 +31,18 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
 
         ListItem item = getItem(position);
         if(item != null) {
-            double gradeValue = item.getGrade();
+            double gradeValue = item.Grade();
             int alpha = (int) (255 * gradeValue);
             view.setBackgroundColor(Color.argb(alpha, 0, 230, 0));
 
-            TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
-            weight.setText(item.getWeightAsString());
-            TextView title = (TextView) view.findViewById(R.id.view_list_item_title);
-            title.setText(item.getTitle());
-            TextView grade = (TextView) view.findViewById(R.id.view_list_item_grade);
-            grade.setText(String.format("%.2f%%", gradeValue*100));
-            TextView timeSpent = (TextView) view.findViewById(R.id.view_list_item_time_spent);
-            timeSpent.setText(item.getTimeSpentAsString());
+//            TextView weight = (TextView) view.findViewById(R.id.view_list_item_weight);
+//            weight.setText(item.Fat());
+//            TextView title = (TextView) view.findViewById(R.id.view_list_item_title);
+//            title.setText(item.Title());
+//            TextView grade = (TextView) view.findViewById(R.id.view_list_item_grade);
+//            grade.setText(String.format("%.2f%%", gradeValue*100));
+//            TextView timeSpent = (TextView) view.findViewById(R.id.view_list_item_time_spent);
+//            timeSpent.setText(item.TimeSpent());
         }
 
         return view;
