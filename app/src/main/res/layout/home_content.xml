@@ -14,8 +14,8 @@
 
     <!-- main content displayed for activities.HomeActivity -->
 
-    <ListView
-        android:id="@+id/list_view"
+    <ExpandableListView
+        android:id="@+id/expandable_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

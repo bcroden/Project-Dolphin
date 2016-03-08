@@ -8,18 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.projectdolphin.layout.ExpandableListAdapter;
 import com.projectdolphin.layout.ListItem;
 import com.projectdolphin.layout.ListItemAdapter;
 import com.projectdolphin.R;
 import com.projectdolphin.layout.ThreeFABMenu;
 import com.projectdolphin.data.Home;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Home activity for displaying all of the classes
@@ -40,11 +45,23 @@ public class HomeActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
 
+        List<String> headers = Arrays.asList("Batman", "Captain America", "Johnny", "Suzy");
+        Map<String, List<String>> data = new HashMap<>();
+        for(String header : headers) {
+            List<String> list = Arrays.asList("nana", "nana", "nana");
+            data.put(header, list);
+        }
+
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(this, headers, data);
+        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
+        expandableListView.setAdapter(expandableListAdapter);
+
+
         /* Initialize the List View */
-        items = new LinkedList<>();
+        /*items = new LinkedList<>();
         adapter = new ListItemAdapter(this, R.layout.view_list_item, items);
 
-        ListView listView = (ListView) findViewById(R.id.list_view);
+        ListView listView = (ListView) findViewById(R.id.expandable_list_view);
 
         //Listener for when list items are clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
         items.addAll(Home.getClassListItems()); //load the information from somewhere
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
     }
 
     private View.OnClickListener getAddFABOnClickListener() {
