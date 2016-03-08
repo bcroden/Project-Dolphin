@@ -1,6 +1,6 @@
 package com.projectdolphin.data;
 
-import com.projectdolphin.layout.ListItem;
+import com.projectdolphin.layout.lists.expandable.ListItem;
 
 import java.util.LinkedList;
 import java.util.List;

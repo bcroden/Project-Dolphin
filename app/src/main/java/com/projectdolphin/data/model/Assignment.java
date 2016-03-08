@@ -1,6 +1,6 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.ListItem;
+import com.projectdolphin.layout.lists.expandable.ListItem;
 
 /**
  * Holds all of the information for a specific assignment

@@ -1,4 +1,4 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.lists.expandable;
 
 /**
  * An attempt to abstract classes, categories, and assignments when they

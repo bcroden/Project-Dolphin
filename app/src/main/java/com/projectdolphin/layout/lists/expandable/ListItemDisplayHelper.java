@@ -1,4 +1,4 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.lists.expandable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Alex on 3/8/2016.
+ * Hides reflections hiccups for accessing data for expandable list views via the ListItem interface.
+ *
+ * @author Alex
  */
 public class ListItemDisplayHelper {
 

@@ -1,4 +1,4 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.lists.expandable;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.projectdolphin.R;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
