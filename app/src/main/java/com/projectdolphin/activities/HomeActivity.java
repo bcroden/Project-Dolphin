@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ClassRecycleAdapter(new String[]{"The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"});
+        recycleAdapter = new ClassRecycleAdapter(Home.getClassListItems());
         recyclerView.setAdapter(recycleAdapter);
     }
 

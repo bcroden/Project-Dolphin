@@ -79,7 +79,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ListItem item = (ListItem) getChild(groupPosition, childPosition);
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.view_list_item, null);
+            convertView = inflater.inflate(R.layout.view_card, null);
         }
         ListItemDisplayHelper.Pair pair = ListItemDisplayHelper.getInstance().getNthPair(childPosition, item);
 //        TextView keyView = (TextView) convertView.findViewById(R.id.expand_child_key);
