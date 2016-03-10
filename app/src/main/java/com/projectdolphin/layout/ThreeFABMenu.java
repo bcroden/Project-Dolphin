@@ -1,6 +1,8 @@
 package com.projectdolphin.layout;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,41 +28,40 @@ public class ThreeFABMenu {
                         View.OnClickListener editFABListener,
                         View.OnClickListener deleteFABListener) {
         //Inflate the menu
-        LayoutInflater inflater = activity.getLayoutInflater();
-        inflater.inflate(R.layout.fab_menu, parent, true);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         //load the main FAB and set it onClick listener
         //This will always be the same
-        FloatingActionButton mainFAB = (FloatingActionButton) activity.findViewById(R.id.main_fab);
+        FloatingActionButton mainFAB = (FloatingActionButton) inflater.inflate(R.layout.three_fab_menu_main_fab, parent, true).findViewById(R.id.main_fab);
         mainFAB.setOnClickListener(getMainFabOnClickListener());
 
         fabs = new FAB[3];
 
-        FloatingActionButton addFab = (FloatingActionButton) activity.findViewById(R.id.add_fab);
+        FloatingActionButton addFab = (FloatingActionButton) inflater.inflate(R.layout.three_fab_menu_add_fab, parent, true).findViewById(R.id.add_fab);
         if(addFABListener != null)
             addFab.setOnClickListener(addFABListener);
         else
-            addFab.setOnClickListener(getDefaultOnClickListener(activity));
-        Animation addFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.top_fab_reveal);
-        Animation addFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.top_fab_exit);
+            addFab.setOnClickListener(getDefaultOnClickListener(parent.getContext()));
+        Animation addFabEnter = AnimationUtils.loadAnimation(parent.getContext(), R.anim.top_fab_reveal);
+        Animation addFabExit = AnimationUtils.loadAnimation(parent.getContext(), R.anim.top_fab_exit);
         fabs[ADD_FAB_INDEX] = new FAB(addFab, addFabEnter, addFabExit);
 
-        FloatingActionButton editFab = (FloatingActionButton) activity.findViewById(R.id.edit_fab);
+        FloatingActionButton editFab = (FloatingActionButton) inflater.inflate(R.layout.three_fab_menu_edit_fab, parent, true).findViewById(R.id.edit_fab);
         if(editFABListener != null)
             editFab.setOnClickListener(editFABListener);
         else
-            editFab.setOnClickListener(getDefaultOnClickListener(activity));
-        Animation editFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.corner_fab_reveal);
-        Animation editFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.corner_fab_exit);
+            editFab.setOnClickListener(getDefaultOnClickListener(parent.getContext()));
+        Animation editFabEnter = AnimationUtils.loadAnimation(parent.getContext(), R.anim.corner_fab_reveal);
+        Animation editFabExit = AnimationUtils.loadAnimation(parent.getContext(), R.anim.corner_fab_exit);
         fabs[EDIT_FAB_INDEX] = new FAB(editFab, editFabEnter, editFabExit);
 
-        FloatingActionButton delFab = (FloatingActionButton) activity.findViewById(R.id.delete_fab);
+        FloatingActionButton delFab = (FloatingActionButton) inflater.inflate(R.layout.three_fab_menu_delete_fab, parent, true).findViewById(R.id.delete_fab);
         if(deleteFABListener != null)
             delFab.setOnClickListener(deleteFABListener);
         else
-            delFab.setOnClickListener(getDefaultOnClickListener(activity));
-        Animation delFabEnter = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_reveal);
-        Animation delFabExit = AnimationUtils.loadAnimation(activity.getApplication(), R.anim.left_fab_exit);
+            delFab.setOnClickListener(getDefaultOnClickListener(parent.getContext()));
+        Animation delFabEnter = AnimationUtils.loadAnimation(parent.getContext(), R.anim.left_fab_reveal);
+        Animation delFabExit = AnimationUtils.loadAnimation(parent.getContext(), R.anim.left_fab_exit);
         fabs[DEL_FAB_INDEX] = new FAB(delFab, delFabEnter, delFabExit);
 
         for(FAB fab : fabs) {
@@ -82,11 +83,11 @@ public class ThreeFABMenu {
     }
 
 
-    public View.OnClickListener getDefaultOnClickListener(final Activity activity) {
+    public View.OnClickListener getDefaultOnClickListener(final Context context) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity.getApplicationContext(),
+                Toast.makeText(context,
                                 "OnClickListener is not defined for this FAB",
                                 Toast.LENGTH_SHORT)
                                 .show();
@@ -101,7 +102,7 @@ public class ThreeFABMenu {
                 if(isFABMenuOut) {
                     //retract menu
                     for(FAB fab : fabs) {
-                        fab.getFab().setVisibility(View.INVISIBLE);
+                        fab.getFab().setVisibility(View.GONE);
                         fab.getFab().startAnimation(fab.getExit());
                     }
 

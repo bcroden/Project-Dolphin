@@ -2,6 +2,8 @@ package com.projectdolphin.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.projectdolphin.layout.ClassRecycleAdapter;
 import com.projectdolphin.layout.lists.expandable.ExpandableListAdapter;
 import com.projectdolphin.layout.lists.expandable.ListItem;
 import com.projectdolphin.R;
@@ -25,6 +28,8 @@ import java.util.Map;
  */
 public class HomeActivity extends AppCompatActivity {
 
+    public static final String TAG = "Dolphin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //mandatory stuff
@@ -39,9 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
 
-        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(this, Home.getClassListItems());
-        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
-        expandableListView.setAdapter(expandableListAdapter);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recycleAdapter = new ClassRecycleAdapter(new String[]{"The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"});
+        recyclerView.setAdapter(recycleAdapter);
     }
 
     private View.OnClickListener getAddFABOnClickListener() {
@@ -55,4 +61,5 @@ public class HomeActivity extends AppCompatActivity {
 
     private List<ListItem> items;
     private ArrayAdapter<ListItem> adapter;
+    private RecyclerView.Adapter recycleAdapter;
 }

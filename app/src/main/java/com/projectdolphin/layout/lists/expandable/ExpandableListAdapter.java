@@ -82,10 +82,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.view_list_item, null);
         }
         ListItemDisplayHelper.Pair pair = ListItemDisplayHelper.getInstance().getNthPair(childPosition, item);
-        TextView keyView = (TextView) convertView.findViewById(R.id.expand_child_key);
-        TextView valueView = (TextView) convertView.findViewById(R.id.expand_child_value);
-        keyView.setText(pair.getKey());
-        valueView.setText(pair.getValue());
+//        TextView keyView = (TextView) convertView.findViewById(R.id.expand_child_key);
+//        TextView valueView = (TextView) convertView.findViewById(R.id.expand_child_value);
+//        keyView.setText(pair.getKey());
+//        valueView.setText(pair.getValue());
         return convertView;
     }
 
