@@ -1,6 +1,6 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.lists.expandable.ListItem;
+import com.projectdolphin.layout.view.ListItem;
 
 /**
  * Holds all of the information for a specific assignment
@@ -11,22 +11,22 @@ import com.projectdolphin.layout.lists.expandable.ListItem;
  */
 public class Assignment implements ListItem {
     @Override
-    public String Title() {
+    public String getTitle() {
         return null;
     }
 
     @Override
-    public double Grade() {
+    public double getGrade() {
         return 0.954;
     }
 
     @Override
-    public String Weight() {
+    public String getWeight() {
         return null;
     }
 
     @Override
-    public String TimeSpent() {
+    public String getTimeSpentAsString() {
         return null;
     }
 }

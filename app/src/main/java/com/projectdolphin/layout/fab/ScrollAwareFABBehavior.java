@@ -1,4 +1,4 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.fab;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

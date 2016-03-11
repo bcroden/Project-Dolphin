@@ -1,6 +1,5 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.view;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.projectdolphin.R;
-import com.projectdolphin.layout.lists.expandable.ListItem;
 
 import java.util.List;
 
@@ -18,8 +16,8 @@ import java.util.List;
  * Following http://developer.android.com/training/material/lists-cards.html#RecyclerView
  * @author Alex
  */
-public class ClassRecycleAdapter extends android.support.v7.widget.RecyclerView.Adapter<ClassRecycleAdapter.ViewHolder> {
-    public ClassRecycleAdapter(List<ListItem> data) {
+public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerView.Adapter<ListItemRecycleAdapter.ViewHolder> {
+    public ListItemRecycleAdapter(List<ListItem> data) {
         this.data = data;
     }
 
@@ -43,7 +41,7 @@ public class ClassRecycleAdapter extends android.support.v7.widget.RecyclerView.
     }
 
     @Override
-    public ClassRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListItemRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_card, parent, false);
         return new ViewHolder(v);
     }
@@ -51,10 +49,10 @@ public class ClassRecycleAdapter extends android.support.v7.widget.RecyclerView.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ListItem item = data.get(position);
-        holder.titleText.setText(item.Title());
-        holder.gradeText.setText(String.format("%.2f%%", item.Grade()));
-        holder.timeText.setText(item.TimeSpent());
-        holder.weightText.setText(item.Weight());
+        holder.titleText.setText(item.getTitle());
+        holder.gradeText.setText(String.format("%.2f%%", item.getGrade()));
+        holder.timeText.setText(item.getTimeSpentAsString());
+        holder.weightText.setText(item.getWeight());
         holder.imageView.setImageResource(R.drawable.dolphin);
     }
 

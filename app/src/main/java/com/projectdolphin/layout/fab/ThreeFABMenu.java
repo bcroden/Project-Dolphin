@@ -1,8 +1,7 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.fab;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,6 +1,6 @@
 package com.projectdolphin.data;
 
-import com.projectdolphin.layout.lists.expandable.ListItem;
+import com.projectdolphin.layout.view.ListItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,22 +22,22 @@ public class Home {
         for (int i = 0; i < 10; i++) {
             ListItem item = new ListItem() {
                 @Override
-                public String Weight() {
+                public String getWeight() {
                     return "4 hours";
                 }
 
                 @Override
-                public String Title() {
+                public String getTitle() {
                     return "Dummy Title";
                 }
 
                 @Override
-                public double Grade() {
+                public double getGrade() {
                     return new Random().nextDouble();
                 }
 
                 @Override
-                public String TimeSpent() {
+                public String getTimeSpentAsString() {
                     return "32:16:08";
                 }
             };

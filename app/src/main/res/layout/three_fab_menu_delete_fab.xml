@@ -13,6 +13,6 @@
     android:src="@android:drawable/ic_menu_delete"
     android:visibility="gone"
     app:fabSize="mini"
-    app:layout_behavior="com.projectdolphin.layout.ScrollAwareFABBehavior">
+    app:layout_behavior="com.projectdolphin.layout.fab.ScrollAwareFABBehavior">
 
 </android.support.design.widget.FloatingActionButton>

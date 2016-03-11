@@ -1,27 +1,22 @@
 package com.projectdolphin.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.projectdolphin.layout.ClassRecycleAdapter;
-import com.projectdolphin.layout.lists.expandable.ExpandableListAdapter;
-import com.projectdolphin.layout.lists.expandable.ListItem;
 import com.projectdolphin.R;
-import com.projectdolphin.layout.ThreeFABMenu;
 import com.projectdolphin.data.Home;
+import com.projectdolphin.layout.fab.ThreeFABMenu;
+import com.projectdolphin.layout.view.ListItem;
+import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Home activity for displaying all of the classes
@@ -46,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ClassRecycleAdapter(Home.getClassListItems());
+        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems());
         recyclerView.setAdapter(recycleAdapter);
     }
 
