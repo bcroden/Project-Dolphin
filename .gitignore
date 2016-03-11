@@ -30,3 +30,6 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+# Obnoxious Android Studio file
+.idea/workspace.xml
