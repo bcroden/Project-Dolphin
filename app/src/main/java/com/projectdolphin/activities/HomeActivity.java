@@ -1,30 +1,29 @@
 package com.projectdolphin.activities;
 
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.projectdolphin.layout.ListItem;
-import com.projectdolphin.layout.ListItemAdapter;
 import com.projectdolphin.R;
-import com.projectdolphin.layout.ThreeFABMenu;
 import com.projectdolphin.data.Home;
+import com.projectdolphin.layout.fab.ThreeFABMenu;
+import com.projectdolphin.layout.view.ListItem;
+import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Home activity for displaying all of the classes
  */
 public class HomeActivity extends AppCompatActivity {
+
+    public static final String TAG = "Dolphin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,37 +39,10 @@ public class HomeActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
 
-        /* Initialize the List View */
-        items = new LinkedList<>();
-        adapter = new ListItemAdapter(this, R.layout.view_list_item, items);
-
-        ListView listView = (ListView) findViewById(R.id.list_view);
-
-        //Listener for when list items are clicked
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String s = ((TextView) view.findViewById(R.id.view_list_item_title)).getText().toString() + " at pos=" + position;
-                Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Snackbar.make(view, "LongClick", Snackbar.LENGTH_SHORT).show();
-                int visibility = view.findViewById(R.id.view_list_item_hidden).getVisibility();
-                if(visibility != View.VISIBLE)
-                    view.findViewById(R.id.view_list_item_hidden).setVisibility(View.VISIBLE);
-                else
-                    view.findViewById(R.id.view_list_item_hidden).setVisibility(View.GONE);
-                return true;
-            }
-        });
-
-        listView.setAdapter(adapter);
-        items.addAll(Home.getClassListItems()); //load the information from somewhere
-        adapter.notifyDataSetChanged();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems());
+        recyclerView.setAdapter(recycleAdapter);
     }
 
     private View.OnClickListener getAddFABOnClickListener() {
@@ -84,4 +56,5 @@ public class HomeActivity extends AppCompatActivity {
 
     private List<ListItem> items;
     private ArrayAdapter<ListItem> adapter;
+    private RecyclerView.Adapter recycleAdapter;
 }

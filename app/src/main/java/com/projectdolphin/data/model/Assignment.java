@@ -1,6 +1,6 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.ListItem;
+import com.projectdolphin.layout.view.ListItem;
 
 /**
  * Holds all of the information for a specific assignment
@@ -21,7 +21,7 @@ public class Assignment implements ListItem {
     }
 
     @Override
-    public String getWeightAsString() {
+    public String getWeight() {
         return null;
     }
 

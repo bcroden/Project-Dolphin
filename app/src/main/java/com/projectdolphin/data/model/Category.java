@@ -1,6 +1,6 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.ListItem;
+import com.projectdolphin.layout.view.ListItem;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class Category implements ListItem {
     }
 
     @Override
-    public String getWeightAsString() {
+    public String getWeight() {
         return null;
     }
 

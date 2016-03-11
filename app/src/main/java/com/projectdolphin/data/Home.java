@@ -1,6 +1,6 @@
 package com.projectdolphin.data;
 
-import com.projectdolphin.layout.ListItem;
+import com.projectdolphin.layout.view.ListItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Home {
         for (int i = 0; i < 10; i++) {
             ListItem item = new ListItem() {
                 @Override
-                public String getWeightAsString() {
+                public String getWeight() {
                     return "4 hours";
                 }
 

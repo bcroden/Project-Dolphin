@@ -1,4 +1,4 @@
-package com.projectdolphin.layout;
+package com.projectdolphin.layout.view;
 
 /**
  * An attempt to abstract classes, categories, and assignments when they
@@ -9,6 +9,6 @@ package com.projectdolphin.layout;
 public interface ListItem {
     public String getTitle();
     public double getGrade();
-    public String getWeightAsString();
+    public String getWeight();
     public String getTimeSpentAsString();
 }
