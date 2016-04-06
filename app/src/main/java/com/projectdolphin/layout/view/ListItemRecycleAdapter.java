@@ -17,16 +17,17 @@ import java.util.List;
  * @author Alex
  */
 public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerView.Adapter<ListItemRecycleAdapter.ViewHolder> {
-    public ListItemRecycleAdapter(List<ListItem> data) {
+    public ListItemRecycleAdapter(List<ListItem> data, View.OnClickListener onClickListener) {
         this.data = data;
+        this.onClickListener = onClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView imageView;
         public TextView titleText, gradeText, timeText, weightText;
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, View.OnClickListener onClickListener) {
             super(itemView);
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(onClickListener);
             titleText = (TextView) itemView.findViewById(R.id.view_card_title);
             gradeText = (TextView) itemView.findViewById(R.id.view_card_grade);
             timeText = (TextView) itemView.findViewById(R.id.view_card_time);
@@ -43,7 +44,7 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
     @Override
     public ListItemRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_card, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder(v, onClickListener);
     }
 
     @Override
@@ -62,4 +63,5 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
     }
 
     private List<ListItem> data;
+    private View.OnClickListener onClickListener;
 }
