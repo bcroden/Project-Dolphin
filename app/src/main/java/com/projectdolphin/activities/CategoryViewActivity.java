@@ -1,5 +1,6 @@
 package com.projectdolphin.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,17 +30,14 @@ public class CategoryViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //mandatory stuff
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        //auto-generated stuff to setup the toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_category_view);
 
         //add the FloatingActionButton menu
-        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
+        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.category_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
+        fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.category_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
@@ -50,6 +48,17 @@ public class CategoryViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Add FAB Clicked", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    private View.OnClickListener getEditFABOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToEditActivity.class);
+                intent.putExtra(SelectItemToEditActivity.DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CATEGORY.toString());
+                startActivity(intent);
             }
         };
     }

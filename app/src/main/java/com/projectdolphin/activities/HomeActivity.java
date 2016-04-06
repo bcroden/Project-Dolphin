@@ -71,7 +71,9 @@ public class HomeActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Hello", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomeActivity.this, CategoryViewActivity.class);
+                //TODO: Add id of class to intent
+                startActivity(intent);
             }
         };
     }
