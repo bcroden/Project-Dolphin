@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Home activity for displaying all of the classes
  */
-public class CatagoryViewActivity extends AppCompatActivity {
+public class CategoryViewActivity extends AppCompatActivity {
 
     public static final String TAG = "Dolphin";
 

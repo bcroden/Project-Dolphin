@@ -1,5 +1,6 @@
 package com.projectdolphin.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         //add the FloatingActionButton menu
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
+        fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,6 +52,17 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Add FAB Clicked", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    private View.OnClickListener getEditFABOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, SelectItemToEditActivity.class);
+                intent.putExtra(SelectItemToEditActivity.DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CLASS.toString());
+                startActivity(intent);
             }
         };
     }
