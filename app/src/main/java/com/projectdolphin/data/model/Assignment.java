@@ -6,6 +6,9 @@ package com.projectdolphin.data.model;
  * @author Alex
  */
 public class Assignment extends GradedDBItem {
+    public Assignment(long CATEGORY_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
+        this(-1, CATEGORY_DB_ID, timeSpentMillis, grade, weight, title);
+    }
     public Assignment(long DB_ID, long CATEGORY_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
         super(DB_ID, timeSpentMillis, grade, weight, title);
         this.CATEGORY_DB_ID = CATEGORY_DB_ID;

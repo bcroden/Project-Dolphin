@@ -11,6 +11,7 @@ import java.util.Random;
  *
  * @author Alex
  */
+@Deprecated
 public class Home {
     /**
      *  Get class data from DB or file

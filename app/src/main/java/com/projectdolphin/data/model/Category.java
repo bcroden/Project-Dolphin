@@ -11,6 +11,9 @@ import java.util.Random;
  */
 public class Category extends GradedDBItem {
 
+    public Category(long CLASS_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> assignmentsIDs) {
+        this(-1, CLASS_DB_ID, timeSpentMillis, grade, weight, title, assignmentsIDs);
+    }
     public Category(long DB_ID, long CLASS_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> assignmentsIDs) {
         super(DB_ID, timeSpentMillis, grade, weight, title);
         this.CLASS_DB_ID = CLASS_DB_ID;
