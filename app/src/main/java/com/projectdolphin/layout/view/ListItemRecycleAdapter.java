@@ -16,7 +16,7 @@ import java.util.List;
  * @author Alex
  */
 public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerView.Adapter<ListItemRecycleAdapter.ViewHolder> {
-    public ListItemRecycleAdapter(List<DBListItem> data, View.OnClickListener onClickListener) {
+    public ListItemRecycleAdapter(List<? extends DBListItem> data, View.OnClickListener onClickListener) {
         this.data = data;
         this.onClickListener = onClickListener;
     }
@@ -58,6 +58,6 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
         return data.size();
     }
 
-    private List<DBListItem> data;
+    private List<? extends DBListItem> data;
     private View.OnClickListener onClickListener;
 }

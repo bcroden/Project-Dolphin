@@ -8,21 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.Home;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
-import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
 import java.util.List;
 
-/**
- * Home activity for displaying all of the classes
- */
 public class ClassViewActivity extends AppCompatActivity {
 
     @Override
@@ -40,9 +34,11 @@ public class ClassViewActivity extends AppCompatActivity {
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
 
+        List<com.projectdolphin.data.model.Class> classes = DBAccessHelper.getInstance(getApplicationContext()).getAllClasses();
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
+        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
     }
 
@@ -79,8 +75,4 @@ public class ClassViewActivity extends AppCompatActivity {
             }
         };
     }
-
-    private List<DBListItem> items;
-    private ArrayAdapter<DBListItem> adapter;
-    private RecyclerView.Adapter recycleAdapter;
 }

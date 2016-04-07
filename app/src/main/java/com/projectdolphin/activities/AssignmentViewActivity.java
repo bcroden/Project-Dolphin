@@ -11,16 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.Home;
+import com.projectdolphin.data.database.DBAccessHelper;
+import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
 import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
+import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Home activity for displaying all of the classes
- */
 public class AssignmentViewActivity extends AppCompatActivity {
 
     @Override
@@ -34,9 +33,13 @@ public class AssignmentViewActivity extends AppCompatActivity {
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
 
+        List<Assignment> assignments = new LinkedList<>();
+        categoryID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
+        assignments.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForCategoryID(categoryID));
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.assignment_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
+        recycleAdapter = new ListItemRecycleAdapter(assignments, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
     }
 
@@ -56,6 +59,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AssignmentViewActivity.this, SelectItemToEditActivity.class);
                 intent.putExtra(SelectItemToEditActivity.SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.ASSIGNMENT.toString());
+                intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, categoryID);
                 startActivity(intent);
             }
         };
@@ -70,6 +74,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
         };
     }
 
+    private long categoryID;
     private List<DBListItem> items;
     private ArrayAdapter<DBListItem> adapter;
     private RecyclerView.Adapter recycleAdapter;

@@ -1,15 +1,14 @@
 package com.projectdolphin.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.Home;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.layout.view.DBListItem;
 
@@ -29,12 +28,25 @@ public class SelectItemToEditActivity extends AppCompatActivity {
 
         dataLevel = DataLevel.valueOf(getIntent().getStringExtra(SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY));
         items = new LinkedList<>();
-        List<String> dummyItems = new LinkedList<>();
-        for(DBListItem item : Home.getClassListItems()) {
-            items.add(item);
-            dummyItems.add(item.getTitle());
+        switch (dataLevel) {
+            case CLASS:
+                items.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllClasses());
+                break;
+            case CATEGORY:
+                long classID = getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1);
+                items.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForClassID(classID));
+                break;
+            case ASSIGNMENT:
+                long categoryID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
+                items.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForCategoryID(categoryID));
+                break;
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dummyItems);
+
+        List<String> itemTitles = new LinkedList<>();
+        for(DBListItem item : items)
+            itemTitles.add(item.getTitle());
+        
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemTitles);
         ListView listView = (ListView) findViewById(R.id.select_item_to_edit_list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(getItemClickListener());
