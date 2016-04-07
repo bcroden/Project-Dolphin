@@ -1,45 +1,33 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.view.ListItem;
-
 import java.util.List;
 
 /**
  * Holds all of the class level information
  *
- * Note: methods and members should to be added as needed
- *
  * @author Alex
  */
-public class Class implements ListItem {
+public class Class extends GradedDBItem {
 
-    @Override
-    public String getTitle() {
-        return null;
+    public Class(long timeSpentMillis, double grade, double weight, String title, List<Integer> categoryIDs) {
+        this(-1, timeSpentMillis, grade, weight, title, categoryIDs);
+    }
+    public Class(long DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> categoryIDs) {
+        super(DB_ID, timeSpentMillis, grade, weight, title);
+        this.categoryIDs = categoryIDs;
     }
 
     @Override
-    public double getGrade() {
-        return 0.954;
+    public String getWeightAsString() {
+        return String.format("%.0f hours", getWeight());
     }
 
-    @Override
-    public String getWeight() {
-        return null;
+    public List<Integer> getCategoryIDs() {
+        return categoryIDs;
+    }
+    public void setCategoryIDs(List<Integer> categoryIDs) {
+        this.categoryIDs = categoryIDs;
     }
 
-    @Override
-    public String getTimeSpentAsString() {
-        return null;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    private List<Category> categories;
+    private List<Integer> categoryIDs;
 }

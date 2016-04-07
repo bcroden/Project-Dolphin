@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.ClassViewActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.SelectItemToEditActivity" />
+        <activity android:name=".activities.CategoryViewActivity" />
         <activity android:name=".activities.SaveCategoryActivity" />
         <activity android:name=".activities.SaveClassActivity" />
-        <activity android:name=".activities.SaveAssignmentActivity"></activity>
+        <activity android:name=".activities.SaveAssignmentActivity" />
+        <activity android:name=".activities.AssignmentViewActivity"></activity>
     </application>
 
 </manifest>

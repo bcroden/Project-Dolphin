@@ -6,9 +6,10 @@ package com.projectdolphin.layout.view;
  *
  * @author Alex
  */
-public interface ListItem {
+public interface DBListItem {
+    public long getDB_ID();
     public String getTitle();
     public double getGrade();
-    public String getWeight();
+    public String getWeightAsString();
     public String getTimeSpentAsString();
 }

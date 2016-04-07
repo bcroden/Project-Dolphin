@@ -1,87 +1,53 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.view.ListItem;
-
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Holds all of the information for a specific category
  *
- * Note: methods and members should to be added as needed
- *
  * @author Alex
  */
-public class Category implements ListItem {
-    String Title;
-    public double Grade;
-    String Weight;
-    String TimeSpent;
+public class Category extends GradedDBItem {
 
-    public Category(){}
+    public Category(long CLASS_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> assignmentsIDs) {
+        this(-1, CLASS_DB_ID, timeSpentMillis, grade, weight, title, assignmentsIDs);
+    }
+    public Category(long DB_ID, long CLASS_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> assignmentsIDs) {
+        super(DB_ID, timeSpentMillis, grade, weight, title);
+        this.CLASS_DB_ID = CLASS_DB_ID;
+        this.assignmentsIDs = assignmentsIDs;
+    }
 
+    @Deprecated
     public Category(String title, double grade, String weight, String timeSpent){
-        Title = title;
-        Grade = grade;
-        Weight = weight;
-        TimeSpent = timeSpent;
+        super(new Random().nextLong(), new Random().nextDouble(), new Random().nextDouble(), "Deprecated Title");
+        this.CLASS_DB_ID = -1;
+        this.assignmentsIDs = new LinkedList<>();
     }
 
-
-
-    @Override
-    public String getTitle() {
-        //return null;
-        return Title;
+    public final long getCLASS_DB_ID() {
+        return CLASS_DB_ID;
     }
 
     @Override
-    public double getGrade() {
-        //return 0.954;
-        return Grade;
+    public String getWeightAsString() {
+        return String.format("%.2f%%", getWeight());
     }
 
-    @Override
-    public String getWeight() {
-        //return null;
-        return Weight;
+    public List<Integer> getAssignmentsIDs() {
+        return assignmentsIDs;
+    }
+    public void setAssignmentsIDs(List<Integer> assignmentsIDs) {
+        this.assignmentsIDs = assignmentsIDs;
     }
 
-    @Override
-    public String getTimeSpentAsString() {
-        //return null;
-        return TimeSpent;
-    }
-
-    public void setTitle(String title){
-        Title = title;
-    }
-
-    public void setGrade(Double grade){
-        Grade = grade;
-    }
-
-
-
-    public void setWeight(String weight){
-        Weight = weight;
-    }
-
-    public void setTimeSpentAsString(String timeSpent){
-        TimeSpent = timeSpent;
-    }
-
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
-
-    private List<Assignment> assignments;
+    private final long CLASS_DB_ID;
+    private List<Integer> assignmentsIDs;
 
     @Override
     public String toString() {
-        return "Title:\t" + Title + " Grade:\t" + Grade + "\nWeight:\t" + Weight + " TimeSpent:\t" + TimeSpent;
+        return "Title:\t" + getTitle() + " Grade:\t" + getGrade() + "\nWeight:\t" + getWeight() + " TimeSpent:\t" + getTimeSpentAsString();
     }
 }

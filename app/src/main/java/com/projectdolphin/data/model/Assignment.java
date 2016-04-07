@@ -1,32 +1,27 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.view.ListItem;
-
 /**
  * Holds all of the information for a specific assignment
  *
- * Note: methods and members should to be added as needed
- *
  * @author Alex
  */
-public class Assignment implements ListItem {
-    @Override
-    public String getTitle() {
-        return null;
+public class Assignment extends GradedDBItem {
+    public Assignment(long CATEGORY_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
+        this(-1, CATEGORY_DB_ID, timeSpentMillis, grade, weight, title);
+    }
+    public Assignment(long DB_ID, long CATEGORY_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
+        super(DB_ID, timeSpentMillis, grade, weight, title);
+        this.CATEGORY_DB_ID = CATEGORY_DB_ID;
+    }
+
+    public final long getCATEGORY_DB_ID() {
+        return CATEGORY_DB_ID;
     }
 
     @Override
-    public double getGrade() {
-        return 0.954;
+    public String getWeightAsString() {
+        return String.format("%.2f%%", getWeight());
     }
 
-    @Override
-    public String getWeight() {
-        return null;
-    }
-
-    @Override
-    public String getTimeSpentAsString() {
-        return null;
-    }
+    private final long CATEGORY_DB_ID;
 }
