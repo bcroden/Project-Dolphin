@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onAddCategory(View view){
-        Intent intent = new Intent(getApplicationContext(), AddCategoryActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SaveCategoryActivity.class);
         startActivity(intent);
     }
 

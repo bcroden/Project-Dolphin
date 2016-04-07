@@ -1,8 +1,8 @@
-package com.projectdolphin.data.databases;
+package com.projectdolphin.data.database;
 
 import android.provider.BaseColumns;
 
-public final class CategoryDatabaseContract {
+public final class DatabaseContract {
 
     public static final int    DATABASE_VERSION    = 1;
     public static final String DATABASE_NAME       = "earthquakes.db";
@@ -11,10 +11,10 @@ public final class CategoryDatabaseContract {
 
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty private constructor.
-    private CategoryDatabaseContract() {}
+    private DatabaseContract() {}
 
-    /* Inner class that defines the table contents */
-    public static abstract class ItemColumns implements BaseColumns {
+    /* Define the Category Table */
+    public static abstract class CategoryColumns implements BaseColumns {
 
         public static final String TABLE_NAME   = "dolphinTable";
         public static final String COLUMN_TITLE   = "title";
