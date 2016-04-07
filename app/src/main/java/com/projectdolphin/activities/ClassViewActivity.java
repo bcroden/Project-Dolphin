@@ -18,16 +18,12 @@ import com.projectdolphin.layout.fab.ThreeFABMenu;
 import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
  * Home activity for displaying all of the classes
  */
 public class ClassViewActivity extends AppCompatActivity {
-
-    public static final String CLASS_DB_ID_INTENT_KEY = "CLASS_DB_ID_INTENT_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +62,7 @@ public class ClassViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClassViewActivity.this, SelectItemToEditActivity.class);
-                intent.putExtra(SelectItemToEditActivity.DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CLASS.toString());
+                intent.putExtra(SelectItemToEditActivity.SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CLASS.toString());
                 startActivity(intent);
             }
         };
@@ -78,7 +74,7 @@ public class ClassViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ClassViewActivity.this, CategoryViewActivity.class);
                 long db_id = Long.parseLong(((TextView) v.findViewById(R.id.view_card_db_id)).getText().toString());
-                intent.putExtra(CLASS_DB_ID_INTENT_KEY, db_id);
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, db_id);
                 startActivity(intent);
             }
         };

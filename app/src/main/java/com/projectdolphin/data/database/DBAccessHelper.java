@@ -15,6 +15,10 @@ import com.projectdolphin.data.model.Class;
  */
 public class DBAccessHelper {
 
+    public static final String CLASS_DB_ID_INTENT_KEY = "CLASS_DB_ID_INTENT_KEY";
+    public static final String CATEGORY_DB_ID_INTENT_KEY = "CATEGORY_DB_ID_INTENT_KEY";
+    public static final String ASSIGNMENT_DB_ID_INTENT_KEY = "ASSIGNMENT_DB_ID_INTENT_KEY";
+
     public static DBAccessHelper getInstance(Context context) {
         if(instance == null)
             instance = new DBAccessHelper(context);
