@@ -9,6 +9,6 @@ package com.projectdolphin.layout.view;
 public interface ListItem {
     public String getTitle();
     public double getGrade();
-    public String getWeight();
+    public String getWeightAsString();
     public String getTimeSpentAsString();
 }

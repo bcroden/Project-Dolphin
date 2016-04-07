@@ -53,7 +53,7 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
         holder.titleText.setText(item.getTitle());
         holder.gradeText.setText(String.format("%.2f%%", item.getGrade()));
         holder.timeText.setText(item.getTimeSpentAsString());
-        holder.weightText.setText(item.getWeight());
+        holder.weightText.setText(item.getWeightAsString());
         holder.imageView.setImageResource(R.drawable.dolphin);
     }
 
