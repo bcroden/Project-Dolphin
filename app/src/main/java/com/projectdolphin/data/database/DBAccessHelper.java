@@ -69,7 +69,7 @@ public class DBAccessHelper {
     }
 
     /* Assignment methods */
-    public List<Assignment> getAllCategoriesForCategoryID(long CATEGORY_DB_ID) {
+    public List<Assignment> getAllAssignmentsForCategoryID(long CATEGORY_DB_ID) {
         //TODO: Implement this using the openHelper
         return new LinkedList<>();
     }
