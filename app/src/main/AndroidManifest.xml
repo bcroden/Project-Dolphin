@@ -18,7 +18,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SelectItemToEditActivity" />
-        <activity android:name=".activities.CategoryViewActivity"></activity>
+        <activity android:name=".activities.CategoryViewActivity"/>
+        <activity android:name=".activities.SaveCategoryActivity" />
+        <activity android:name=".activities.SaveClassActivity" />
+        <activity android:name=".activities.SaveAssignmentActivity"/>
     </application>
 
 </manifest>

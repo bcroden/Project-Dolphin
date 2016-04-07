@@ -56,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         };
     }
 
+
     private View.OnClickListener getEditFABOnClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -76,6 +77,11 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+    }
+
+    public void onAddCategory(View view) {
+        Intent intent = new Intent(getApplicationContext(), SaveCategoryActivity.class);
+        startActivity(intent);
     }
 
     private List<ListItem> items;
