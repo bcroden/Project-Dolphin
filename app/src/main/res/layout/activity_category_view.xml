@@ -11,6 +11,6 @@
     tools:context="com.projectdolphin.activities.CategoryViewActivity">
 
     <!-- Pull in the list view etc -->
-    <include layout="@layout/home_category_view"/>
+    <include layout="@layout/category_view_content"/>
 
 </android.support.design.widget.CoordinatorLayout>

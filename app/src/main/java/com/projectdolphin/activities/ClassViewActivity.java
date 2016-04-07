@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.Home;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * Home activity for displaying all of the classes
  */
-public class HomeActivity extends AppCompatActivity {
+public class ClassViewActivity extends AppCompatActivity {
 
     public static final String TAG = "Dolphin";
 
@@ -30,14 +29,14 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //mandatory stuff
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_class_view);
 
         //auto-generated stuff to setup the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //add the FloatingActionButton menu
-        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.home_layout));
+        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.class_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
 
@@ -51,7 +50,9 @@ public class HomeActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Add FAB Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ClassViewActivity.this, SaveClassActivity.class);
+                //TODO: Add id of class to intent
+                startActivity(intent);
             }
         };
     }
@@ -61,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, SelectItemToEditActivity.class);
+                Intent intent = new Intent(ClassViewActivity.this, SelectItemToEditActivity.class);
                 intent.putExtra(SelectItemToEditActivity.DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CLASS.toString());
                 startActivity(intent);
             }
@@ -72,16 +73,11 @@ public class HomeActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, CategoryViewActivity.class);
+                Intent intent = new Intent(ClassViewActivity.this, CategoryViewActivity.class);
                 //TODO: Add id of class to intent
                 startActivity(intent);
             }
         };
-    }
-
-    public void onAddCategory(View view) {
-        Intent intent = new Intent(getApplicationContext(), SaveCategoryActivity.class);
-        startActivity(intent);
     }
 
     private List<ListItem> items;

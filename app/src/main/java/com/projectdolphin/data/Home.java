@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Helper object for HomeActivity
+ * Helper object for ClassViewActivity
  *
  * @author Alex
  */

@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/home_layout"
+    android:id="@+id/class_view_layout"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.projectdolphin.activities.HomeActivity">
+    tools:context=".activities.ClassViewActivity">
 
     <!-- Fancy stuff that was auto generated -->
     <android.support.design.widget.AppBarLayout
@@ -27,6 +27,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <!-- Pull in the list view etc -->
-    <include layout="@layout/home_content"/>
+    <include layout="@layout/class_view_content"/>
 
 </android.support.design.widget.CoordinatorLayout>

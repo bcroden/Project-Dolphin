@@ -12,7 +12,7 @@
     tools:context=".activities.CategoryViewActivity"
     tools:showIn="@layout/activity_category_view">
 
-    <!-- main content displayed for activities.HomeActivity -->
+    <!-- main content displayed for activities.CategoryViewActivity -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/category_view_recycle_view"
