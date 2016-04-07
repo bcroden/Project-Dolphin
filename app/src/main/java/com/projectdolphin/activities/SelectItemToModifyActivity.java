@@ -15,10 +15,12 @@ import com.projectdolphin.layout.view.DBListItem;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SelectItemToEditActivity extends AppCompatActivity {
+public class SelectItemToModifyActivity extends AppCompatActivity {
 
-    public static final String SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY = "SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY";
+    public static final String SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY = "SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY";
+    public static final String SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY = "SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY";
 
+    public enum ActionMode { EDIT, DELETE }
     public enum DataLevel { CLASS, CATEGORY, ASSIGNMENT }
 
     @Override
@@ -26,7 +28,8 @@ public class SelectItemToEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_item_to_edit);
 
-        dataLevel = DataLevel.valueOf(getIntent().getStringExtra(SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY));
+        actionMode = ActionMode.valueOf(getIntent().getStringExtra(SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY));
+        dataLevel = DataLevel.valueOf(getIntent().getStringExtra(SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY));
         items = new LinkedList<>();
         switch (dataLevel) {
             case CLASS:
@@ -57,25 +60,58 @@ public class SelectItemToEditActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
-                switch (dataLevel) {
-                    case CLASS:
-                        intent = new Intent(SelectItemToEditActivity.this, SaveClassActivity.class);
-                        intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, items.get(position).getDB_ID());
-                        break;
-                    case CATEGORY:
-                        intent = new Intent(SelectItemToEditActivity.this, SaveCategoryActivity.class);
-                        intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, items.get(position).getDB_ID());
+                switch (actionMode) {
+                    case DELETE:
+                        intent = getDeleteIntentForItem(position);
                         break;
                     default:
-                        intent = new Intent(SelectItemToEditActivity.this, SaveAssignmentActivity.class);
-                        intent.putExtra(DBAccessHelper.ASSIGNMENT_DB_ID_INTENT_KEY, items.get(position).getDB_ID());
+                        intent = getEditIntentForItem(position);
                         break;
                 }
                 startActivity(intent);
             }
+
+            private Intent getEditIntentForItem(int position) {
+                Intent intent;
+                switch (dataLevel) {
+                    case CLASS:
+                        intent = new Intent(SelectItemToModifyActivity.this, SaveClassActivity.class);
+                        intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, items.get(position).getDB_ID());
+                        break;
+                    case CATEGORY:
+                        intent = new Intent(SelectItemToModifyActivity.this, SaveCategoryActivity.class);
+                        intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, items.get(position).getDB_ID());
+                        break;
+                    default:
+                        intent = new Intent(SelectItemToModifyActivity.this, SaveAssignmentActivity.class);
+                        intent.putExtra(DBAccessHelper.ASSIGNMENT_DB_ID_INTENT_KEY, items.get(position).getDB_ID());
+                        break;
+                }
+                return intent;
+            }
+            private Intent getDeleteIntentForItem(int position) {
+                long id = items.get(position).getDB_ID();
+                Intent intent;
+                switch (dataLevel) {
+                    case CLASS:
+                        intent = new Intent(SelectItemToModifyActivity.this, ClassViewActivity.class);
+                        DBAccessHelper.getInstance(getApplicationContext()).removeClassByID(id);
+                        break;
+                    case CATEGORY:
+                        intent = new Intent(SelectItemToModifyActivity.this, CategoryViewActivity.class);
+                        DBAccessHelper.getInstance(getApplicationContext()).removeCategoryByID(id);
+                        break;
+                    default:
+                        intent = new Intent(SelectItemToModifyActivity.this, AssignmentViewActivity.class);
+                        DBAccessHelper.getInstance(getApplicationContext()).removeAssignmentByID(id);
+                        break;
+                }
+                return intent;
+            }
         };
     }
 
+    private ActionMode actionMode;
     private DataLevel dataLevel;
     private List<DBListItem> items;
 }

@@ -30,6 +30,7 @@ public class CategoryViewActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.category_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
         List<Assignment> categories = new LinkedList<>();
         classID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
@@ -55,8 +56,22 @@ public class CategoryViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToEditActivity.class);
-                intent.putExtra(SelectItemToEditActivity.SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CATEGORY.toString());
+                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.EDIT.toString());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
+                startActivity(intent);
+            }
+        };
+    }
+
+    private View.OnClickListener getDeleteFABOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.DELETE.toString());
                 intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
                 startActivity(intent);
             }
