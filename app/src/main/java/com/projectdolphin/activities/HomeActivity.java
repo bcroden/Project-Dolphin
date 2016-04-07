@@ -1,5 +1,6 @@
 package com.projectdolphin.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,6 +53,11 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(view.getContext(), "Add FAB Clicked", Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    public void onAddCategory(View view){
+        Intent intent = new Intent(getApplicationContext(), SaveCategoryActivity.class);
+        startActivity(intent);
     }
 
     private List<ListItem> items;
