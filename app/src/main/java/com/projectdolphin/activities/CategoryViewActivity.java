@@ -33,7 +33,7 @@ public class CategoryViewActivity extends AppCompatActivity {
 
         List<Assignment> categories = new LinkedList<>();
         classID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
-        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForCategoryID(classID));
+        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(classID));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.category_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

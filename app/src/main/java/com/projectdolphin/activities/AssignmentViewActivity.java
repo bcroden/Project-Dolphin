@@ -35,7 +35,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
 
         List<Assignment> assignments = new LinkedList<>();
         categoryID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
-        assignments.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForCategoryID(categoryID));
+        assignments.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(categoryID));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.assignment_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

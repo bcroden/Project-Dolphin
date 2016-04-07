@@ -38,7 +38,7 @@ public class SelectItemToEditActivity extends AppCompatActivity {
                 break;
             case ASSIGNMENT:
                 long categoryID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
-                items.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForCategoryID(categoryID));
+                items.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(categoryID));
                 break;
         }
 
