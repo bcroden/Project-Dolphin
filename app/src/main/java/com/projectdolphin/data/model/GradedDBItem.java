@@ -1,13 +1,11 @@
 package com.projectdolphin.data.model;
 
-import com.projectdolphin.layout.view.ListItem;
-
-import java.util.List;
+import com.projectdolphin.layout.view.DBListItem;
 
 /**
  * Attributes common to classes, categories, and assignments
  */
-public abstract class GradedDBItem implements ListItem {
+public abstract class GradedDBItem implements DBListItem {
     public GradedDBItem(long timeSpentMillis, double grade, double weight, String title) {
         this(-1, timeSpentMillis, grade, weight, title);
     }

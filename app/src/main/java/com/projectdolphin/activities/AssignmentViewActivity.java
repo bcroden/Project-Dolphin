@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import com.projectdolphin.R;
 import com.projectdolphin.data.Home;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
-import com.projectdolphin.layout.view.ListItem;
+import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
 import java.util.List;
@@ -71,7 +70,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
         };
     }
 
-    private List<ListItem> items;
-    private ArrayAdapter<ListItem> adapter;
+    private List<DBListItem> items;
+    private ArrayAdapter<DBListItem> adapter;
     private RecyclerView.Adapter recycleAdapter;
 }

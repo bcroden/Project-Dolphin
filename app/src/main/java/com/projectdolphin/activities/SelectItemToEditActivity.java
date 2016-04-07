@@ -7,11 +7,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.Home;
-import com.projectdolphin.layout.view.ListItem;
+import com.projectdolphin.layout.view.DBListItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class SelectItemToEditActivity extends AppCompatActivity {
 
         dataLevel = DataLevel.valueOf(getIntent().getStringExtra(DATA_LEVEL_INTENT_KEY));
         List<String> items = new LinkedList<>();
-        for(ListItem item : Home.getClassListItems())
+        for(DBListItem item : Home.getClassListItems())
             items.add(item.getTitle());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         ListView listView = (ListView) findViewById(R.id.select_item_to_edit_list_view);

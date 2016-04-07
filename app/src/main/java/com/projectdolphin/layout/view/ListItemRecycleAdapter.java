@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.projectdolphin.R;
 
@@ -17,27 +16,23 @@ import java.util.List;
  * @author Alex
  */
 public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerView.Adapter<ListItemRecycleAdapter.ViewHolder> {
-    public ListItemRecycleAdapter(List<ListItem> data, View.OnClickListener onClickListener) {
+    public ListItemRecycleAdapter(List<DBListItem> data, View.OnClickListener onClickListener) {
         this.data = data;
         this.onClickListener = onClickListener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
-        public TextView titleText, gradeText, timeText, weightText;
-        public ViewHolder(View itemView, View.OnClickListener onClickListener) {
+        public TextView titleText, gradeText, timeText, weightText, hiddenDB_ID;
+        public ViewHolder(View itemView, View.OnClickListener listener) {
             super(itemView);
-            itemView.setOnClickListener(onClickListener);
+            itemView.setOnClickListener(listener);
             titleText = (TextView) itemView.findViewById(R.id.view_card_title);
             gradeText = (TextView) itemView.findViewById(R.id.view_card_grade);
             timeText = (TextView) itemView.findViewById(R.id.view_card_time);
             weightText = (TextView) itemView.findViewById(R.id.view_card_weight);
             imageView = (ImageView) itemView.findViewById(R.id.view_card_image);
-        }
-
-        @Override
-        public void onClick(View view) {
-            Toast.makeText(view.getContext(), titleText.getText().toString(), Toast.LENGTH_SHORT).show();
+            hiddenDB_ID = (TextView) itemView.findViewById(R.id.view_card_db_id);
         }
     }
 
@@ -49,12 +44,13 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ListItem item = data.get(position);
+        DBListItem item = data.get(position);
         holder.titleText.setText(item.getTitle());
         holder.gradeText.setText(String.format("%.2f%%", item.getGrade()));
         holder.timeText.setText(item.getTimeSpentAsString());
         holder.weightText.setText(item.getWeightAsString());
         holder.imageView.setImageResource(R.drawable.dolphin);
+        holder.hiddenDB_ID.setText(Long.toString(item.getDB_ID()));
     }
 
     @Override
@@ -62,6 +58,6 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
         return data.size();
     }
 
-    private List<ListItem> data;
+    private List<DBListItem> data;
     private View.OnClickListener onClickListener;
 }

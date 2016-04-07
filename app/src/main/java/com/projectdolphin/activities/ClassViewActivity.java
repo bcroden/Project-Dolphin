@@ -9,12 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.Home;
+import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
-import com.projectdolphin.layout.view.ListItem;
+import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,7 +27,7 @@ import java.util.List;
  */
 public class ClassViewActivity extends AppCompatActivity {
 
-    public static final String TAG = "Dolphin";
+    public static final String CLASS_DB_ID_INTENT_KEY = "CLASS_DB_ID_INTENT_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,6 @@ public class ClassViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ClassViewActivity.this, SaveClassActivity.class);
-                //TODO: Add id of class to intent
                 startActivity(intent);
             }
         };
@@ -74,13 +77,14 @@ public class ClassViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClassViewActivity.this, CategoryViewActivity.class);
-                //TODO: Add id of class to intent
+                long db_id = Long.parseLong(((TextView) v.findViewById(R.id.view_card_db_id)).getText().toString());
+                intent.putExtra(CLASS_DB_ID_INTENT_KEY, db_id);
                 startActivity(intent);
             }
         };
     }
 
-    private List<ListItem> items;
-    private ArrayAdapter<ListItem> adapter;
+    private List<DBListItem> items;
+    private ArrayAdapter<DBListItem> adapter;
     private RecyclerView.Adapter recycleAdapter;
 }

@@ -1,6 +1,6 @@
 package com.projectdolphin.data;
 
-import com.projectdolphin.layout.view.ListItem;
+import com.projectdolphin.layout.view.DBListItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,15 +16,20 @@ public class Home {
     /**
      *  Get class data from DB or file
      *
-     *  @return list of ListItem objects by which the overall class stats will be displayed
+     *  @return list of DBListItem objects by which the overall class stats will be displayed
      */
-    public static List<ListItem> getClassListItems() {
-        List<ListItem> items = new LinkedList<>();
+    public static List<DBListItem> getClassListItems() {
+        List<DBListItem> items = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
-            ListItem item = new ListItem() {
+            DBListItem item = new DBListItem() {
                 @Override
                 public String getWeightAsString() {
                     return "4 hours";
+                }
+
+                @Override
+                public long getDB_ID() {
+                    return -1;
                 }
 
                 @Override
