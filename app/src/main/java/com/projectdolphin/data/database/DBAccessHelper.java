@@ -45,6 +45,9 @@ public class DBAccessHelper {
     public void insertClass(Class _class) {
         //TODO: Implement this using the openHelper
     }
+    public void removeClassByID(long CLASS_DB_ID) {
+        //TODO: Implement this using the openHelper
+    }
 
     /* Category methods */
     public List<Category> getAllCategoriesForClassID(long CLASS_DB_ID) {
@@ -61,6 +64,9 @@ public class DBAccessHelper {
     public void insertCategory(Category category) {
         //TODO: Implement this using the openHelper
     }
+    public void removeCategoryByID(long CATEGORY_DB_ID) {
+        //TODO: Implement this using the openHelper
+    }
 
     /* Assignment methods */
     public List<Assignment> getAllCategoriesForCategoryID(long CATEGORY_DB_ID) {
@@ -75,6 +81,9 @@ public class DBAccessHelper {
         //TODO: Implement this using the openHelper
     }
     public void insertAssignment(Assignment category) {
+        //TODO: Implement this using the openHelper
+    }
+    public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
         //TODO: Implement this using the openHelper
     }
 
