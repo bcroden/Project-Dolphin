@@ -22,22 +22,20 @@ import java.util.List;
 /**
  * Home activity for displaying all of the classes
  */
-public class CategoryViewActivity extends AppCompatActivity {
-
-
+public class AssignmentViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //mandatory stuff
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_view);
+        setContentView(R.layout.activity_assignment_view);
 
         //add the FloatingActionButton menu
-        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.category_view_layout));
+        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.assignment_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.category_view_recycle_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.assignment_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
@@ -47,7 +45,7 @@ public class CategoryViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CategoryViewActivity.this, SaveCategoryActivity.class);
+                Intent intent = new Intent(AssignmentViewActivity.this, SaveAssignmentActivity.class);
                 startActivity(intent);
             }
         };
@@ -57,8 +55,8 @@ public class CategoryViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToEditActivity.class);
-                intent.putExtra(SelectItemToEditActivity.DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CATEGORY.toString());
+                Intent intent = new Intent(AssignmentViewActivity.this, SelectItemToEditActivity.class);
+                intent.putExtra(SelectItemToEditActivity.DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.ASSIGNMENT.toString());
                 startActivity(intent);
             }
         };
@@ -68,8 +66,7 @@ public class CategoryViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoryViewActivity.this, AssignmentViewActivity.class);
-                startActivity(intent);
+                Toast.makeText(v.getContext(), "Hello", Toast.LENGTH_SHORT).show();
             }
         };
     }

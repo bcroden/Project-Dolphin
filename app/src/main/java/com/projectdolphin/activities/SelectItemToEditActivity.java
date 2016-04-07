@@ -1,5 +1,6 @@
 package com.projectdolphin.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,7 @@ public class SelectItemToEditActivity extends AppCompatActivity {
 
     public static final String DATA_LEVEL_INTENT_KEY = "SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY";
 
-    public enum DataLevel { CLASS, CATEGORY }
+    public enum DataLevel { CLASS, CATEGORY, ASSIGNMENT }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +41,19 @@ public class SelectItemToEditActivity extends AppCompatActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
                 switch (dataLevel) {
                     case CLASS:
-                        Toast.makeText(view.getContext(), "Class Edit", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(SelectItemToEditActivity.this, SaveClassActivity.class);
                         break;
                     case CATEGORY:
-                        Toast.makeText(view.getContext(), "Category Edit", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(SelectItemToEditActivity.this, SaveCategoryActivity.class);
+                        break;
+                    default:
+                        intent = new Intent(SelectItemToEditActivity.this, SaveAssignmentActivity.class);
                         break;
                 }
+                startActivity(intent);
             }
         };
     }
