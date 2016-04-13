@@ -24,6 +24,8 @@ public final class DatabaseContract {
         public static final String COLUMN_WEIGHT = "weight";
         public static final String COLUMN_TIMESPENT  = "timeSpent";
         public static final String COLUMN_PARENT_ID = "parentId";
+        public static final String COLUMN_ASSIGNMENT_IDS = "assignmentIds";
+        public static final String COLUMN_CATEGORY_IDS = "categoryIds";
 
         public static final String CREATE_CLASS_TABLE =
                 "CREATE TABLE " + CLASS_TABLE_NAME + " ("
@@ -31,7 +33,8 @@ public final class DatabaseContract {
                         + COLUMN_TITLE + TEXT_TYPE + COMMA_SEP
                         + COLUMN_GRADE + " DOUBLE not null" + COMMA_SEP
                         + COLUMN_WEIGHT + TEXT_TYPE + COMMA_SEP
-                        + COLUMN_TIMESPENT + TEXT_TYPE + COMMA_SEP + ")";
+                        + COLUMN_TIMESPENT + TEXT_TYPE + COMMA_SEP
+                        + COLUMN_CATEGORY_IDS + TEXT_TYPE + ")";
 
         public static final String CREATE_CATEGORY_TABLE =
                 "CREATE TABLE " + CATEGORY_TABLE_NAME + " ("
@@ -39,8 +42,9 @@ public final class DatabaseContract {
                         + COLUMN_TITLE + TEXT_TYPE + COMMA_SEP
                         + COLUMN_GRADE + " DOUBLE not null" + COMMA_SEP
                         + COLUMN_WEIGHT + TEXT_TYPE + COMMA_SEP
-                        + COLUMN_TIMESPENT + TEXT_TYPE
-                        + COLUMN_PARENT_ID + "INTEGER not null, " + ")";
+                        + COLUMN_TIMESPENT + TEXT_TYPE + COMMA_SEP
+                        + COLUMN_PARENT_ID + " INTEGER not null" + COMMA_SEP
+                        + COLUMN_ASSIGNMENT_IDS + TEXT_TYPE + ")";
 
         public static final String CREATE_ASSIGNMENT_TABLE =
                 "CREATE TABLE " + ASSIGNMENT_TABLE_NAME + " ("
@@ -48,8 +52,8 @@ public final class DatabaseContract {
                         + COLUMN_TITLE + TEXT_TYPE + COMMA_SEP
                         + COLUMN_GRADE + " DOUBLE not null" + COMMA_SEP
                         + COLUMN_WEIGHT + TEXT_TYPE + COMMA_SEP
-                        + COLUMN_TIMESPENT + TEXT_TYPE
-                        + COLUMN_PARENT_ID + "INTEGER not null, " + ")";
+                        + COLUMN_TIMESPENT + TEXT_TYPE + COMMA_SEP
+                        + COLUMN_PARENT_ID + " INTEGER not null" + ")";
 
 
         public static final String DELETE_CLASS_TABLE = "DROP TABLE IF EXISTS " + CLASS_TABLE_NAME;

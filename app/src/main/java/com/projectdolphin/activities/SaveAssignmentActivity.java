@@ -6,21 +6,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.database.CategorySQLiteOpenHelper;
 import com.projectdolphin.data.database.DBAccessHelper;
-import com.projectdolphin.data.model.Category;
+import com.projectdolphin.data.model.Assignment;
 
 import java.util.List;
 
 public class SaveAssignmentActivity extends AppCompatActivity {
 
-    private CategorySQLiteOpenHelper assignmentHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_save_assignment);
-        assignmentHelper = new CategorySQLiteOpenHelper(this);
+        setContentView(R.layout.activity_save_assignment);;
     }
 
     @Override
@@ -30,7 +27,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
     }
 
     //Get the content
-    public void onAddCategory(View view) {
+    public void onAddAssignment(View view) {
         EditText myTimeSpent = (EditText) findViewById((R.id.class_timeSpent));
         EditText myGrade = (EditText) findViewById((R.id.class_grade));
         EditText myWeight = (EditText) findViewById(R.id.class_weight);
@@ -44,11 +41,11 @@ public class SaveAssignmentActivity extends AppCompatActivity {
         Long longTimeSpentForDb = Long.parseLong(timeSpent);
         Double floatGradeForDB = Double.parseDouble(grade);
         Double floatWeightForDB = Double.parseDouble(weight);
-        List<Integer> categoryIds = null;
-        long classID = 1;
-        categoryIds.add(1);
+        List<Integer> assignmentIds = null;
+        long categoryID = 1; //Get the category Id from the intent
 
-        assignmentHelper.insert(DBAccessHelper.getInstance(getApplicationContext()), new Category(classID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, categoryIds));
+        //Need to udpate the parent categories' list of assignments here
+        DBAccessHelper.getInstance(getApplicationContext()).insertCategory(new Assignment(categoryID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, assignmentIds));
 
     }
 

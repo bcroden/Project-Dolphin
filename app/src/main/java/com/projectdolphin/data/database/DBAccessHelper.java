@@ -2,7 +2,10 @@ package com.projectdolphin.data.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +19,8 @@ import com.projectdolphin.data.model.Class;
  */
 public class DBAccessHelper {
 
+    private SQLiteDatabase writableDB;
+    private SQLiteDatabase readableDB;
     public static final String CLASS_DB_ID_INTENT_KEY = "CLASS_DB_ID_INTENT_KEY";
     public static final String CATEGORY_DB_ID_INTENT_KEY = "CATEGORY_DB_ID_INTENT_KEY";
     public static final String ASSIGNMENT_DB_ID_INTENT_KEY = "ASSIGNMENT_DB_ID_INTENT_KEY";
@@ -26,7 +31,9 @@ public class DBAccessHelper {
         return instance;
     }
     private DBAccessHelper(Context context) {
-        openHelper = new CategorySQLiteOpenHelper(context.getApplicationContext());
+        openHelper = new DolphinSQLiteOpenHelper(context.getApplicationContext());
+        writableDB = openHelper.getWritableDatabase();
+        readableDB = openHelper.getReadableDatabase();
     }
     private static DBAccessHelper instance;
 
@@ -44,7 +51,16 @@ public class DBAccessHelper {
         //TODO: Implement this using the openHelper
     }
     public void insertClass(Class _class) {
-        //TODO: Implement this using the openHelper
+        ContentValues values = new ContentValues();
+        List<Integer> categoryIdList = new ArrayList<Integer>();
+        categoryIdList = _class.getCategoryIDs();
+        String categoryIdstring = listStringify(categoryIdList);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, _class.getTitle());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, _class.getGrade());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, _class.getWeight());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
+        writableDB.insert(DatabaseContract.DolphinColumns.CLASS_TABLE_NAME, null, values);
     }
     public void removeClassByID(long CLASS_DB_ID) {
         //TODO: Implement this using the openHelper
@@ -63,8 +79,19 @@ public class DBAccessHelper {
         //TODO: Implement this using the openHelper
     }
     public void insertCategory(Category category) {
-        //TODO: Implement this using the openHelper
+        ContentValues values = new ContentValues();
+        List<Integer> AssignmentIdList = new ArrayList<Integer>();
+        AssignmentIdList = category.getAssignmentsIDs();
+        String AssignmentIdstring = listStringify(AssignmentIdList);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getCLASS_DB_ID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
+        writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
     }
+
     public void removeCategoryByID(long CATEGORY_DB_ID) {
         //TODO: Implement this using the openHelper
     }
@@ -81,31 +108,31 @@ public class DBAccessHelper {
     public void updateAssignment(Assignment category) {
         //TODO: Implement this using the openHelper
     }
-    public void insertAssignment(Assignment category) {
-        //TODO: Implement this using the openHelper
-    }
-    public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
-        //TODO: Implement this using the openHelper
-    }
-
-    public void assignmentInsert(SQLiteDatabase db,  Assignment assignment) {
+    public void insertAssignment(Assignment assignment) {
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, assignment.getTitle());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
-        db.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
+        writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
+    }
+    public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
+        //TODO: Implement this using the openHelper
     }
 
-    public void categoryInsert(SQLiteDatabase db,  Category category) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, "1");
-        db.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
+    public String listStringify(List<Integer> listToStringify){
+        String stringifiedList = null;
+        if(listToStringify == null) {
+            for (int value : listToStringify) {
+                if (stringifiedList == null) {
+                    stringifiedList = Integer.toString(value);
+                } else {
+                    stringifiedList = stringifiedList + "," + Integer.toString(value);
+                }
+            }
+        }
+        return stringifiedList;
     }
 
-    private CategorySQLiteOpenHelper openHelper;
+    private DolphinSQLiteOpenHelper openHelper;
 }

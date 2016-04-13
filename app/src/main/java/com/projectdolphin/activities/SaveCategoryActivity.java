@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.database.CategorySQLiteOpenHelper;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Category;
 
@@ -14,13 +13,11 @@ import java.util.List;
 
 public class SaveCategoryActivity extends AppCompatActivity {
 
-    private CategorySQLiteOpenHelper categoryHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_category);
-        categoryHelper = new CategorySQLiteOpenHelper(this);
     }
 
     @Override
@@ -44,11 +41,11 @@ public class SaveCategoryActivity extends AppCompatActivity {
         Long longTimeSpentForDb = Long.parseLong(timeSpent);
         Double floatGradeForDB = Double.parseDouble(grade);
         Double floatWeightForDB = Double.parseDouble(weight);
-        List<Integer> categoryIds = null;
-        long classID = 1;
-        categoryIds.add(1);
+        List<Integer> assignmentIds = null; //Null beacause it doesn't have classes yet
+        long classID = 1; //long classID = getExtra(Class ID)
 
-        categoryHelper.insert(DBAccessHelper.getInstance(getApplicationContext()), new Category(classID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, categoryIds));
+        //Need to update parent class' list of categories here
+        DBAccessHelper.getInstance(getApplicationContext()).insertCategory(new Category(classID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, assignmentIds));
 
     }
 

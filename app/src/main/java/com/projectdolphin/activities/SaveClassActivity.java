@@ -1,26 +1,26 @@
 package com.projectdolphin.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.database.ClassSQLiteOpenHelper;
+import com.projectdolphin.data.database.DolphinSQLiteOpenHelper;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Class;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SaveClassActivity extends AppCompatActivity {
 
-    private ClassSQLiteOpenHelper classHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_class);
-        classHelper = new ClassSQLiteOpenHelper(this);
     }
 
     @Override
@@ -45,18 +45,13 @@ public class SaveClassActivity extends AppCompatActivity {
         Long longTimeSpentForDb = Long.parseLong(timeSpent);
         Double floatGradeForDB = Double.parseDouble(grade);
         Double floatWeightForDB = Double.parseDouble(weight);
-        List<Integer> categoryIds = null;
-        categoryIds.add(1);
+        List<Integer> categoryIds = null; //Doesn't have an categories to begin with
 
 
-        classHelper.insert(DBAccessHelper.getInstance(getApplicationContext()), new Class(longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, categoryIds));
+        DBAccessHelper.getInstance(getApplicationContext()).insertClass(new Class(longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, categoryIds));
 
-//        cursor = dolphinDB.query(DatabaseContract.DolphinColumns.CLASS_TABLE_NAME,
-//                new String[] {DatabaseContract.DolphinColumns.COLUMN_TITLE, DatabaseContract.DolphinColumns.COLUMN_GRADE,
-//                        DatabaseContract.DolphinColumns.COLUMN_WEIGHT, DatabaseContract.DolphinColumns.COLUMN_TIMESPENT},
-//                "title = ? AND grade = ? AND weight = ? AND timeSpent = ?",
-//                new String[]{title, grade, weight, timeSpent}, null, null, null);
-
+        Intent intent = new Intent(this, ClassViewActivity.class);
+        startActivity(intent);
     }
 
 }
