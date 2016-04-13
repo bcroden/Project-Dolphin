@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activities.SaveAssignmentActivity">
+    tools:context="com.projectdolphin.activities.SaveClassActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,14 +23,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Assignment title:"
-                android:id="@+id/assignment_title_title"
+                android:text="Category title:"
+                android:id="@+id/class_title_title"
                 android:layout_weight="0.3" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/assignment_title"
+                android:id="@+id/class_title"
                 android:layout_weight="0.7" />
         </LinearLayout>
 
@@ -43,14 +43,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Assignment Grade:"
-                android:id="@+id/Assignment_grade_title"
+                android:text="Class Grade:"
+                android:id="@+id/class_grade_title"
                 android:layout_weight="0.37" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/Assignment_grade"
+                android:id="@+id/class_grade"
                 android:layout_weight="0.63" />
 
         </LinearLayout>
@@ -64,14 +64,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Assignment Weight:"
-                android:id="@+id/Assignment_weight_title"
+                android:text="Class Weight:"
+                android:id="@+id/class_weight_title"
                 android:layout_weight="0.37" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/Assignment_weight"
+                android:id="@+id/class_weight"
                 android:layout_weight="0.63" />
 
         </LinearLayout>
@@ -86,13 +86,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Total Time Spent:"
-                android:id="@+id/assignment_timeSpent_title"
+                android:id="@+id/class_timeSpent_title"
                 android:layout_weight="0.45" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/assignment_timeSpent"
+                android:id="@+id/class_timeSpent"
                 android:layout_weight="0.6" />
 
         </LinearLayout>
@@ -108,8 +108,11 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_save"
+        android:onClick="onAddClass"
         app:layout_behavior="com.projectdolphin.layout.fab.ScrollAwareFABBehavior">
 
     </android.support.design.widget.FloatingActionButton>
 
 </android.support.design.widget.CoordinatorLayout>
+
+

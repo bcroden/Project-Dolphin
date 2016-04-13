@@ -20,12 +20,12 @@ public class Category extends GradedDBItem {
         this.assignmentsIDs = assignmentsIDs;
     }
 
-    @Deprecated
-    public Category(String title, double grade, String weight, String timeSpent){
-        super(new Random().nextLong(), new Random().nextDouble(), new Random().nextDouble(), "Deprecated Title");
-        this.CLASS_DB_ID = -1;
-        this.assignmentsIDs = new LinkedList<>();
-    }
+//    @Deprecated
+//    public Category(String title, double grade, String weight, String timeSpent){
+//        super(new Random().nextLong(), new Random().nextDouble(), new Random().nextDouble(), "Deprecated Title");
+//        this.CLASS_DB_ID = -1;
+//        this.assignmentsIDs = new LinkedList<>();
+//    }
 
     public final long getCLASS_DB_ID() {
         return CLASS_DB_ID;
