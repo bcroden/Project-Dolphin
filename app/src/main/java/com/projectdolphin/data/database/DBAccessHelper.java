@@ -140,7 +140,16 @@ public class DBAccessHelper {
         writableDB.insert(DatabaseContract.DolphinColumns.CLASS_TABLE_NAME, null, values);
     }
     public void removeClassByID(long CLASS_DB_ID) {
-        //TODO: Implement this using the openHelper
+        //form query
+        String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(CLASS_DB_ID)};
+
+        //execute query
+        writableDB.delete(
+                DatabaseContract.DolphinColumns.CLASS_TABLE_NAME,
+                whereClause,
+                whereArgs
+        );
     }
 
     /* Category methods */
