@@ -114,6 +114,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getCATEGORY_DB_ID());
         writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
     }
     public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
@@ -122,7 +123,7 @@ public class DBAccessHelper {
 
     public String listStringify(List<Integer> listToStringify){
         String stringifiedList = null;
-        if(listToStringify == null) {
+        if(listToStringify != null) {
             for (int value : listToStringify) {
                 if (stringifiedList == null) {
                     stringifiedList = Integer.toString(value);
@@ -132,6 +133,19 @@ public class DBAccessHelper {
             }
         }
         return stringifiedList;
+    }
+
+    public List<Integer> listUnstringify(String stringList){
+        ArrayList<Integer> UnstringifiedList = null;
+        String[] parsedString = null;
+        if(stringList != null){
+            parsedString = stringList.split(",");
+        }
+        for(int i = 0; i < parsedString.length; i++){
+            int convertedString = Integer.parseInt(parsedString[i]);
+            UnstringifiedList.add(convertedString);
+        }
+        return UnstringifiedList;
     }
 
     private DolphinSQLiteOpenHelper openHelper;

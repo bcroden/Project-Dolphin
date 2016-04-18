@@ -45,7 +45,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
         long categoryID = 1; //Get the category Id from the intent
 
         //Need to udpate the parent categories' list of assignments here
-        DBAccessHelper.getInstance(getApplicationContext()).insertCategory(new Assignment(categoryID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, assignmentIds));
+        DBAccessHelper.getInstance(getApplicationContext()).insertAssignment(new Assignment(categoryID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title));
 
     }
 
