@@ -2,6 +2,7 @@ package com.projectdolphin.data.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -44,14 +45,14 @@ public class DBAccessHelper {
     }
     public Class getClassByID(long CLASS_DB_ID) {
         //TODO: Implement this using the openHelper
-        return new Class(-1, 0, 1.0, 4.0, "title", new LinkedList<Integer>());
+        return new Class(-1, 0, 1.0, 4.0, "title", new LinkedList<Long>());
     }
     public void updateClass(Class _class) {
         //TODO: Implement this using the openHelper
     }
     public void insertClass(Class _class) {
         ContentValues values = new ContentValues();
-        List<Integer> categoryIdList = new ArrayList<Integer>();
+        List<Long> categoryIdList = new ArrayList<Long>();
         categoryIdList = _class.getCategoryIDs();
         String categoryIdstring = listStringify(categoryIdList);
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, _class.getTitle());
@@ -67,19 +68,60 @@ public class DBAccessHelper {
 
     /* Category methods */
     public List<Category> getAllCategoriesForClassID(long CLASS_DB_ID) {
-        //TODO: Implement this using the openHelper
-        return new LinkedList<>();
+        //form query
+        String[] columns = new String[] {DatabaseContract.DolphinColumns._ID,
+                DatabaseContract.DolphinColumns.COLUMN_TITLE,
+                DatabaseContract.DolphinColumns.COLUMN_WEIGHT,
+                DatabaseContract.DolphinColumns.COLUMN_GRADE,
+                DatabaseContract.DolphinColumns.COLUMN_TIMESPENT,
+                DatabaseContract.DolphinColumns.COLUMN_PARENT_ID,
+                DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS
+        };
+        String selection = DatabaseContract.DolphinColumns.COLUMN_PARENT_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(CLASS_DB_ID)};
+
+        //execute query
+        Cursor cursor = readableDB.query(
+                DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        //compile list
+        List<Category> categories = new LinkedList<>();
+
+        if(cursor != null) {
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                long db_id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns._ID));
+                String title = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TITLE));
+                double weight = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_WEIGHT));
+                double grade = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE));
+                long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
+                long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
+                String stringyAssignmentIDs = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS));
+                Category category = new Category(db_id, parentDB_ID, timeSpent, grade, weight, title, listUnstringify(stringyAssignmentIDs));
+                categories.add(category);
+            }
+
+            cursor.close();
+        }
+
+        return categories;
     }
     public Category getCategoryByID(long CLASS_DB_ID) {
         //TODO: Implement this using the openHelper
-        return new Category(-1, -1, 0, 1.0, 4.0, "title", new LinkedList<Integer>());
+        return new Category(-1, -1, 0, 1.0, 4.0, "title", new LinkedList<Long>());
     }
     public void updateCategory(Category category) {
         //TODO: Implement this using the openHelper
     }
     public void insertCategory(Category category) {
         ContentValues values = new ContentValues();
-        List<Integer> AssignmentIdList = new ArrayList<Integer>();
+        List<Long> AssignmentIdList = new ArrayList<Long>();
         AssignmentIdList = category.getAssignmentsIDs();
         String AssignmentIdstring = listStringify(AssignmentIdList);
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
@@ -120,28 +162,28 @@ public class DBAccessHelper {
         //TODO: Implement this using the openHelper
     }
 
-    public String listStringify(List<Integer> listToStringify){
+    public String listStringify(List<Long> listToStringify){
         String stringifiedList = null;
         if(listToStringify != null) {
-            for (int value : listToStringify) {
+            for (long value : listToStringify) {
                 if (stringifiedList == null) {
-                    stringifiedList = Integer.toString(value);
+                    stringifiedList = Long.toString(value);
                 } else {
-                    stringifiedList = stringifiedList + "," + Integer.toString(value);
+                    stringifiedList = stringifiedList + "," + Long.toString(value);
                 }
             }
         }
         return stringifiedList;
     }
 
-    public List<Integer> listUnstringify(String stringList){
-        ArrayList<Integer> UnstringifiedList = null;
+    public List<Long> listUnstringify(String stringList){
+        ArrayList<Long> UnstringifiedList = null;
         String[] parsedString = null;
         if(stringList != null){
             parsedString = stringList.split(",");
         }
         for(int i = 0; i < parsedString.length; i++){
-            int convertedString = Integer.parseInt(parsedString[i]);
+            long convertedString = Long.parseLong(parsedString[i]);
             UnstringifiedList.add(convertedString);
         }
         return UnstringifiedList;

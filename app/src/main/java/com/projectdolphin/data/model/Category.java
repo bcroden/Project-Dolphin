@@ -9,10 +9,10 @@ import java.util.List;
  */
 public class Category extends GradedDBItem {
 
-    public Category(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> assignmentsIDs) {
+    public Category(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs) {
         this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, assignmentsIDs);
     }
-    public Category(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Integer> assignmentsIDs) {
+    public Category(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs) {
         super(DB_ID, timeSpentMillis, grade, weight, title);
         this.PARENT_DB_ID = PARENT_DB_ID;
         this.assignmentsIDs = assignmentsIDs;
@@ -34,15 +34,15 @@ public class Category extends GradedDBItem {
         return String.format("%.2f%%", getWeight());
     }
 
-    public List<Integer> getAssignmentsIDs() {
+    public List<Long> getAssignmentsIDs() {
         return assignmentsIDs;
     }
-    public void setAssignmentsIDs(List<Integer> assignmentsIDs) {
+    public void setAssignmentsIDs(List<Long> assignmentsIDs) {
         this.assignmentsIDs = assignmentsIDs;
     }
 
     private final long PARENT_DB_ID;
-    private List<Integer> assignmentsIDs;
+    private List<Long> assignmentsIDs;
 
     @Override
     public String toString() {
