@@ -113,7 +113,19 @@ public class DBAccessHelper {
         return _class;
     }
     public void updateClass(Class _class) {
-        //TODO: Implement this using the openHelper
+        //form query
+        ContentValues contentValues = getAllClassContentValues(_class);
+
+        String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(_class.getDB_ID())};
+
+        //execute query
+        writableDB.update(
+                DatabaseContract.DolphinColumns.CLASS_TABLE_NAME,
+                contentValues,
+                whereClause,
+                whereArgs
+        );
     }
     public void insertClass(Class _class) {
         ContentValues values = new ContentValues();
@@ -236,6 +248,17 @@ public class DBAccessHelper {
         return UnstringifiedList;
     }
 
+    private ContentValues getAllClassContentValues(Class _class) {
+        ContentValues values = new ContentValues();
+        List<Long> categoryIdList = _class.getCategoryIDs();
+        String categoryIdstring = listStringify(categoryIdList);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, _class.getTitle());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, _class.getGrade());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, _class.getWeight());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
+        return values;
+    }
     private Class getClassFromCursor(Cursor cursor) {
         long db_id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns._ID));
         String title = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TITLE));
