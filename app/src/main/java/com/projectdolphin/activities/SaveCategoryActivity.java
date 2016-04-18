@@ -9,6 +9,7 @@ import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Category;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class SaveCategoryActivity extends AppCompatActivity {
@@ -41,7 +42,7 @@ public class SaveCategoryActivity extends AppCompatActivity {
         Long longTimeSpentForDb = Long.parseLong(timeSpent);
         Double floatGradeForDB = Double.parseDouble(grade);
         Double floatWeightForDB = Double.parseDouble(weight);
-        List<Integer> assignmentIds = null; //Null beacause it doesn't have classes yet
+        List<Long> assignmentIds = new LinkedList<>(); //empty because it doesn't have classes yet
         long classID = 1; //long classID = getExtra(Class ID)
 
         //Need to update parent class' list of categories here

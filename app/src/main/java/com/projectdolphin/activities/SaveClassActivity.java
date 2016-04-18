@@ -7,11 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.database.DolphinSQLiteOpenHelper;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Class;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SaveClassActivity extends AppCompatActivity {
@@ -45,10 +44,10 @@ public class SaveClassActivity extends AppCompatActivity {
         Long longTimeSpentForDb = Long.parseLong(timeSpent);
         Double floatGradeForDB = Double.parseDouble(grade);
         Double floatWeightForDB = Double.parseDouble(weight);
-        List<Integer> categoryIds = null; //Doesn't have an categories to begin with
+        List<Long> categoryIds = new LinkedList<>(); //Doesn't have an categories to begin with
 
 
-        DBAccessHelper.getInstance(getApplicationContext()).insertClass(new Class(longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, categoryIds));
+        DBAccessHelper.getInstance(getApplicationContext()).putClass(new Class(longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, categoryIds));
 
         Intent intent = new Intent(this, ClassViewActivity.class);
         startActivity(intent);

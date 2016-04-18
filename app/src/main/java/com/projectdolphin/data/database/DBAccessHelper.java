@@ -112,6 +112,12 @@ public class DBAccessHelper {
         }
         return _class;
     }
+    public void putClass(Class _class) {
+        if(_class.needsToBeInserted())
+            insertClass(_class);
+        else
+            updateClass(_class);
+    }
     public void updateClass(Class _class) {
         //form query
         ContentValues contentValues = getAllClassContentValues(_class);
@@ -128,15 +134,7 @@ public class DBAccessHelper {
         );
     }
     public void insertClass(Class _class) {
-        ContentValues values = new ContentValues();
-        List<Long> categoryIdList = new ArrayList<Long>();
-        categoryIdList = _class.getCategoryIDs();
-        String categoryIdstring = listStringify(categoryIdList);
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, _class.getTitle());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, _class.getGrade());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, _class.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
+        ContentValues values = getAllClassContentValues(_class);
         writableDB.insert(DatabaseContract.DolphinColumns.CLASS_TABLE_NAME, null, values);
     }
     public void removeClassByID(long CLASS_DB_ID) {
@@ -180,7 +178,7 @@ public class DBAccessHelper {
 
         return categories;
     }
-    public Category getCategoryByID(long CLASS_DB_ID) {
+    public Category getCategoryByID(long CATEGORY_DB_ID) {
         //TODO: Implement this using the openHelper
         return new Category(-1, -1, 0, 1.0, 4.0, "title", new LinkedList<Long>());
     }
@@ -245,14 +243,14 @@ public class DBAccessHelper {
     }
 
     public List<Long> listUnstringify(String stringList){
-        ArrayList<Long> UnstringifiedList = null;
+        List<Long> UnstringifiedList = new LinkedList<>();
         String[] parsedString = null;
         if(stringList != null){
             parsedString = stringList.split(",");
-        }
-        for(int i = 0; i < parsedString.length; i++){
-            long convertedString = Long.parseLong(parsedString[i]);
-            UnstringifiedList.add(convertedString);
+            for(int i = 0; i < parsedString.length; i++){
+                long convertedString = Long.parseLong(parsedString[i]);
+                UnstringifiedList.add(convertedString);
+            }
         }
         return UnstringifiedList;
     }
@@ -264,7 +262,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, _class.getTitle());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, _class.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, _class.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
         return values;
     }
