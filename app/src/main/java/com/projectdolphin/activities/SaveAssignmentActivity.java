@@ -17,7 +17,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_save_assignment);;
+        setContentView(R.layout.activity_save_assignment);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
         long categoryID = 1; //Get the category Id from the intent
 
         //Need to udpate the parent categories' list of assignments here
-        DBAccessHelper.getInstance(getApplicationContext()).insertAssignment(new Assignment(categoryID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title));
+        DBAccessHelper.getInstance(getApplicationContext()).putAssignment(new Assignment(categoryID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title));
 
     }
 

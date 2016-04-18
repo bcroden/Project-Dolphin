@@ -182,6 +182,12 @@ public class DBAccessHelper {
         //TODO: Implement this using the openHelper
         return new Category(-1, -1, 0, 1.0, 4.0, "title", new LinkedList<Long>());
     }
+    public void putCategory(Category category) {
+        if(category.needsToBeInserted())
+            insertCategory(category);
+        else
+            updateCategory(category);
+    }
     public void updateCategory(Category category) {
         //TODO: Implement this using the openHelper
     }
@@ -198,7 +204,6 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
         writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
     }
-
     public void removeCategoryByID(long CATEGORY_DB_ID) {
         //TODO: Implement this using the openHelper
     }
@@ -211,6 +216,12 @@ public class DBAccessHelper {
     public Assignment getAssignmentByID(long ASSIGNMENT_DB_ID) {
         //TODO: Implement this using the openHelper
         return new Assignment(-1, -1, 0, 1.0, 4.0, "title");
+    }
+    public void putAssignment(Assignment assignment) {
+        if(assignment.needsToBeInserted())
+            insertAssignment(assignment);
+        else
+            updateAssignment(assignment);
     }
     public void updateAssignment(Assignment category) {
         //TODO: Implement this using the openHelper
@@ -255,6 +266,7 @@ public class DBAccessHelper {
         return UnstringifiedList;
     }
 
+    //Helper methods to clean up instert and update methods
     private ContentValues getAllClassContentValues(Class _class) {
         ContentValues values = new ContentValues();
         List<Long> categoryIdList = _class.getCategoryIDs();
@@ -266,6 +278,8 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
         return values;
     }
+
+    //Helper methods for doing repetitive and cumbersome things with cursors
     private Class getClassFromCursor(Cursor cursor) {
         long db_id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns._ID));
         String title = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TITLE));

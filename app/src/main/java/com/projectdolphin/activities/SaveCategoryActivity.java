@@ -19,6 +19,26 @@ public class SaveCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_category);
+
+        /* Pseudo code by Alex showing how he would do things if he was Ryan START */
+
+        //if intent contains a Category DB ID {
+
+            //We are now in edit/update mode
+
+            //Ask the DB Access Helper to get the Category we need by using the ID we were given
+
+            //Save what the DB Access Helper gave us in a member variable
+
+        //} else if intent contains a Class DB ID {
+
+            //We are now in add/insert mode
+
+            //Save the parent id to a member variable
+
+        //} else both of the above were false then something way worse has happened and I don't know how to fix it
+
+        /* Pseudo code by Alex showing how he would do things if he was Ryan END */
     }
 
     @Override
@@ -45,8 +65,36 @@ public class SaveCategoryActivity extends AppCompatActivity {
         List<Long> assignmentIds = new LinkedList<>(); //empty because it doesn't have classes yet
         long classID = 1; //long classID = getExtra(Class ID)
 
+        /* Pseudo code by Alex showing how he would do things if he was Ryan START */
+
+        //if we are in edit/update mode {
+
+            //use the setter methods of the Category member variable
+
+            //use the putCategory method of the DB Access Helper class
+
+        //} else if we are in add/insert mode {
+
+            //create new Category object
+
+            //use the putCategory method of the DB Access Helper class
+
+            //get parent class using DB Access Helper getClassByID method
+
+            //update list of class's categories using the setter/getters
+
+            //use the putClass method of the DB Access Helper class
+
+        //}
+
+        /*
+         * Note: The put* methods implement some logic that automatically determines if the item should be inserted or updated.
+         */
+
+        /* Pseudo code by Alex showing how he would do things if he was Ryan END */
+
         //Need to update parent class' list of categories here
-        DBAccessHelper.getInstance(getApplicationContext()).insertCategory(new Category(classID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, assignmentIds));
+        DBAccessHelper.getInstance(getApplicationContext()).putCategory(new Category(classID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, assignmentIds));
 
     }
 
