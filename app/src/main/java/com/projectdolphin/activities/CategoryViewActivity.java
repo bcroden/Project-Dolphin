@@ -12,12 +12,17 @@ import android.widget.TextView;
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Assignment;
+import com.projectdolphin.data.model.Category;
+import com.projectdolphin.data.model.Class;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Display all of the categories in particular class
+ */
 public class CategoryViewActivity extends AppCompatActivity {
 
     @Override
@@ -33,8 +38,9 @@ public class CategoryViewActivity extends AppCompatActivity {
         fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
         List<Assignment> categories = new LinkedList<>();
-        classID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
-        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(classID));
+        _class = DBAccessHelper.getInstance(getApplicationContext())
+                                .getClassByID(getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1));
+        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(_class.getDB_ID()));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.category_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,6 +53,7 @@ public class CategoryViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CategoryViewActivity.this, SaveCategoryActivity.class);
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -59,7 +66,7 @@ public class CategoryViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.EDIT.toString());
-                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -72,7 +79,7 @@ public class CategoryViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.DELETE.toString());
-                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -90,5 +97,5 @@ public class CategoryViewActivity extends AppCompatActivity {
         };
     }
 
-    private long classID;
+    private Class _class;
 }

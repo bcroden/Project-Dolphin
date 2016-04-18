@@ -3,7 +3,6 @@ package com.projectdolphin.data.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -87,7 +86,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getCLASS_DB_ID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParent_DB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
         writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
     }
@@ -114,7 +113,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getCATEGORY_DB_ID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDBID());
         writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
     }
     public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
