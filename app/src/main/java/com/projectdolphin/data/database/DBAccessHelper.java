@@ -89,21 +89,14 @@ public class DBAccessHelper {
         return classes;
     }
     public Class getClassByID(long CLASS_DB_ID) {
-        //form query
-        String selection = DatabaseContract.DolphinColumns._ID + " = ?";
-        String[] selectionArgs = new String[]{Long.toString(CLASS_DB_ID)};
-
         //execute query
-        Cursor cursor = readableDB.query(
+        Cursor cursor = getCursorFromAt(
                 DatabaseContract.DolphinColumns.CLASS_TABLE_NAME,
                 classColumns,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
+                CLASS_DB_ID
         );
 
+        //process results
         Class _class = null;
         if(cursor != null) {
             cursor.moveToFirst();
@@ -152,19 +145,10 @@ public class DBAccessHelper {
 
     /* Category methods */
     public List<Category> getAllCategoriesForClassID(long CLASS_DB_ID) {
-        //form query
-        String selection = DatabaseContract.DolphinColumns.COLUMN_PARENT_ID + " = ?";
-        String[] selectionArgs = new String[]{Long.toString(CLASS_DB_ID)};
-
-        //execute query
-        Cursor cursor = readableDB.query(
+        Cursor cursor = getCursorFromWithParent(
                 DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME,
                 categoryColumns,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
+                CLASS_DB_ID
         );
 
         //compile list
@@ -179,8 +163,22 @@ public class DBAccessHelper {
         return categories;
     }
     public Category getCategoryByID(long CATEGORY_DB_ID) {
-        //TODO: Implement this using the openHelper
-        return new Category(-1, -1, 0, 1.0, 4.0, "title", new LinkedList<Long>());
+        //execute query
+        Cursor cursor = getCursorFromAt(
+                DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME,
+                categoryColumns,
+                CATEGORY_DB_ID
+        );
+
+        //process results
+        Category category = null;
+        if(cursor != null) {
+            cursor.moveToFirst();
+            category = getCategoryFromCursor(cursor);
+            cursor.close();
+        }
+
+        return category;
     }
     public void putCategory(Category category) {
         if(category.needsToBeInserted())
@@ -189,23 +187,35 @@ public class DBAccessHelper {
             updateCategory(category);
     }
     public void updateCategory(Category category) {
-        //TODO: Implement this using the openHelper
+        //form query
+        ContentValues contentValues = getAllCategoryContentValues(category);
+
+        String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(category.getDB_ID())};
+
+        //execute query
+        writableDB.update(
+                DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME,
+                contentValues,
+                whereClause,
+                whereArgs
+        );
     }
     public void insertCategory(Category category) {
-        ContentValues values = new ContentValues();
-        List<Long> AssignmentIdList = new ArrayList<Long>();
-        AssignmentIdList = category.getAssignmentsIDs();
-        String AssignmentIdstring = listStringify(AssignmentIdList);
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParent_DB_ID());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
+        ContentValues values = getAllCategoryContentValues(category);
         writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
     }
     public void removeCategoryByID(long CATEGORY_DB_ID) {
-        //TODO: Implement this using the openHelper
+        //form query
+        String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(CATEGORY_DB_ID)};
+
+        //execute query
+        writableDB.delete(
+                DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME,
+                whereClause,
+                whereArgs
+        );
     }
 
     /* Assignment methods */
@@ -266,7 +276,7 @@ public class DBAccessHelper {
         return UnstringifiedList;
     }
 
-    //Helper methods to clean up instert and update methods
+    //Helper methods to clean up insert and update methods
     private ContentValues getAllClassContentValues(Class _class) {
         ContentValues values = new ContentValues();
         List<Long> categoryIdList = _class.getCategoryIDs();
@@ -277,6 +287,51 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
         return values;
+    }
+    private ContentValues getAllCategoryContentValues(Category category) {
+        ContentValues values = new ContentValues();
+        List<Long> AssignmentIdList = category.getAssignmentsIDs();
+        String AssignmentIdstring = listStringify(AssignmentIdList);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParent_DB_ID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
+        return values;
+    }
+
+    //Helper method which returns a cursor FROM a table with the given columns
+    // AT a given database ID
+    private Cursor getCursorFromAt(String tableName, String[] columns, final long DB_ID) {
+        String selection = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(DB_ID)};
+
+        return readableDB.query(
+                tableName,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
+    //Helper method which returns a cursor FROM a table with the given columns
+    // WITH the given parent database ID
+    private Cursor getCursorFromWithParent(String tableName, String[] columns, final long PARENT_DB_ID) {
+        String selection = DatabaseContract.DolphinColumns.COLUMN_PARENT_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(PARENT_DB_ID)};
+
+        return readableDB.query(
+                tableName,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
     }
 
     //Helper methods for doing repetitive and cumbersome things with cursors
