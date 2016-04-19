@@ -220,12 +220,39 @@ public class DBAccessHelper {
 
     /* Assignment methods */
     public List<Assignment> getAllAssignmentsForCategoryID(long CATEGORY_DB_ID) {
-        //TODO: Implement this using the openHelper
-        return new LinkedList<>();
+        //query database
+        Cursor cursor = getCursorFromWithParent(
+                DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME,
+                assignmentColumns,
+                CATEGORY_DB_ID
+        );
+
+        //collect results
+        List<Assignment> assignments = new LinkedList<>();
+        if(cursor != null) {
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
+                assignments.add(getAssignmentFromCursor(cursor));
+            cursor.close();
+        }
+        return assignments;
     }
     public Assignment getAssignmentByID(long ASSIGNMENT_DB_ID) {
-        //TODO: Implement this using the openHelper
-        return new Assignment(-1, -1, 0, 1.0, 4.0, "title");
+        //get cursor
+        Cursor cursor = getCursorFromAt(
+                DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME,
+                assignmentColumns,
+                ASSIGNMENT_DB_ID
+        );
+
+        //collect result
+        Assignment assignment = null;
+        if(cursor != null) {
+            cursor.moveToFirst();
+            assignment = getAssignmentFromCursor(cursor);
+            cursor.close();
+        }
+
+        return assignment;
     }
     public void putAssignment(Assignment assignment) {
         if(assignment.needsToBeInserted())
@@ -233,20 +260,36 @@ public class DBAccessHelper {
         else
             updateAssignment(assignment);
     }
-    public void updateAssignment(Assignment category) {
-        //TODO: Implement this using the openHelper
+    public void updateAssignment(Assignment assignment) {
+        //form query
+        ContentValues contentValues = getAllAssignmentContentValues(assignment);
+
+        String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(assignment.getDB_ID())};
+
+        //execute query
+        writableDB.update(
+                DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME,
+                contentValues,
+                whereClause,
+                whereArgs
+        );
     }
     public void insertAssignment(Assignment assignment) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, assignment.getTitle());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDBID());
+        ContentValues values = getAllAssignmentContentValues(assignment);
         writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
     }
     public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
-        //TODO: Implement this using the openHelper
+        //form query
+        String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
+        String[] whereArgs = new String[]{Long.toString(ASSIGNMENT_DB_ID)};
+
+        //execute query
+        writableDB.delete(
+                DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME,
+                whereClause,
+                whereArgs
+        );
     }
 
     public String listStringify(List<Long> listToStringify){
@@ -298,6 +341,15 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParent_DB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
+        return values;
+    }
+    private ContentValues getAllAssignmentContentValues(Assignment assignment) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, assignment.getTitle());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDBID());
         return values;
     }
 
@@ -353,6 +405,15 @@ public class DBAccessHelper {
         long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
         String stringyAssignmentIDs = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS));
         return new Category(db_id, parentDB_ID, timeSpent, grade, weight, title, listUnstringify(stringyAssignmentIDs));
+    }
+    private Assignment getAssignmentFromCursor(Cursor cursor) {
+        long db_id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns._ID));
+        String title = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TITLE));
+        double weight = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_WEIGHT));
+        double grade = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE));
+        long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
+        long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
+        return new Assignment(db_id, parentDB_ID, timeSpent, grade, weight, title);
     }
 
     private DolphinSQLiteOpenHelper openHelper;
