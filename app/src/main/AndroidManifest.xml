@@ -17,12 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SelectItemToEditActivity" />
+        <activity android:name=".activities.SelectItemToModifyActivity" />
         <activity android:name=".activities.CategoryViewActivity" />
         <activity android:name=".activities.SaveCategoryActivity" />
         <activity android:name=".activities.SaveClassActivity" />
         <activity android:name=".activities.SaveAssignmentActivity" />
-        <activity android:name=".activities.AssignmentViewActivity"></activity>
+        <activity android:name=".activities.AssignmentViewActivity" />
     </application>
 
 </manifest>

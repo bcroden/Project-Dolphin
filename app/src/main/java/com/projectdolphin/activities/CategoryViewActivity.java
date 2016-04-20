@@ -7,18 +7,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.Home;
+import com.projectdolphin.data.database.DBAccessHelper;
+import com.projectdolphin.data.model.Assignment;
+import com.projectdolphin.data.model.Category;
+import com.projectdolphin.data.model.Class;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
-import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Home activity for displaying all of the classes
+ * Display all of the categories in particular class
  */
 public class CategoryViewActivity extends AppCompatActivity {
 
@@ -32,10 +35,16 @@ public class CategoryViewActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.category_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+
+        List<Assignment> categories = new LinkedList<>();
+        _class = DBAccessHelper.getInstance(getApplicationContext())
+                                .getClassByID(getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1));
+        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(_class.getDB_ID()));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.category_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
+        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(categories, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
     }
 
@@ -44,6 +53,7 @@ public class CategoryViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CategoryViewActivity.this, SaveCategoryActivity.class);
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -53,8 +63,23 @@ public class CategoryViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToEditActivity.class);
-                intent.putExtra(SelectItemToEditActivity.SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CATEGORY.toString());
+                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.EDIT.toString());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
+                startActivity(intent);
+            }
+        };
+    }
+
+    private View.OnClickListener getDeleteFABOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.DELETE.toString());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -65,12 +90,12 @@ public class CategoryViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CategoryViewActivity.this, AssignmentViewActivity.class);
+                long db_id = Long.parseLong(((TextView) v.findViewById(R.id.view_card_db_id)).getText().toString());
+                intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, db_id);
                 startActivity(intent);
             }
         };
     }
 
-    private List<DBListItem> items;
-    private ArrayAdapter<DBListItem> adapter;
-    private RecyclerView.Adapter recycleAdapter;
+    private Class _class;
 }

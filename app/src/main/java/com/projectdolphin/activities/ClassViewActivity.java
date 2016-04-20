@@ -8,21 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.Home;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
-import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
 import java.util.List;
 
-/**
- * Home activity for displaying all of the classes
- */
 public class ClassViewActivity extends AppCompatActivity {
 
     @Override
@@ -39,10 +33,13 @@ public class ClassViewActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.class_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+
+        List<com.projectdolphin.data.model.Class> classes = DBAccessHelper.getInstance(getApplicationContext()).getAllClasses();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
+        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
     }
 
@@ -61,8 +58,21 @@ public class ClassViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ClassViewActivity.this, SelectItemToEditActivity.class);
-                intent.putExtra(SelectItemToEditActivity.SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.CLASS.toString());
+                Intent intent = new Intent(ClassViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CLASS.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.EDIT.toString());
+                startActivity(intent);
+            }
+        };
+    }
+
+    private View.OnClickListener getDeleteFABOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ClassViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CLASS.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.DELETE.toString());
                 startActivity(intent);
             }
         };
@@ -79,8 +89,4 @@ public class ClassViewActivity extends AppCompatActivity {
             }
         };
     }
-
-    private List<DBListItem> items;
-    private ArrayAdapter<DBListItem> adapter;
-    private RecyclerView.Adapter recycleAdapter;
 }

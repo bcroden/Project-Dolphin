@@ -6,16 +6,16 @@ package com.projectdolphin.data.model;
  * @author Alex
  */
 public class Assignment extends GradedDBItem {
-    public Assignment(long CATEGORY_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
-        this(-1, CATEGORY_DB_ID, timeSpentMillis, grade, weight, title);
+    public Assignment(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
+        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title);
     }
-    public Assignment(long DB_ID, long CATEGORY_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
+    public Assignment(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
         super(DB_ID, timeSpentMillis, grade, weight, title);
-        this.CATEGORY_DB_ID = CATEGORY_DB_ID;
+        this.PARENT_DB_ID = PARENT_DB_ID;
     }
 
-    public final long getCATEGORY_DB_ID() {
-        return CATEGORY_DB_ID;
+    public final long getParentDBID() {
+        return PARENT_DB_ID;
     }
 
     @Override
@@ -23,5 +23,5 @@ public class Assignment extends GradedDBItem {
         return String.format("%.2f%%", getWeight());
     }
 
-    private final long CATEGORY_DB_ID;
+    private final long PARENT_DB_ID;
 }

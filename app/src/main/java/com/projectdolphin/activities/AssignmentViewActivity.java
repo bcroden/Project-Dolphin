@@ -11,16 +11,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.projectdolphin.R;
-import com.projectdolphin.data.Home;
+import com.projectdolphin.data.database.DBAccessHelper;
+import com.projectdolphin.data.model.Assignment;
+import com.projectdolphin.data.model.Category;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
 import com.projectdolphin.layout.view.DBListItem;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Home activity for displaying all of the classes
+ * Display all of the assignments in a particular category
  */
+
 public class AssignmentViewActivity extends AppCompatActivity {
 
     @Override
@@ -33,10 +37,16 @@ public class AssignmentViewActivity extends AppCompatActivity {
         ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.assignment_view_layout));
         fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+
+        List<Assignment> assignments = new LinkedList<>();
+        category = DBAccessHelper.getInstance(getApplicationContext()).getCategoryByID(
+                getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1));
+        assignments.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(category.getDB_ID()));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.assignment_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ListItemRecycleAdapter(Home.getClassListItems(), getCardOnClickListener());
+        recycleAdapter = new ListItemRecycleAdapter(assignments, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
     }
 
@@ -45,6 +55,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AssignmentViewActivity.this, SaveAssignmentActivity.class);
+                intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, category.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -54,8 +65,23 @@ public class AssignmentViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AssignmentViewActivity.this, SelectItemToEditActivity.class);
-                intent.putExtra(SelectItemToEditActivity.SELECT_ITEM_TO_EDIT_DATA_LEVEL_INTENT_KEY, SelectItemToEditActivity.DataLevel.ASSIGNMENT.toString());
+                Intent intent = new Intent(AssignmentViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.ASSIGNMENT.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.EDIT.toString());
+                intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, category.getDB_ID());
+                startActivity(intent);
+            }
+        };
+    }
+
+    private View.OnClickListener getDeleteFABOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AssignmentViewActivity.this, SelectItemToModifyActivity.class);
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.ASSIGNMENT.toString());
+                intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.DELETE.toString());
+                intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, category.getDB_ID());
                 startActivity(intent);
             }
         };
@@ -70,6 +96,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
         };
     }
 
+    private Category category;
     private List<DBListItem> items;
     private ArrayAdapter<DBListItem> adapter;
     private RecyclerView.Adapter recycleAdapter;

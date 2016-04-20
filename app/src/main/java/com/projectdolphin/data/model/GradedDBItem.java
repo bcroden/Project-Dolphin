@@ -52,9 +52,9 @@ public abstract class GradedDBItem implements DBListItem {
 
     @Override
     public String getTimeSpentAsString() {
-        long hrs = timeSpentMillis / (60 * 60 * 1000);
-        long min = (timeSpentMillis - hrs) / (60 * 1000);
-        long sec = (timeSpentMillis - hrs - min) / 1000;
+        long hrs = timeSpentMillis / MILLIS_IN_HR;
+        long min = (timeSpentMillis - (hrs*MILLIS_IN_HR)) / (60 * 1000);
+        long sec = (timeSpentMillis - (hrs*MILLIS_IN_HR) - (min*MILLIS_IN_MIN)) / 1000;
         return String.format("%d:%d:%d", hrs, min, sec);
     }
     public long getTimeSpentMillis() {
@@ -68,4 +68,8 @@ public abstract class GradedDBItem implements DBListItem {
     private long timeSpentMillis;
     private double grade, weight;
     private String title;
+
+    private static final long MILLIS_IN_SEC = 1000;
+    private static final long MILLIS_IN_MIN = 60 * MILLIS_IN_SEC;
+    private static final long MILLIS_IN_HR = 60 * MILLIS_IN_MIN;
 }
