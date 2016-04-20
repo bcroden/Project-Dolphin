@@ -43,27 +43,6 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Class Grade:"
-                android:id="@+id/class_grade_title"
-                android:layout_weight="0.37" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/class_grade"
-                android:layout_weight="0.63" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:text="Class Weight:"
                 android:id="@+id/class_weight_title"
                 android:layout_weight="0.37" />
@@ -73,27 +52,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/class_weight"
                 android:layout_weight="0.63" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Total Time Spent:"
-                android:id="@+id/class_timeSpent_title"
-                android:layout_weight="0.45" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/class_timeSpent"
-                android:layout_weight="0.6" />
 
         </LinearLayout>
 

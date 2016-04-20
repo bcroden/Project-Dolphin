@@ -1,5 +1,6 @@
 package com.projectdolphin.data.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,6 +10,9 @@ import java.util.List;
  */
 public class Class extends GradedDBItem {
 
+    public Class(String title, double weight) {
+        this(0, 1.0, weight, title, new LinkedList<Long>());
+    }
     public Class(long timeSpentMillis, double grade, double weight, String title, List<Long> categoryIDs) {
         this(-1, timeSpentMillis, grade, weight, title, categoryIDs);
     }
@@ -19,7 +23,7 @@ public class Class extends GradedDBItem {
 
     @Override
     public String getWeightAsString() {
-        return String.format("%.0f hours", getWeight());
+        return String.format("%.0f", getWeight());
     }
 
     public List<Long> getCategoryIDs() {

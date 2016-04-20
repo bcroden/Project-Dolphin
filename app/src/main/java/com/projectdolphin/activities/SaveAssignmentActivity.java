@@ -28,18 +28,14 @@ public class SaveAssignmentActivity extends AppCompatActivity {
 
     //Get the content
     public void onAddAssignment(View view) {
-        EditText myTimeSpent = (EditText) findViewById((R.id.class_timeSpent));
-        EditText myGrade = (EditText) findViewById((R.id.class_grade));
         EditText myWeight = (EditText) findViewById(R.id.class_weight);
         EditText myTitle = (EditText) findViewById(R.id.class_title);
 
-        String timeSpent = myTimeSpent.getText().toString();
-        String grade = myGrade.getText().toString();
         String weight = myWeight.getText().toString();
         String title = myTitle.getText().toString();
 
-        Long longTimeSpentForDb = Long.parseLong(timeSpent);
-        Double floatGradeForDB = Double.parseDouble(grade);
+        Long longTimeSpentForDb = 0L;//Long.parseLong(timeSpent);
+        Double floatGradeForDB = 0.0;//Double.parseDouble(grade);
         Double floatWeightForDB = Double.parseDouble(weight);
         List<Integer> assignmentIds = null;
         long categoryID = 1; //Get the category Id from the intent
