@@ -1,5 +1,6 @@
 package com.projectdolphin.data.model;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Map;
  */
 public class ClassData {
 
-    public ClassData(Class _class, Map<Category, Assignment> categoryAssignmentMap) {
+    public ClassData(Class _class, Map<Category, List<Assignment>> categoryAssignmentMap) {
         this._class = _class;
         this.categoryAssignmentMap = categoryAssignmentMap;
     }
@@ -15,10 +16,10 @@ public class ClassData {
     public Class getClassInfo() {
         return _class;
     }
-    public Map<Category, Assignment> getCategoryAssignmentMap() {
+    public Map<Category, List<Assignment>> getCategoryAssignmentMap() {
         return categoryAssignmentMap;
     }
 
     private Class _class;
-    private Map<Category, Assignment> categoryAssignmentMap;
+    private Map<Category, List<Assignment>> categoryAssignmentMap;
 }

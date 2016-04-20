@@ -6,12 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.data.model.Category;
 import com.projectdolphin.data.model.Class;
+import com.projectdolphin.data.model.ClassData;
 
 /**
  * Singleton for keeping the database alive throughout the application's life.
@@ -141,6 +144,20 @@ public class DBAccessHelper {
                 whereClause,
                 whereArgs
         );
+    }
+
+    //get all of the data which belongs to a particular class
+    public ClassData getAllDataFor(long CLASS_DB_ID) {
+        Class _class = getClassByID(CLASS_DB_ID);
+
+        Map<Category, List<Assignment>> categoryListMap = new HashMap<>();
+        for(long cat_db_id : _class.getCategoryIDs()) {
+            Category category = getCategoryByID(cat_db_id);
+            List<Assignment> assignments = getAllAssignmentsForCategoryID(cat_db_id);
+            categoryListMap.put(category, assignments);
+        }
+
+        return new ClassData(_class, categoryListMap);
     }
 
     /* Category methods */
