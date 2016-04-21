@@ -4,14 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.data.model.Category;
 import com.projectdolphin.data.model.Class;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Singleton for keeping the database alive throughout the application's life.

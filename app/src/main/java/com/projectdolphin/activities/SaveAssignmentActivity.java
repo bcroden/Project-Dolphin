@@ -1,9 +1,8 @@
 package com.projectdolphin.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -29,6 +28,11 @@ public class SaveAssignmentActivity extends AppCompatActivity {
         if(assignDB_ID >= 0) {
             isEditMode = true;
             assignment = DBAccessHelper.getInstance(getApplicationContext()).getAssignmentByID(assignDB_ID);
+            ((EditText) findViewById(R.id.save_assignment_title_field)).setText(assignment.getTitle());
+            ((EditText) findViewById(R.id.save_assignment_grade_field)).setText(String.format("%.2f", assignment.getGrade()));
+            ((EditText) findViewById(R.id.save_assignment_weight_field)).setText(assignment.getWeightAsString());
+            ((EditText) findViewById(R.id.save_assignment_time_field)).setText(Long.toString(assignment.getTimeSpentMillis()));
+            ((CheckBox) findViewById(R.id.save_assignment_is_grade_valid_box)).setChecked(assignment.isGradeValid());
         } else if(parDB_ID >= 0) {
             isEditMode = false;
             assignment = new Assignment(parDB_ID, "Empty Assignment", 1.0);
