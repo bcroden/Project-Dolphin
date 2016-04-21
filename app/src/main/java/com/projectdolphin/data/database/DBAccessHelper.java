@@ -25,7 +25,7 @@ public class DBAccessHelper {
     public static final String ASSIGNMENT_DB_ID_INTENT_KEY = "ASSIGNMENT_DB_ID_INTENT_KEY";
 
     public static DBAccessHelper getInstance(Context context) {
-        if(instance == null)
+        if (instance == null)
             instance = new DBAccessHelper(context);
         return instance;
     }
@@ -34,7 +34,7 @@ public class DBAccessHelper {
         writableDB = openHelper.getWritableDatabase();
         readableDB = openHelper.getReadableDatabase();
 
-        classColumns = new String[] {
+        classColumns = new String[]{
                 DatabaseContract.DolphinColumns._ID,
                 DatabaseContract.DolphinColumns.COLUMN_TITLE,
                 DatabaseContract.DolphinColumns.COLUMN_WEIGHT,
@@ -42,7 +42,7 @@ public class DBAccessHelper {
                 DatabaseContract.DolphinColumns.COLUMN_TIMESPENT,
                 DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS
         };
-        categoryColumns = new String[] {
+        categoryColumns = new String[]{
                 DatabaseContract.DolphinColumns._ID,
                 DatabaseContract.DolphinColumns.COLUMN_TITLE,
                 DatabaseContract.DolphinColumns.COLUMN_WEIGHT,
@@ -51,7 +51,7 @@ public class DBAccessHelper {
                 DatabaseContract.DolphinColumns.COLUMN_PARENT_ID,
                 DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS
         };
-        assignmentColumns = new String[] {
+        assignmentColumns = new String[]{
                 DatabaseContract.DolphinColumns._ID,
                 DatabaseContract.DolphinColumns.COLUMN_TITLE,
                 DatabaseContract.DolphinColumns.COLUMN_WEIGHT,
@@ -79,8 +79,8 @@ public class DBAccessHelper {
 
         List<Class> classes = new LinkedList<>();
 
-        if(cursor != null) {
-            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 classes.add(getClassFromCursor(cursor));
             cursor.close();
         }
@@ -97,7 +97,7 @@ public class DBAccessHelper {
 
         //process results
         Class _class = null;
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             _class = getClassFromCursor(cursor);
             cursor.close();
@@ -105,7 +105,7 @@ public class DBAccessHelper {
         return _class;
     }
     public void putClass(Class _class) {
-        if(_class.needsToBeInserted())
+        if (_class.needsToBeInserted())
             insertClass(_class);
         else
             updateClass(_class);
@@ -131,6 +131,9 @@ public class DBAccessHelper {
         _class.setDB_ID(db_id);
     }
     public void removeClassByID(long CLASS_DB_ID) {
+        //prep db
+        prepDBToRemoveClass(CLASS_DB_ID);
+
         //form query
         String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
         String[] whereArgs = new String[]{Long.toString(CLASS_DB_ID)};
@@ -154,8 +157,8 @@ public class DBAccessHelper {
         //compile list
         List<Category> categories = new LinkedList<>();
 
-        if(cursor != null) {
-            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 categories.add(getCategoryFromCursor(cursor));
             cursor.close();
         }
@@ -172,7 +175,7 @@ public class DBAccessHelper {
 
         //process results
         Category category = null;
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             category = getCategoryFromCursor(cursor);
             cursor.close();
@@ -181,12 +184,14 @@ public class DBAccessHelper {
         return category;
     }
     public void putCategory(Category category) {
-        if(category.needsToBeInserted())
+        if (category.needsToBeInserted())
             insertCategory(category);
         else
             updateCategory(category);
+
+        rippleDBAfterUpdating(category);
     }
-    public void updateCategory(Category category) {
+    private void updateCategory(Category category) {
         //form query
         ContentValues contentValues = getAllCategoryContentValues(category);
 
@@ -201,12 +206,15 @@ public class DBAccessHelper {
                 whereArgs
         );
     }
-    public void insertCategory(Category category) {
+    private void insertCategory(Category category) {
         ContentValues values = getAllCategoryContentValues(category);
         long db_id = writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
         category.setDB_ID(db_id);
     }
     public void removeCategoryByID(long CATEGORY_DB_ID) {
+        //prep db
+        prepDBToRemoveCategory(CATEGORY_DB_ID);
+
         //form query
         String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
         String[] whereArgs = new String[]{Long.toString(CATEGORY_DB_ID)};
@@ -230,8 +238,8 @@ public class DBAccessHelper {
 
         //collect results
         List<Assignment> assignments = new LinkedList<>();
-        if(cursor != null) {
-            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 assignments.add(getAssignmentFromCursor(cursor));
             cursor.close();
         }
@@ -247,7 +255,7 @@ public class DBAccessHelper {
 
         //collect result
         Assignment assignment = null;
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             assignment = getAssignmentFromCursor(cursor);
             cursor.close();
@@ -256,12 +264,14 @@ public class DBAccessHelper {
         return assignment;
     }
     public void putAssignment(Assignment assignment) {
-        if(assignment.needsToBeInserted())
+        if (assignment.needsToBeInserted())
             insertAssignment(assignment);
         else
             updateAssignment(assignment);
+
+        rippleDBAfterUpdating(assignment);
     }
-    public void updateAssignment(Assignment assignment) {
+    private void updateAssignment(Assignment assignment) {
         //form query
         ContentValues contentValues = getAllAssignmentContentValues(assignment);
 
@@ -276,12 +286,14 @@ public class DBAccessHelper {
                 whereArgs
         );
     }
-    public void insertAssignment(Assignment assignment) {
+    private void insertAssignment(Assignment assignment) {
         ContentValues values = getAllAssignmentContentValues(assignment);
         long db_id = writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
         assignment.setDB_ID(db_id);
     }
     public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
+        Assignment removedAssignment = getAssignmentByID(ASSIGNMENT_DB_ID);
+
         //form query
         String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
         String[] whereArgs = new String[]{Long.toString(ASSIGNMENT_DB_ID)};
@@ -292,32 +304,8 @@ public class DBAccessHelper {
                 whereClause,
                 whereArgs
         );
-    }
 
-    public String listStringify(List<Long> listToStringify){
-        String stringifiedList = null;
-        if(listToStringify != null) {
-            for (long value : listToStringify) {
-                if (stringifiedList == null) {
-                    stringifiedList = Long.toString(value);
-                } else {
-                    stringifiedList = stringifiedList + "," + Long.toString(value);
-                }
-            }
-        }
-        return stringifiedList;
-    }
-
-    public List<Long> listUnstringify(String stringList){
-        List<Long> UnstringifiedList = new LinkedList<>();
-        if(stringList != null){
-            String[] parsedString = stringList.split(",");
-            for(int i = 0; i < parsedString.length; i++){
-                long convertedString = Long.parseLong(parsedString[i]);
-                UnstringifiedList.add(convertedString);
-            }
-        }
-        return UnstringifiedList;
+        rippleDBAfterUpdating(removedAssignment);
     }
 
     //Helper methods to clean up insert and update methods
@@ -339,7 +327,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParentDB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
         return values;
@@ -349,7 +337,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, assignment.getTitle());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDB_ID());
         return values;
     }
@@ -415,6 +403,83 @@ public class DBAccessHelper {
         long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
         long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
         return new Assignment(db_id, parentDB_ID, timeSpent, grade, weight, title);
+    }
+    public String listStringify(List<Long> listToStringify) {
+        String stringifiedList = null;
+        if (listToStringify != null) {
+            for (long value : listToStringify) {
+                if (stringifiedList == null) {
+                    stringifiedList = Long.toString(value);
+                } else {
+                    stringifiedList = stringifiedList + "," + Long.toString(value);
+                }
+            }
+        }
+        return stringifiedList;
+    }
+    public List<Long> listUnstringify(String stringList) {
+        List<Long> UnstringifiedList = new LinkedList<>();
+        if (stringList != null) {
+            String[] parsedString = stringList.split(",");
+            for (int i = 0; i < parsedString.length; i++) {
+                long convertedString = Long.parseLong(parsedString[i]);
+                UnstringifiedList.add(convertedString);
+            }
+        }
+        return UnstringifiedList;
+    }
+
+    //Assumes that the item is already in the database
+    private void rippleDBAfterUpdating(Category category) {
+        double weightSum = 0;
+        double grade = 0;
+        long time = 0;
+
+        for(Category cat : getAllCategoriesForClassID(category.getParentDB_ID())) {
+            weightSum += cat.getWeight();
+            grade += (cat.getWeight() * cat.getGrade());
+            time += cat.getTimeSpentMillis();
+        }
+
+        grade /= weightSum;
+
+        Class _class = getClassByID(category.getParentDB_ID());
+
+        _class.setGrade(grade);
+        _class.setTimeSpentMillis(time);
+
+        putClass(_class);
+    }
+    private void rippleDBAfterUpdating(Assignment assignment) {
+        double weightSum = 0;
+        double grade = 0;
+        long time = 0;
+
+        for(Assignment assign : getAllAssignmentsForCategoryID(assignment.getParentDB_ID())) {
+            weightSum += assign.getWeight();
+            grade += (assign.getWeight() * assign.getGrade());
+            time += assign.getTimeSpentMillis();
+        }
+
+        grade /= weightSum;
+
+        Category category = getCategoryByID(assignment.getParentDB_ID());
+
+        category.setGrade(grade);
+        category.setTimeSpentMillis(time);
+
+        putCategory(category);
+
+        rippleDBAfterUpdating(category);
+    }
+    //Assumes that the item has already been deleted from the database
+    private void prepDBToRemoveClass(final long DB_ID) {
+        for(Category category : getAllCategoriesForClassID(DB_ID))
+            removeCategoryByID(category.getDB_ID());
+    }
+    private void prepDBToRemoveCategory(final long DB_ID) {
+        for(Assignment assignment : getAllAssignmentsForCategoryID(DB_ID))
+            removeAssignmentByID(assignment.getDB_ID());
     }
 
     private DolphinSQLiteOpenHelper openHelper;
