@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
+import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.data.model.GradedDBItem;
 
 import java.util.List;
@@ -29,6 +30,22 @@ public class SaveErrorChecker {
                 errors.add("Weight must be a positive number");
         } catch(NumberFormatException e) {
             errors.add("Weight must be a number");
+        }
+    }
+    public static void processGrade(GradedDBItem item, EditText gradeText, List<String> errors) {
+        try {
+            double weight = Double.parseDouble(gradeText.getText().toString());
+            item.setGrade(weight);
+        } catch(NumberFormatException e) {
+            errors.add("Grade must be a number");
+        }
+    }
+    public static void processTimeSpentMillis(GradedDBItem item, EditText timeText, List<String> errors) {
+        try {
+            long timeSpentMillis = Long.parseLong(timeText.getText().toString());
+            item.setTimeSpentMillis(timeSpentMillis);
+        } catch(NumberFormatException e) {
+            errors.add("Grade must be a number");
         }
     }
     public static boolean shouldContinue(List<String> errors, Activity activity) {
