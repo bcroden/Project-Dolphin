@@ -106,7 +106,7 @@ public class SelectItemToModifyActivity extends AppCompatActivity {
                         break;
                     default:
                         intent = new Intent(SelectItemToModifyActivity.this, AssignmentViewActivity.class);
-                        intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, ((Assignment)items.get(position)).getParentDB_ID());
+                        intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, ((Assignment)items.get(position)).getParentDB_ID());
                         DBAccessHelper.getInstance(getApplicationContext()).removeAssignmentByID(id);
                         break;
                 }

@@ -11,13 +11,13 @@ import java.util.List;
 public class Category extends GradedDBItem {
 
     public Category(long parDB_id, String title, double weight) {
-        this(parDB_id, 0, 1.0, weight, title, new LinkedList<Long>());
+        this(parDB_id, 0, 1.0, weight, title, new LinkedList<Long>(), false);
     }
-    public Category(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs) {
-        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, assignmentsIDs);
+    public Category(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs, boolean isGradeValid) {
+        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, assignmentsIDs, isGradeValid);
     }
-    public Category(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs) {
-        super(DB_ID, timeSpentMillis, grade, weight, title);
+    public Category(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs, boolean isGradeValid) {
+        super(DB_ID, timeSpentMillis, grade, weight, title, isGradeValid);
         this.PARENT_DB_ID = PARENT_DB_ID;
         this.assignmentsIDs = assignmentsIDs;
     }
@@ -28,7 +28,7 @@ public class Category extends GradedDBItem {
 
     @Override
     public String getWeightAsString() {
-        return String.format("%.2f%%", getWeight());
+        return String.format("%.2f", getWeight());
     }
 
     public List<Long> getAssignmentsIDs() {

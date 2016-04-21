@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/save_assignment_grade_field"
                 android:layout_weight="0.63"
-                android:inputType="numberSigned"/>
+                android:inputType="numberSigned|numberDecimal"/>
 
         </LinearLayout>
 
@@ -96,9 +96,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/save_assignment_time_field"
                 android:layout_weight="0.6"
-                android:inputType="time"/>
+                android:inputType="number"/>
 
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/save_assignment_is_grade_valid_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grade is known"/>
 
     </LinearLayout>
 
