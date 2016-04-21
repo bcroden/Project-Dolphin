@@ -11,13 +11,13 @@ import java.util.List;
 public class Class extends GradedDBItem {
 
     public Class(String title, double weight) {
-        this(0, 1.0, weight, title, new LinkedList<Long>());
+        this(0, 1.0, weight, title, new LinkedList<Long>(), false);
     }
-    public Class(long timeSpentMillis, double grade, double weight, String title, List<Long> categoryIDs) {
-        this(-1, timeSpentMillis, grade, weight, title, categoryIDs);
+    public Class(long timeSpentMillis, double grade, double weight, String title, List<Long> categoryIDs, boolean isGradeValid) {
+        this(-1, timeSpentMillis, grade, weight, title, categoryIDs, isGradeValid);
     }
-    public Class(long DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> categoryIDs) {
-        super(DB_ID, timeSpentMillis, grade, weight, title);
+    public Class(long DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> categoryIDs, boolean isGradeValid) {
+        super(DB_ID, timeSpentMillis, grade, weight, title, isGradeValid);
         this.categoryIDs = categoryIDs;
     }
 

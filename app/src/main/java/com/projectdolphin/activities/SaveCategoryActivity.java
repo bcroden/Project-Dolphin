@@ -30,6 +30,8 @@ public class SaveCategoryActivity extends AppCompatActivity {
         if(catDB_ID >= 0) {
             isEditMode = true;
             category = DBAccessHelper.getInstance(getApplicationContext()).getCategoryByID(catDB_ID);
+            ((EditText) findViewById(R.id.simple_save_title_field)).setText(category.getTitle());
+            ((EditText) findViewById(R.id.simple_save_weight_field)).setText(category.getWeightAsString());
         } else if(parDB_ID >= 0) {
             isEditMode = false;
             category = new Category(parDB_ID, "Empty Category", 1.0);

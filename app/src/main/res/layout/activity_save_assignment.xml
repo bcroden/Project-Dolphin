@@ -100,6 +100,12 @@
 
         </LinearLayout>
 
+        <CheckBox
+            android:id="@+id/save_assignment_is_grade_valid_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grade is known"/>
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

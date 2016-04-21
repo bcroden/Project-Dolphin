@@ -5,12 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.data.model.Category;
 import com.projectdolphin.data.model.Class;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Singleton for keeping the database alive throughout the application's life.
@@ -40,7 +40,8 @@ public class DBAccessHelper {
                 DatabaseContract.DolphinColumns.COLUMN_WEIGHT,
                 DatabaseContract.DolphinColumns.COLUMN_GRADE,
                 DatabaseContract.DolphinColumns.COLUMN_TIMESPENT,
-                DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS
+                DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS,
+                DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY
         };
         categoryColumns = new String[]{
                 DatabaseContract.DolphinColumns._ID,
@@ -49,7 +50,8 @@ public class DBAccessHelper {
                 DatabaseContract.DolphinColumns.COLUMN_GRADE,
                 DatabaseContract.DolphinColumns.COLUMN_TIMESPENT,
                 DatabaseContract.DolphinColumns.COLUMN_PARENT_ID,
-                DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS
+                DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS,
+                DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY
         };
         assignmentColumns = new String[]{
                 DatabaseContract.DolphinColumns._ID,
@@ -58,6 +60,7 @@ public class DBAccessHelper {
                 DatabaseContract.DolphinColumns.COLUMN_GRADE,
                 DatabaseContract.DolphinColumns.COLUMN_TIMESPENT,
                 DatabaseContract.DolphinColumns.COLUMN_PARENT_ID,
+                DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY
         };
     }
     private static DBAccessHelper instance;
@@ -318,6 +321,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, _class.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, _class.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS, categoryIdstring);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY, _class.isGradeValid());
         return values;
     }
     private ContentValues getAllCategoryContentValues(Category category) {
@@ -330,6 +334,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParentDB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY, category.isGradeValid());
         return values;
     }
     private ContentValues getAllAssignmentContentValues(Assignment assignment) {
@@ -339,6 +344,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDB_ID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY, assignment.isGradeValid() ? 1 : 0);
         return values;
     }
 
@@ -383,7 +389,8 @@ public class DBAccessHelper {
         double grade = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE));
         long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
         String stringyCategoryIDs = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_CATEGORY_IDS));
-        return new Class(db_id, timeSpent, grade, weight, title, listUnstringify(stringyCategoryIDs));
+        boolean isGradeValid = cursor.getInt(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY)) > 0;
+        return new Class(db_id, timeSpent, grade, weight, title, listUnstringify(stringyCategoryIDs), isGradeValid);
     }
     private Category getCategoryFromCursor(Cursor cursor) {
         long db_id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns._ID));
@@ -393,7 +400,8 @@ public class DBAccessHelper {
         long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
         long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
         String stringyAssignmentIDs = cursor.getString(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS));
-        return new Category(db_id, parentDB_ID, timeSpent, grade, weight, title, listUnstringify(stringyAssignmentIDs));
+        boolean isGradeValid = cursor.getInt(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY)) > 0;
+        return new Category(db_id, parentDB_ID, timeSpent, grade, weight, title, listUnstringify(stringyAssignmentIDs), isGradeValid);
     }
     private Assignment getAssignmentFromCursor(Cursor cursor) {
         long db_id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns._ID));
@@ -402,7 +410,8 @@ public class DBAccessHelper {
         double grade = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE));
         long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
         long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
-        return new Assignment(db_id, parentDB_ID, timeSpent, grade, weight, title);
+        boolean isGradeValid = cursor.getInt(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY)) > 0;
+        return new Assignment(db_id, parentDB_ID, timeSpent, grade, weight, title, isGradeValid);
     }
     public String listStringify(List<Long> listToStringify) {
         String stringifiedList = null;
@@ -434,17 +443,23 @@ public class DBAccessHelper {
         double weightSum = 0;
         double grade = 0;
         long time = 0;
+        boolean isValid = false;
 
         for(Category cat : getAllCategoriesForClassID(category.getParentDB_ID())) {
-            weightSum += cat.getWeight();
-            grade += (cat.getWeight() * cat.getGrade());
-            time += cat.getTimeSpentMillis();
+            if(cat.isGradeValid()) {
+                isValid = true;
+                weightSum += cat.getWeight();
+                grade += (cat.getWeight() * cat.getGrade());
+                time += cat.getTimeSpentMillis();
+            }
         }
 
-        grade /= weightSum;
+        if(isValid)
+            grade /= weightSum;
 
         Class _class = getClassByID(category.getParentDB_ID());
 
+        _class.setGradeValidity(isValid);
         _class.setGrade(grade);
         _class.setTimeSpentMillis(time);
 
@@ -454,17 +469,23 @@ public class DBAccessHelper {
         double weightSum = 0;
         double grade = 0;
         long time = 0;
+        boolean isValid = false;
 
         for(Assignment assign : getAllAssignmentsForCategoryID(assignment.getParentDB_ID())) {
-            weightSum += assign.getWeight();
-            grade += (assign.getWeight() * assign.getGrade());
-            time += assign.getTimeSpentMillis();
+            if(assign.isGradeValid()) {
+                isValid = true;
+                weightSum += assign.getWeight();
+                grade += (assign.getWeight() * assign.getGrade());
+                time += assign.getTimeSpentMillis();
+            }
         }
 
-        grade /= weightSum;
+        if(isValid)
+            grade /= weightSum;
 
         Category category = getCategoryByID(assignment.getParentDB_ID());
 
+        category.setGradeValidity(isValid);
         category.setGrade(grade);
         category.setTimeSpentMillis(time);
 
