@@ -1,12 +1,11 @@
 package com.projectdolphin.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
@@ -21,14 +20,17 @@ public class SaveClassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_save_class);
+        setContentView(R.layout.simple_save);
+
+        ((TextView) findViewById(R.id.simple_save_title_view)).setText("Class Title");
+        ((TextView) findViewById(R.id.simple_save_weight_view)).setText("Class Weight");
 
         long db_id = getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1);
         if(db_id > 0) {
             _class = DBAccessHelper.getInstance(getApplicationContext()).getClassByID(db_id);
 
-            EditText title = (EditText) findViewById(R.id.class_title);
-            EditText weight = (EditText) findViewById(R.id.class_weight);
+            EditText title = (EditText) findViewById(R.id.simple_save_title_field);
+            EditText weight = (EditText) findViewById(R.id.simple_save_weight_field);
 
             title.setText(_class.getTitle());
             weight.setText(_class.getWeightAsString());
@@ -37,48 +39,14 @@ public class SaveClassActivity extends AppCompatActivity {
         }
     }
 
-    //Get the content
-    public void onAddClass(View view) {
+    public void onSimpleSave(View view) {
         List<String> errors = new LinkedList<>();
 
-        String title = ((EditText) findViewById(R.id.class_title)).getText().toString();
-        if(title == null || title.equals(""))
-            errors.add("Please enter a title");
+        SaveErrorChecker.processTitle(_class, (EditText) findViewById(R.id.simple_save_title_field), errors);
+        SaveErrorChecker.processWeight(_class, (EditText) findViewById(R.id.simple_save_weight_field), errors);
 
-        double weight;
-        try {
-            weight = Double.parseDouble(((EditText) findViewById(R.id.class_weight)).getText().toString());
-            if(weight > 0)
-                _class.setWeight(weight);
-            else
-                errors.add("Weight must be a positive number");
-        } catch (NumberFormatException e) {
-            errors.add("Weight must be a number");
-        }
-
-        if(errors.size() > 0) {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < errors.size(); i++) {
-                if(i != 0)
-                    sb.append("\n");
-                sb.append(errors.get(i));
-            }
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Data Format Error")
-                    .setMessage(sb.toString())
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .show();
+        if(!SaveErrorChecker.shouldContinue(errors, this))
             return;
-
-        }
-
-        _class.setTitle(title);
 
         DBAccessHelper.getInstance(getApplicationContext()).putClass(_class);
 

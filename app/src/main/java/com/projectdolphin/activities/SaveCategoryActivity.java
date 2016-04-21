@@ -1,97 +1,63 @@
 package com.projectdolphin.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Category;
+import com.projectdolphin.data.model.Class;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SaveCategoryActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_save_category);
+        setContentView(R.layout.simple_save);
 
-        /* Pseudo code by Alex showing how he would do things if he was Ryan START */
+        ((TextView) findViewById(R.id.simple_save_title_view)).setText("Category Title");
+        ((TextView) findViewById(R.id.simple_save_weight_view)).setText("Category Weight");
 
-        //if intent contains a Category DB ID {
-
-            //We are now in edit/update mode
-
-            //Ask the DB Access Helper to get the Category we need by using the ID we were given
-
-            //Save what the DB Access Helper gave us in a member variable
-
-        //} else if intent contains a Class DB ID {
-
-            //We are now in add/insert mode
-
-            //Save the parent id to a member variable
-
-        //} else both of the above were false then something way worse has happened and I don't know how to fix it
-
-        /* Pseudo code by Alex showing how he would do things if he was Ryan END */
+        long catDB_ID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
+        long parDB_ID = getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1);
+        if(catDB_ID >= 0) {
+            isEditMode = true;
+            category = DBAccessHelper.getInstance(getApplicationContext()).getCategoryByID(catDB_ID);
+        } else if(parDB_ID >= 0) {
+            isEditMode = false;
+            category = new Category(parDB_ID, "Empty Category", 1.0);
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //toDoDB.close();
+    public void onSimpleSave(View view) {
+        List<String> errors = new LinkedList<>();
+
+        SaveErrorChecker.processTitle(category, (EditText) findViewById(R.id.simple_save_title_field), errors);
+        SaveErrorChecker.processWeight(category, (EditText) findViewById(R.id.simple_save_weight_field), errors);
+
+        if(!SaveErrorChecker.shouldContinue(errors, this))
+            return;
+
+        DBAccessHelper.getInstance(getApplicationContext()).putCategory(category);
+
+        if(!isEditMode) {
+            Class _class = DBAccessHelper.getInstance(getApplicationContext()).getClassByID(category.getParentDB_ID());
+            _class.getCategoryIDs().add(category.getDB_ID());
+            DBAccessHelper.getInstance(getApplicationContext()).putClass(_class);
+        }
+
+        Intent intent = new Intent(this, CategoryViewActivity.class);
+        intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, category.getParentDB_ID());
+        startActivity(intent);
     }
 
-    //Get the content
-    public void onAddCategory(View view) {
-        EditText myWeight = (EditText) findViewById(R.id.class_weight);
-        EditText myTitle = (EditText) findViewById(R.id.class_title);
-
-        String weight = myWeight.getText().toString();
-        String title = myTitle.getText().toString();
-
-        Long longTimeSpentForDb = 0L;//Long.parseLong(timeSpent);
-        Double floatGradeForDB = 0.0;//Double.parseDouble(grade);
-        Double floatWeightForDB = Double.parseDouble(weight);
-        List<Long> assignmentIds = new LinkedList<>(); //empty because it doesn't have classes yet
-        long classID = 1; //long classID = getExtra(Class ID)
-
-        /* Pseudo code by Alex showing how he would do things if he was Ryan START */
-
-        //if we are in edit/update mode {
-
-            //use the setter methods of the Category member variable
-
-            //use the putCategory method of the DB Access Helper class
-
-        //} else if we are in add/insert mode {
-
-            //create new Category object
-
-            //use the putCategory method of the DB Access Helper class
-
-            //get parent class using DB Access Helper getClassByID method
-
-            //update list of class's categories using the setter/getters
-
-            //use the putClass method of the DB Access Helper class
-
-        //}
-
-        /*
-         * Note: The put* methods implement some logic that automatically determines if the item should be inserted or updated.
-         */
-
-        /* Pseudo code by Alex showing how he would do things if he was Ryan END */
-
-        //Need to update parent class' list of categories here
-        DBAccessHelper.getInstance(getApplicationContext()).putCategory(new Category(classID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title, assignmentIds));
-
-    }
-
+    private boolean isEditMode;
+    private Category category;
 }

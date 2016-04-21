@@ -10,6 +10,8 @@ import android.widget.ListView;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
+import com.projectdolphin.data.model.Assignment;
+import com.projectdolphin.data.model.Category;
 import com.projectdolphin.layout.view.DBListItem;
 
 import java.util.LinkedList;
@@ -99,10 +101,12 @@ public class SelectItemToModifyActivity extends AppCompatActivity {
                         break;
                     case CATEGORY:
                         intent = new Intent(SelectItemToModifyActivity.this, CategoryViewActivity.class);
+                        intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, ((Category)items.get(position)).getParentDB_ID());
                         DBAccessHelper.getInstance(getApplicationContext()).removeCategoryByID(id);
                         break;
                     default:
                         intent = new Intent(SelectItemToModifyActivity.this, AssignmentViewActivity.class);
+                        intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, ((Assignment)items.get(position)).getParentDB_ID());
                         DBAccessHelper.getInstance(getApplicationContext()).removeAssignmentByID(id);
                         break;
                 }

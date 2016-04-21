@@ -14,7 +14,7 @@ public class Assignment extends GradedDBItem {
         this.PARENT_DB_ID = PARENT_DB_ID;
     }
 
-    public final long getParentDBID() {
+    public final long getParentDB_ID() {
         return PARENT_DB_ID;
     }
 

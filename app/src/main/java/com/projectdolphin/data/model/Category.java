@@ -1,5 +1,6 @@
 package com.projectdolphin.data.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,6 +10,9 @@ import java.util.List;
  */
 public class Category extends GradedDBItem {
 
+    public Category(long parDB_id, String title, double weight) {
+        this(parDB_id, 0, 1.0, weight, title, new LinkedList<Long>());
+    }
     public Category(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, List<Long> assignmentsIDs) {
         this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, assignmentsIDs);
     }
@@ -18,14 +22,7 @@ public class Category extends GradedDBItem {
         this.assignmentsIDs = assignmentsIDs;
     }
 
-//    @Deprecated
-//    public Category(String title, double grade, String weight, String timeSpent){
-//        super(new Random().nextLong(), new Random().nextDouble(), new Random().nextDouble(), "Deprecated Title");
-//        this.PARENT_DB_ID = -1;
-//        this.assignmentsIDs = new LinkedList<>();
-//    }
-
-    public final long getParent_DB_ID() {
+    public final long getParentDB_ID() {
         return PARENT_DB_ID;
     }
 

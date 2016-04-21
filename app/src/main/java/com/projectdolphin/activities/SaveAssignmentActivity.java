@@ -28,8 +28,8 @@ public class SaveAssignmentActivity extends AppCompatActivity {
 
     //Get the content
     public void onAddAssignment(View view) {
-        EditText myWeight = (EditText) findViewById(R.id.class_weight);
-        EditText myTitle = (EditText) findViewById(R.id.class_title);
+        EditText myWeight = (EditText) findViewById(R.id.simple_save_weight_field);
+        EditText myTitle = (EditText) findViewById(R.id.simple_save_title_field);
 
         String weight = myWeight.getText().toString();
         String title = myTitle.getText().toString();
