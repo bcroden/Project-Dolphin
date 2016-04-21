@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -47,6 +49,25 @@ public class AssignmentViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recycleAdapter = new ListItemRecycleAdapter(assignments, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.assignment_view_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.assignment_view_menu_view_classes)
+            startActivity(new Intent(this, ClassViewActivity.class));
+        else if(item.getItemId() == R.id.assignment_view_menu_view_categories) {
+            Intent intent = new Intent(this, CategoryViewActivity.class);
+            Category category = DBAccessHelper.getInstance(getApplicationContext()).getCategoryByID(categoryID);
+            intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, category.getParentDB_ID());
+            startActivity(intent);
+        }
+        return false;
     }
 
     private View.OnClickListener getAddFABOnClickListener() {
