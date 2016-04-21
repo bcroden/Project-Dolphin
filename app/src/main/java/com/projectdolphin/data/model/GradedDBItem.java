@@ -26,6 +26,9 @@ public abstract class GradedDBItem implements DBListItem {
     public final long getDB_ID() {
         return DB_ID;
     }
+    public void setDB_ID(long DB_ID) {
+        this.DB_ID = DB_ID;
+    }
 
     @Override
     public String getTitle() {
@@ -64,7 +67,7 @@ public abstract class GradedDBItem implements DBListItem {
         this.timeSpentMillis = timeSpentMillis;
     }
 
-    private final long DB_ID;
+    private long DB_ID;
     private long timeSpentMillis;
     private double grade, weight;
     private String title;

@@ -53,7 +53,6 @@ public class ClassViewActivity extends AppCompatActivity {
         };
     }
 
-
     private View.OnClickListener getEditFABOnClickListener() {
         return new View.OnClickListener() {
             @Override

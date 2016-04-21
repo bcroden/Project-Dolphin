@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -128,7 +127,8 @@ public class DBAccessHelper {
     }
     public void insertClass(Class _class) {
         ContentValues values = getAllClassContentValues(_class);
-        writableDB.insert(DatabaseContract.DolphinColumns.CLASS_TABLE_NAME, null, values);
+        long db_id = writableDB.insert(DatabaseContract.DolphinColumns.CLASS_TABLE_NAME, null, values);
+        _class.setDB_ID(db_id);
     }
     public void removeClassByID(long CLASS_DB_ID) {
         //form query
@@ -203,7 +203,8 @@ public class DBAccessHelper {
     }
     public void insertCategory(Category category) {
         ContentValues values = getAllCategoryContentValues(category);
-        writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
+        long db_id = writableDB.insert(DatabaseContract.DolphinColumns.CATEGORY_TABLE_NAME, null, values);
+        category.setDB_ID(db_id);
     }
     public void removeCategoryByID(long CATEGORY_DB_ID) {
         //form query
@@ -277,7 +278,8 @@ public class DBAccessHelper {
     }
     public void insertAssignment(Assignment assignment) {
         ContentValues values = getAllAssignmentContentValues(assignment);
-        writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
+        long db_id = writableDB.insert(DatabaseContract.DolphinColumns.ASSIGNMENT_TABLE_NAME, null, values);
+        assignment.setDB_ID(db_id);
     }
     public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
         //form query
@@ -308,9 +310,8 @@ public class DBAccessHelper {
 
     public List<Long> listUnstringify(String stringList){
         List<Long> UnstringifiedList = new LinkedList<>();
-        String[] parsedString = null;
         if(stringList != null){
-            parsedString = stringList.split(",");
+            String[] parsedString = stringList.split(",");
             for(int i = 0; i < parsedString.length; i++){
                 long convertedString = Long.parseLong(parsedString[i]);
                 UnstringifiedList.add(convertedString);
@@ -339,7 +340,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParent_DB_ID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParentDB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
         return values;
     }
@@ -349,7 +350,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDBID());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDB_ID());
         return values;
     }
 
