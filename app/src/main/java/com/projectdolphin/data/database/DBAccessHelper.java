@@ -292,8 +292,7 @@ public class DBAccessHelper {
         assignment.setDB_ID(db_id);
     }
     public void removeAssignmentByID(long ASSIGNMENT_DB_ID) {
-        //prep db
-        prepDBToRemoveAssignment(ASSIGNMENT_DB_ID);
+        Assignment removedAssignment = getAssignmentByID(ASSIGNMENT_DB_ID);
 
         //form query
         String whereClause = DatabaseContract.DolphinColumns._ID + " = ?";
@@ -305,6 +304,8 @@ public class DBAccessHelper {
                 whereClause,
                 whereArgs
         );
+
+        rippleDBAfterUpdating(removedAssignment);
     }
 
     //Helper methods to clean up insert and update methods
@@ -326,7 +327,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, category.getTitle());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, category.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, category.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, category.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, category.getParentDB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_ASSIGNMENT_IDS, AssignmentIdstring);
         return values;
@@ -336,7 +337,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TITLE, assignment.getTitle());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE, assignment.getGrade());
         values.put(DatabaseContract.DolphinColumns.COLUMN_WEIGHT, assignment.getWeight());
-        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentAsString());
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDB_ID());
         return values;
     }
@@ -479,9 +480,6 @@ public class DBAccessHelper {
     private void prepDBToRemoveCategory(final long DB_ID) {
         for(Assignment assignment : getAllAssignmentsForCategoryID(DB_ID))
             removeAssignmentByID(assignment.getDB_ID());
-    }
-    private void prepDBToRemoveAssignment(final long DB_ID) {
-        rippleDBAfterUpdating(getAssignmentByID(DB_ID));
     }
 
     private DolphinSQLiteOpenHelper openHelper;

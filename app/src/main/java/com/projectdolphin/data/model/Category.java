@@ -28,7 +28,7 @@ public class Category extends GradedDBItem {
 
     @Override
     public String getWeightAsString() {
-        return String.format("%.2f%%", getWeight());
+        return String.format("%.2f", getWeight());
     }
 
     public List<Long> getAssignmentsIDs() {

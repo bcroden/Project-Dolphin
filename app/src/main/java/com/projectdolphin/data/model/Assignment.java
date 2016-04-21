@@ -23,7 +23,7 @@ public class Assignment extends GradedDBItem {
 
     @Override
     public String getWeightAsString() {
-        return String.format("%.2f%%", getWeight());
+        return String.format("%.2f", getWeight());
     }
 
     private final long PARENT_DB_ID;

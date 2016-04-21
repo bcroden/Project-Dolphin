@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.data.model.GradedDBItem;
@@ -43,7 +44,12 @@ public class SaveErrorChecker {
     public static void processTimeSpentMillis(GradedDBItem item, EditText timeText, List<String> errors) {
         try {
             long timeSpentMillis = Long.parseLong(timeText.getText().toString());
-            item.setTimeSpentMillis(timeSpentMillis);
+            if(timeSpentMillis < 0)
+                errors.add("Time spent must be a positive number");
+            else {
+                item.setTimeSpentMillis(timeSpentMillis);
+                Toast.makeText(timeText.getContext(), Long.toString(timeSpentMillis), Toast.LENGTH_SHORT).show();
+            }
         } catch(NumberFormatException e) {
             errors.add("Grade must be a number");
         }

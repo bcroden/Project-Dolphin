@@ -37,8 +37,6 @@ public class SaveAssignmentActivity extends AppCompatActivity {
 
         List<String> errors = new LinkedList<>();
 
-        assignment.setTitle("foo");
-
         SaveErrorChecker.processTitle(assignment, (EditText) findViewById(R.id.save_assignment_title_field), errors);
         SaveErrorChecker.processWeight(assignment, (EditText) findViewById(R.id.save_assignment_weight_field), errors);
         SaveErrorChecker.processGrade(assignment, (EditText) findViewById(R.id.save_assignment_grade_field), errors);
