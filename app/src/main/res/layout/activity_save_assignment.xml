@@ -24,13 +24,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Assignment title:"
-                android:id="@+id/assignment_title_title"
+                android:id="@+id/save_assignment_title_view"
                 android:layout_weight="0.3" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/assignment_title"
+                android:id="@+id/save_assignment_title_field"
                 android:layout_weight="0.7" />
         </LinearLayout>
 
@@ -44,14 +44,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Assignment Grade:"
-                android:id="@+id/Assignment_grade_title"
+                android:id="@+id/save_assignment_grade_view"
                 android:layout_weight="0.37" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/Assignment_grade"
-                android:layout_weight="0.63" />
+                android:id="@+id/save_assignment_grade_field"
+                android:layout_weight="0.63"
+                android:inputType="numberSigned"/>
 
         </LinearLayout>
 
@@ -65,14 +66,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Assignment Weight:"
-                android:id="@+id/Assignment_weight_title"
+                android:id="@+id/save_assignment_weight_view"
                 android:layout_weight="0.37" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/Assignment_weight"
-                android:layout_weight="0.63" />
+                android:id="@+id/save_assignment_weight_field"
+                android:layout_weight="0.63"
+                android:inputType="numberDecimal"/>
 
         </LinearLayout>
 
@@ -86,14 +88,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Total Time Spent:"
-                android:id="@+id/assignment_timeSpent_title"
+                android:id="@+id/save_assignment_time_view"
                 android:layout_weight="0.45" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/assignment_timeSpent"
-                android:layout_weight="0.6" />
+                android:id="@+id/save_assignment_time_field"
+                android:layout_weight="0.6"
+                android:inputType="time"/>
 
         </LinearLayout>
 
@@ -108,8 +111,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_save"
-        app:layout_behavior="com.projectdolphin.layout.fab.ScrollAwareFABBehavior">
-
-    </android.support.design.widget.FloatingActionButton>
+        android:onClick="onAddAssignment"
+        app:layout_behavior="com.projectdolphin.layout.fab.ScrollAwareFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

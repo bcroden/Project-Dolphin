@@ -1,5 +1,6 @@
 package com.projectdolphin.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,9 @@ import android.widget.EditText;
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
 import com.projectdolphin.data.model.Assignment;
+import com.projectdolphin.data.model.Category;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class SaveAssignmentActivity extends AppCompatActivity {
@@ -18,35 +21,46 @@ public class SaveAssignmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_assignment);
+
+        long assignDB_ID = getIntent().getLongExtra(DBAccessHelper.ASSIGNMENT_DB_ID_INTENT_KEY, -1);
+        long parDB_ID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
+        if(assignDB_ID >= 0) {
+            isEditMode = true;
+            assignment = DBAccessHelper.getInstance(getApplicationContext()).getAssignmentByID(assignDB_ID);
+        } else if(parDB_ID >= 0) {
+            isEditMode = false;
+            assignment = new Assignment(parDB_ID, "Empty Assignment", 1.0);
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //toDoDB.close();
-    }
-
-    //Get the content
     public void onAddAssignment(View view) {
-        EditText myTimeSpent = (EditText) findViewById((R.id.class_timeSpent));
-        EditText myGrade = (EditText) findViewById((R.id.class_grade));
-        EditText myWeight = (EditText) findViewById(R.id.class_weight);
-        EditText myTitle = (EditText) findViewById(R.id.class_title);
 
-        String timeSpent = myTimeSpent.getText().toString();
-        String grade = myGrade.getText().toString();
-        String weight = myWeight.getText().toString();
-        String title = myTitle.getText().toString();
+        List<String> errors = new LinkedList<>();
 
-        Long longTimeSpentForDb = Long.parseLong(timeSpent);
-        Double floatGradeForDB = Double.parseDouble(grade);
-        Double floatWeightForDB = Double.parseDouble(weight);
-        List<Integer> assignmentIds = null;
-        long categoryID = 1; //Get the category Id from the intent
+        assignment.setTitle("foo");
+
+        SaveErrorChecker.processTitle(assignment, (EditText) findViewById(R.id.save_assignment_title_field), errors);
+        SaveErrorChecker.processWeight(assignment, (EditText) findViewById(R.id.save_assignment_weight_field), errors);
+        SaveErrorChecker.processGrade(assignment, (EditText) findViewById(R.id.save_assignment_grade_field), errors);
+        SaveErrorChecker.processTimeSpentMillis(assignment, (EditText) findViewById(R.id.save_assignment_time_field), errors);
+
+        if(!SaveErrorChecker.shouldContinue(errors, this))
+            return;
 
         //Need to udpate the parent categories' list of assignments here
-        DBAccessHelper.getInstance(getApplicationContext()).putAssignment(new Assignment(categoryID, longTimeSpentForDb, floatGradeForDB, floatWeightForDB, title));
+        DBAccessHelper.getInstance(getApplicationContext()).putAssignment(assignment);
 
+        if(!isEditMode) {
+            Category category = DBAccessHelper.getInstance(getApplicationContext()).getCategoryByID(assignment.getParentDB_ID());
+            category.getAssignmentsIDs().add(assignment.getDB_ID());
+            DBAccessHelper.getInstance(getApplicationContext()).putCategory(category);
+        }
+
+        Intent intent = new Intent(this, AssignmentViewActivity.class);
+        intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, assignment.getParentDB_ID());
+        startActivity(intent);
     }
 
+    private boolean isEditMode;
+    private Assignment assignment;
 }

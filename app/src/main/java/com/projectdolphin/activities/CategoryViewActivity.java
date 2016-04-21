@@ -5,15 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
-import com.projectdolphin.data.model.Assignment;
 import com.projectdolphin.data.model.Category;
-import com.projectdolphin.data.model.Class;
 import com.projectdolphin.layout.fab.ThreeFABMenu;
 import com.projectdolphin.layout.view.ListItemRecycleAdapter;
 
@@ -37,10 +37,9 @@ public class CategoryViewActivity extends AppCompatActivity {
         fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
         fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
-        List<Assignment> categories = new LinkedList<>();
-        _class = DBAccessHelper.getInstance(getApplicationContext())
-                                .getClassByID(getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1));
-        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllAssignmentsForCategoryID(_class.getDB_ID()));
+        classID = getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1);
+        List<Category> categories = new LinkedList<>();
+        categories.addAll(DBAccessHelper.getInstance(getApplicationContext()).getAllCategoriesForClassID(classID));
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.category_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -48,12 +47,25 @@ public class CategoryViewActivity extends AppCompatActivity {
         recyclerView.setAdapter(recycleAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.category_view_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.category_view_menu_view_class)
+            startActivity(new Intent(this, ClassViewActivity.class));
+        return false;
+    }
+
     private View.OnClickListener getAddFABOnClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CategoryViewActivity.this, SaveCategoryActivity.class);
-                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
                 startActivity(intent);
             }
         };
@@ -66,7 +78,7 @@ public class CategoryViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.EDIT.toString());
-                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
                 startActivity(intent);
             }
         };
@@ -79,7 +91,7 @@ public class CategoryViewActivity extends AppCompatActivity {
                 Intent intent = new Intent(CategoryViewActivity.this, SelectItemToModifyActivity.class);
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_DATA_LEVEL_INTENT_KEY, SelectItemToModifyActivity.DataLevel.CATEGORY.toString());
                 intent.putExtra(SelectItemToModifyActivity.SELECT_ITEM_TO_MODIFY_ACTION_MODE_INTENT_KEY, SelectItemToModifyActivity.ActionMode.DELETE.toString());
-                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, _class.getDB_ID());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, classID);
                 startActivity(intent);
             }
         };
@@ -97,5 +109,5 @@ public class CategoryViewActivity extends AppCompatActivity {
         };
     }
 
-    private Class _class;
+    private long classID;
 }

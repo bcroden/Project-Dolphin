@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/assignment_view_menu_view_classes"
+        android:title="@string/view_all_classes_menu_option"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/assignment_view_menu_view_categories"
+        android:title="@string/view_all_categories_menu_option"
+        app:showAsAction="never"/>
+</menu>

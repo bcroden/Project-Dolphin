@@ -3,4 +3,6 @@
     <string name="item_icon_desc">item_icon</string>
     <string name="title_activity_view">ViewActivity</string>
     <string name="title_activity_add_category">AddCategoryActivity</string>
+    <string name="view_all_classes_menu_option">View All Classes</string>
+    <string name="view_all_categories_menu_option">View All Categories</string>
 </resources>

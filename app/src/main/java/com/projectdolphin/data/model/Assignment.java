@@ -6,6 +6,9 @@ package com.projectdolphin.data.model;
  * @author Alex
  */
 public class Assignment extends GradedDBItem {
+    public Assignment(long parDB_id, String title, double weight) {
+        this(parDB_id, 0, 1.0, weight, title);
+    }
     public Assignment(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
         this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title);
     }
@@ -14,7 +17,7 @@ public class Assignment extends GradedDBItem {
         this.PARENT_DB_ID = PARENT_DB_ID;
     }
 
-    public final long getParentDBID() {
+    public final long getParentDB_ID() {
         return PARENT_DB_ID;
     }
 
