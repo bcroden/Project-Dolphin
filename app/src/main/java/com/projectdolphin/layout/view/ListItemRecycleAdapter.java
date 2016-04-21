@@ -46,7 +46,7 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
     public void onBindViewHolder(ViewHolder holder, int position) {
         DBListItem item = data.get(position);
         holder.titleText.setText(item.getTitle());
-        holder.gradeText.setText(String.format("%.2f", item.getGrade()));
+        holder.gradeText.setText(item.isGradeValid() ? String.format("%.2f", item.getGrade()) : "?");
         holder.timeText.setText(item.getTimeSpentAsString());
         holder.weightText.setText(item.getWeightAsString());
         holder.imageView.setImageResource(R.drawable.dolphin);

@@ -3,7 +3,9 @@ package com.projectdolphin.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.projectdolphin.R;
@@ -45,6 +47,9 @@ public class SaveAssignmentActivity extends AppCompatActivity {
         if(!SaveErrorChecker.shouldContinue(errors, this))
             return;
 
+        boolean isValid = ((CheckBox) findViewById(R.id.save_assignment_is_grade_valid_box)).isChecked();
+        assignment.setGradeValidity(isValid);
+
         //Need to udpate the parent categories' list of assignments here
         DBAccessHelper.getInstance(getApplicationContext()).putAssignment(assignment);
 
@@ -56,6 +61,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, AssignmentViewActivity.class);
         intent.putExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, assignment.getParentDB_ID());
+
         startActivity(intent);
     }
 

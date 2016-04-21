@@ -7,13 +7,13 @@ package com.projectdolphin.data.model;
  */
 public class Assignment extends GradedDBItem {
     public Assignment(long parDB_id, String title, double weight) {
-        this(parDB_id, 0, 1.0, weight, title);
+        this(parDB_id, 0, 1.0, weight, title, false);
     }
-    public Assignment(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
-        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title);
+    public Assignment(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, boolean isGradeValid) {
+        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, isGradeValid);
     }
-    public Assignment(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title) {
-        super(DB_ID, timeSpentMillis, grade, weight, title);
+    public Assignment(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, boolean isGradeValid) {
+        super(DB_ID, timeSpentMillis, grade, weight, title, isGradeValid);
         this.PARENT_DB_ID = PARENT_DB_ID;
     }
 
