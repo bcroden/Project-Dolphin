@@ -19,6 +19,8 @@ public class SaveErrorChecker {
         String title = titleText.getText().toString();
         if("".equals(title))
             errors.add("Please enter a title");
+        else if(title.length() > 18)
+            errors.add("Title must be less than 18 characters");
         else
             item.setTitle(title);
     }

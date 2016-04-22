@@ -60,6 +60,11 @@ public class AssignmentViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.assignment_view_menu, menu);
+        menu.getItem(0).setTitle(
+                DBAccessHelper.getInstance(getApplicationContext())
+                .getCategoryByID(categoryID)
+                .getTitle()
+        );
         return true;
     }
 

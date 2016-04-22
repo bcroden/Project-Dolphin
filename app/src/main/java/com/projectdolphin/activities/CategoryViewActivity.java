@@ -56,6 +56,11 @@ public class CategoryViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.category_view_menu, menu);
+        menu.getItem(0).setTitle(
+                DBAccessHelper.getInstance(getApplicationContext())
+                        .getClassByID(classID)
+                        .getTitle()
+        );
         return true;
     }
 
