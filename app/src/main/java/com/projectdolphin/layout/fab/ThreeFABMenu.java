@@ -31,7 +31,7 @@ public class ThreeFABMenu {
 
         //load the main FAB and set it onClick listener
         //This will always be the same
-        FloatingActionButton mainFAB = (FloatingActionButton) inflater.inflate(R.layout.three_fab_menu_main_fab, parent, true).findViewById(R.id.main_fab);
+        mainFAB = (FloatingActionButton) inflater.inflate(R.layout.three_fab_menu_main_fab, parent, true).findViewById(R.id.main_fab);
         mainFAB.setOnClickListener(getMainFabOnClickListener());
 
         fabs = new FAB[3];
@@ -81,8 +81,35 @@ public class ThreeFABMenu {
         fabs[DEL_FAB_INDEX].getFab().setOnClickListener(listener);
     }
 
+    public void emergencyHideMenu() {
+        for(FAB fab : fabs)
+            fab.getFab().setVisibility(View.GONE);
+        isFABMenuOut = false;
+    }
+    public void retractMenu() {
+        if(isFABMenuOut) {
+            //retract menu
+            for(FAB fab : fabs) {
+                fab.getFab().setVisibility(View.GONE);
+                fab.getFab().startAnimation(fab.getExit());
+            }
 
-    public View.OnClickListener getDefaultOnClickListener(final Context context) {
+            isFABMenuOut = false;
+        }
+    }
+    public void extendMenu() {
+        if(!isFABMenuOut) {
+            //extend menu
+            for(FAB fab : fabs) {
+                fab.getFab().setVisibility(View.VISIBLE);
+                fab.getFab().startAnimation(fab.getEnter());
+            }
+
+            isFABMenuOut = true;
+        }
+    }
+
+    private View.OnClickListener getDefaultOnClickListener(final Context context) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,21 +126,23 @@ public class ThreeFABMenu {
             @Override
             public void onClick(View v) {
                 if(isFABMenuOut) {
+                    retractMenu();
                     //retract menu
-                    for(FAB fab : fabs) {
-                        fab.getFab().setVisibility(View.GONE);
-                        fab.getFab().startAnimation(fab.getExit());
-                    }
-
-                    isFABMenuOut = false;
+//                    for(FAB fab : fabs) {
+//                        fab.getFab().setVisibility(View.GONE);
+//                        fab.getFab().startAnimation(fab.getExit());
+//                    }
+//
+//                    isFABMenuOut = false;
                 } else {
                     //extend menu
-                    for(FAB fab : fabs) {
-                        fab.getFab().setVisibility(View.VISIBLE);
-                        fab.getFab().startAnimation(fab.getEnter());
-                    }
-
-                    isFABMenuOut = true;
+                    extendMenu();
+//                    for(FAB fab : fabs) {
+//                        fab.getFab().setVisibility(View.VISIBLE);
+//                        fab.getFab().startAnimation(fab.getEnter());
+//                    }
+//
+//                    isFABMenuOut = true;
                 }
             }
         };
@@ -123,6 +152,7 @@ public class ThreeFABMenu {
     private final int ANIMATION_DURATION = 500;
     private final int ADD_FAB_INDEX = 0, EDIT_FAB_INDEX = 1, DEL_FAB_INDEX = 2;
     private FAB[] fabs;
+    private FloatingActionButton mainFAB;
 
     private class FAB {
         public FAB(FloatingActionButton fab, Animation enter, Animation exit) {

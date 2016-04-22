@@ -30,10 +30,10 @@ public class ClassViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //add the FloatingActionButton menu
-        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.class_view_layout));
-        fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
-        fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
-        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+        threeFABMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.class_view_layout));
+        threeFABMenu.setAddFABOnClickListener(getAddFABOnClickListener());
+        threeFABMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        threeFABMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
         List<com.projectdolphin.data.model.Class> classes = DBAccessHelper.getInstance(getApplicationContext()).getAllClasses();
 
@@ -41,6 +41,12 @@ public class ClassViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        threeFABMenu.emergencyHideMenu();
     }
 
     private View.OnClickListener getAddFABOnClickListener() {
@@ -88,4 +94,6 @@ public class ClassViewActivity extends AppCompatActivity {
             }
         };
     }
+
+    private ThreeFABMenu threeFABMenu;
 }
