@@ -32,10 +32,10 @@ public class CategoryViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_view);
 
         //add the FloatingActionButton menu
-        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.category_view_layout));
-        fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
-        fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
-        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+        threeFABMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.category_view_layout));
+        threeFABMenu.setAddFABOnClickListener(getAddFABOnClickListener());
+        threeFABMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        threeFABMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
         classID = getIntent().getLongExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, -1);
         List<Category> categories = new LinkedList<>();
@@ -48,8 +48,19 @@ public class CategoryViewActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        threeFABMenu.emergencyHideMenu();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.category_view_menu, menu);
+        menu.getItem(0).setTitle(
+                DBAccessHelper.getInstance(getApplicationContext())
+                        .getClassByID(classID)
+                        .getTitle()
+        );
         return true;
     }
 
@@ -110,4 +121,5 @@ public class CategoryViewActivity extends AppCompatActivity {
     }
 
     private long classID;
+    private ThreeFABMenu threeFABMenu;
 }

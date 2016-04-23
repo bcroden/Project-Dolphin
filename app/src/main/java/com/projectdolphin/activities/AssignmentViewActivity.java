@@ -36,10 +36,10 @@ public class AssignmentViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_assignment_view);
 
         //add the FloatingActionButton menu
-        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.assignment_view_layout));
-        fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
-        fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
-        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+        threeFABMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.assignment_view_layout));
+        threeFABMenu.setAddFABOnClickListener(getAddFABOnClickListener());
+        threeFABMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        threeFABMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
         categoryID = getIntent().getLongExtra(DBAccessHelper.CATEGORY_DB_ID_INTENT_KEY, -1);
         List<Assignment> assignments = new LinkedList<>();
@@ -47,13 +47,24 @@ public class AssignmentViewActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.assignment_view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new ListItemRecycleAdapter(assignments, getCardOnClickListener());
+        ListItemRecycleAdapter recycleAdapter = new ListItemRecycleAdapter(assignments, getCardOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        threeFABMenu.emergencyHideMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.assignment_view_menu, menu);
+        menu.getItem(0).setTitle(
+                DBAccessHelper.getInstance(getApplicationContext())
+                .getCategoryByID(categoryID)
+                .getTitle()
+        );
         return true;
     }
 
@@ -117,7 +128,5 @@ public class AssignmentViewActivity extends AppCompatActivity {
     }
 
     private long categoryID;
-    private List<DBListItem> items;
-    private ArrayAdapter<DBListItem> adapter;
-    private RecyclerView.Adapter recycleAdapter;
+    private ThreeFABMenu threeFABMenu;
 }

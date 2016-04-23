@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/category_view_menu_class_name"
+        android:title=""
+        android:enabled="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/category_view_menu_view_class"
         android:title="@string/view_all_classes_menu_option"
