@@ -12,6 +12,7 @@
     android:src="@android:drawable/ic_menu_add"
     android:visibility="gone"
     app:fabSize="mini"
+    app:backgroundTint="@color/colorMiniFab"
     app:layout_behavior="com.projectdolphin.layout.fab.ScrollAwareFABBehavior">
 
 </android.support.design.widget.FloatingActionButton>

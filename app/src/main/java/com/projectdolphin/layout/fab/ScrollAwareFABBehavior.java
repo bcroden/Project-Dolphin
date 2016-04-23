@@ -48,7 +48,10 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
 
                     }
                 });
-                fab.setVisibility(View.INVISIBLE);
+                if(fab.getId() == R.id.main_fab)
+                    fab.setVisibility(View.INVISIBLE);
+                else
+                    fab.setVisibility(View.GONE);
                 fab.startAnimation(animation);
                 //scrolling down so hide the fab
             } else if (dyConsumed < 0 && fab.getVisibility() != View.VISIBLE) {
