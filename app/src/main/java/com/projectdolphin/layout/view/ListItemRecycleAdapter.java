@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,30 +17,40 @@ import java.util.List;
  * @author Alex
  */
 public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerView.Adapter<ListItemRecycleAdapter.ViewHolder> {
-    public ListItemRecycleAdapter(List<? extends DBListItem> data, View.OnClickListener onClickListener) {
+    public ListItemRecycleAdapter(List<? extends DBListItem> data, View.OnClickListener cardClickListener) {
+        this(data, cardClickListener, null);
+    }
+    public ListItemRecycleAdapter(List<? extends DBListItem> data, View.OnClickListener cardClickListener, View.OnClickListener predictClickListener) {
         this.data = data;
-        this.onClickListener = onClickListener;
+        this.cardClickListener = cardClickListener;
+        this.predictClickListener = predictClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView titleText, gradeText, timeText, weightText, hiddenDB_ID;
-        public ViewHolder(View itemView, View.OnClickListener listener) {
+        public Button predictButton;
+        public ViewHolder(View itemView, View.OnClickListener cardClickListener, View.OnClickListener predictClickListener) {
             super(itemView);
-            itemView.setOnClickListener(listener);
+            itemView.setOnClickListener(cardClickListener);
             titleText = (TextView) itemView.findViewById(R.id.view_card_title);
             gradeText = (TextView) itemView.findViewById(R.id.view_card_grade);
             timeText = (TextView) itemView.findViewById(R.id.view_card_time);
             weightText = (TextView) itemView.findViewById(R.id.view_card_weight);
             imageView = (ImageView) itemView.findViewById(R.id.view_card_image);
             hiddenDB_ID = (TextView) itemView.findViewById(R.id.view_card_db_id);
+            predictButton = (Button) itemView.findViewById(R.id.view_card_predict_button);
+            if(predictClickListener != null) {
+                predictButton.setVisibility(View.VISIBLE);
+                predictButton.setOnClickListener(predictClickListener);
+            }
         }
     }
 
     @Override
     public ListItemRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_card, parent, false);
-        return new ViewHolder(v, onClickListener);
+        return new ViewHolder(v, cardClickListener, predictClickListener);
     }
 
     @Override
@@ -59,5 +70,5 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
     }
 
     private List<? extends DBListItem> data;
-    private View.OnClickListener onClickListener;
+    private View.OnClickListener cardClickListener, predictClickListener;
 }
