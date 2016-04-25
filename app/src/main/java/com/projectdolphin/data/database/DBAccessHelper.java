@@ -85,7 +85,7 @@ public class DBAccessHelper {
 
         List<Class> classes = new LinkedList<>();
 
-        if (cursor != null) {
+        if (cursor != null  && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 classes.add(getClassFromCursor(cursor));
             cursor.close();
@@ -103,7 +103,7 @@ public class DBAccessHelper {
 
         //process results
         Class _class = null;
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             _class = getClassFromCursor(cursor);
             cursor.close();
@@ -155,6 +155,8 @@ public class DBAccessHelper {
     //get all of the data which belongs to a particular class
     public ClassData getAllDataFor(long CLASS_DB_ID) {
         Class _class = getClassByID(CLASS_DB_ID);
+        if(_class == null)
+            return null;
 
         Map<Category, List<Assignment>> categoryListMap = new HashMap<>();
         for(long cat_db_id : _class.getCategoryIDs()) {
@@ -176,7 +178,7 @@ public class DBAccessHelper {
         //compile list
         List<Category> categories = new LinkedList<>();
 
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 categories.add(getCategoryFromCursor(cursor));
             cursor.close();
@@ -194,7 +196,7 @@ public class DBAccessHelper {
 
         //process results
         Category category = null;
-        if (cursor != null) {
+        if (cursor != null  && cursor.getCount() > 0) {
             cursor.moveToFirst();
             category = getCategoryFromCursor(cursor);
             cursor.close();
@@ -257,7 +259,7 @@ public class DBAccessHelper {
 
         //collect results
         List<Assignment> assignments = new LinkedList<>();
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 assignments.add(getAssignmentFromCursor(cursor));
             cursor.close();
@@ -274,7 +276,7 @@ public class DBAccessHelper {
 
         //collect result
         Assignment assignment = null;
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             assignment = getAssignmentFromCursor(cursor);
             cursor.close();

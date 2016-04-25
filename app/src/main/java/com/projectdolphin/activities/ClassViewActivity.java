@@ -40,7 +40,7 @@ public class ClassViewActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener(), getPredictBtnOnClickListener());
+        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener(), this, new Intent(this, predictDesiredGrade.class));
         recyclerView.setAdapter(recycleAdapter);
     }
 
@@ -84,19 +84,6 @@ public class ClassViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ClassViewActivity.this, CategoryViewActivity.class);
                 long db_id = Long.parseLong(((TextView) v.findViewById(R.id.view_card_db_id)).getText().toString());
-                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, db_id);
-                startActivity(intent);
-            }
-        };
-    }
-
-    private View.OnClickListener getPredictBtnOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Have this intent target the prediction activity
-                Intent intent = new Intent(ClassViewActivity.this, predictDesiredGrade.class);
-                long db_id = Long.parseLong(((TextView) v.getRootView().findViewById(R.id.view_card_db_id)).getText().toString());
                 intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, db_id);
                 startActivity(intent);
             }
