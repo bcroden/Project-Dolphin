@@ -23,6 +23,9 @@
         <activity android:name=".activities.SaveClassActivity" />
         <activity android:name=".activities.SaveAssignmentActivity" />
         <activity android:name=".activities.AssignmentViewActivity" />
+        <activity android:name=".activities.TimerActivity">
+
+        </activity>
     </application>
 
 </manifest>

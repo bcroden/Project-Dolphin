@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.projectdolphin.R;
@@ -122,7 +124,20 @@ public class AssignmentViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Hello", Toast.LENGTH_SHORT).show();
+                Log.i("BCR", "1");
+                String title = ((TextView)v.findViewById(R.id.view_card_title)).getText().toString();
+                Log.i("BCR", "2");
+                String id = ((TextView) v.findViewById(R.id.view_card_db_id)).getText().toString();
+                Log.i("BCR", "3");
+
+                Intent intent = new Intent(AssignmentViewActivity.this, TimerActivity.class);
+                Log.i("BCR", "4");
+                intent.putExtra(TimerActivity.ACTIVITY_TITLE, title);
+                Log.i("BCR", "5");
+                intent.putExtra(TimerActivity.ACTIVITY_ID, id);
+                Log.i("BCR", "6");
+                startActivity(intent);
+                Log.i("BCR", "7");
             }
         };
     }
