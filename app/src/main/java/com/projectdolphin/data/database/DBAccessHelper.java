@@ -162,7 +162,6 @@ public class DBAccessHelper {
             List<Assignment> assignments = getAllAssignmentsForCategoryID(cat_db_id);
             categoryListMap.put(category, assignments);
         }
-
         return new ClassData(_class, categoryListMap);
     }
 

@@ -95,7 +95,7 @@ public class ClassViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: Have this intent target the prediction activity
-                Intent intent = new Intent(ClassViewActivity.this, ClassViewActivity.class);
+                Intent intent = new Intent(ClassViewActivity.this, predictDesiredGrade.class);
                 long db_id = Long.parseLong(((TextView) v.getRootView().findViewById(R.id.view_card_db_id)).getText().toString());
                 intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, db_id);
                 startActivity(intent);
