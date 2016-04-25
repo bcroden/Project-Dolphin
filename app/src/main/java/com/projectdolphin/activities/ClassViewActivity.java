@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.projectdolphin.R;
 import com.projectdolphin.data.database.DBAccessHelper;
@@ -30,23 +31,17 @@ public class ClassViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //add the FloatingActionButton menu
-        threeFABMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.class_view_layout));
-        threeFABMenu.setAddFABOnClickListener(getAddFABOnClickListener());
-        threeFABMenu.setEditFABOnClickListener(getEditFABOnClickListener());
-        threeFABMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
+        ThreeFABMenu fabMenu = new ThreeFABMenu(this, (ViewGroup) findViewById(R.id.class_view_layout));
+        fabMenu.setAddFABOnClickListener(getAddFABOnClickListener());
+        fabMenu.setEditFABOnClickListener(getEditFABOnClickListener());
+        fabMenu.setDeleteFABOnClickListener(getDeleteFABOnClickListener());
 
         List<com.projectdolphin.data.model.Class> classes = DBAccessHelper.getInstance(getApplicationContext()).getAllClasses();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.view_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener());
+        RecyclerView.Adapter recycleAdapter = new ListItemRecycleAdapter(classes, getCardOnClickListener(), getPredictBtnOnClickListener());
         recyclerView.setAdapter(recycleAdapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        threeFABMenu.emergencyHideMenu();
     }
 
     private View.OnClickListener getAddFABOnClickListener() {
@@ -95,5 +90,16 @@ public class ClassViewActivity extends AppCompatActivity {
         };
     }
 
-    private ThreeFABMenu threeFABMenu;
+    private View.OnClickListener getPredictBtnOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Have this intent target the prediction activity
+                Intent intent = new Intent(ClassViewActivity.this, predictDesiredGrade.class);
+                long db_id = Long.parseLong(((TextView) v.getRootView().findViewById(R.id.view_card_db_id)).getText().toString());
+                intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, db_id);
+                startActivity(intent);
+            }
+        };
+    }
 }
