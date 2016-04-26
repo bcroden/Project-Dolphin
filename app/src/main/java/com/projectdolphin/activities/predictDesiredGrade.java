@@ -59,113 +59,128 @@ public class predictDesiredGrade extends AppCompatActivity {
         }
 
         ClassData classData = DBAccessHelper.getInstance(getApplicationContext()).getAllDataFor(db_id);
-        com.projectdolphin.data.model.Class classCalculatingFor = classData.getClassInfo();
-        Map<Category, List<Assignment>> categoryAssignmentMap = classData.getCategoryAssignmentMap();
-        double currentClassGrade = classCalculatingFor.getGrade();
+        if(db_id != -1) {
+            com.projectdolphin.data.model.Class classCalculatingFor = classData.getClassInfo();
+            Map<Category, List<Assignment>> categoryAssignmentMap = classData.getCategoryAssignmentMap();
+            if(categoryAssignmentMap != null && categoryAssignmentMap.size() != 0) {
+                double currentClassGrade = classCalculatingFor.getGrade();
 
-        //double pointsNeededForGrade = desiredClassGrade - currentClassGrade;
+                //double pointsNeededForGrade = desiredClassGrade - currentClassGrade;
 
-        double totalPoints = 0.0;
-        double currentPoints = 0.0;
-        ArrayList<PredictDisplayObject> allAssignments = new ArrayList<PredictDisplayObject>();
-        ArrayList<PredictDisplayObject> allKnownAssignments = new ArrayList<PredictDisplayObject>();
-        ArrayList<PredictDisplayObject> allUnknownAssignments = new ArrayList<PredictDisplayObject>();
-        ArrayList<PredictDisplayObject> Categories = new ArrayList<PredictDisplayObject>();
+                double totalPoints = 0.0;
+                double currentPoints = 0.0;
+                ArrayList<PredictDisplayObject> allAssignments = new ArrayList<PredictDisplayObject>();
+                ArrayList<PredictDisplayObject> allKnownAssignments = new ArrayList<PredictDisplayObject>();
+                ArrayList<PredictDisplayObject> allUnknownAssignments = new ArrayList<PredictDisplayObject>();
+                ArrayList<PredictDisplayObject> Categories = new ArrayList<PredictDisplayObject>();
 
-        for (Map.Entry<Category, List<Assignment>> entry : categoryAssignmentMap.entrySet())
-        {
-            Category keyCategory = entry.getKey();
-            List<Assignment> valueList = entry.getValue();
+                for (Map.Entry<Category, List<Assignment>> entry : categoryAssignmentMap.entrySet()) {
+                    Category keyCategory = entry.getKey();
+                    List<Assignment> valueList = entry.getValue();
 
-            //Compute the Categories' grade/minute
-            double gradePerMin = keyCategory.getGrade()/(((keyCategory.getTimeSpentMillis())/1000)/60);
+                    //Compute the Categories' grade/minute
+                    double gradePerMin = keyCategory.getGrade() / (((keyCategory.getTimeSpentMillis()) / 1000) / 60);
 
-            //System.out.println("!!!!!!!!!!!!!!!!!!!!! cateogry title is " + keyCategory.getTitle());
-            for(Assignment assignment : valueList){
-                PredictDisplayObject displayAssignment = new PredictDisplayObject();
-                displayAssignment.title = assignment.getTitle();
-                displayAssignment.parentCategory = keyCategory.getTitle();
-                displayAssignment.gradesPerMinute = gradePerMin;
-                displayAssignment.weightInClass = (assignment.getWeight() * keyCategory.getWeight())/100;
+                    //System.out.println("!!!!!!!!!!!!!!!!!!!!! cateogry title is " + keyCategory.getTitle());
+                    for (Assignment assignment : valueList) {
+                        PredictDisplayObject displayAssignment = new PredictDisplayObject();
+                        displayAssignment.title = assignment.getTitle();
+                        displayAssignment.parentCategory = keyCategory.getTitle();
+                        displayAssignment.gradesPerMinute = gradePerMin;
+                        displayAssignment.weightInClass = (assignment.getWeight() * keyCategory.getWeight()) / 100;
 
-                //Calculate the total points in the entire class from the assignment level
-                if(totalPoints == 0){totalPoints = assignment.getWeight();
-                }else{totalPoints = totalPoints + assignment.getWeight();}
+                        //Calculate the total points in the entire class from the assignment level
+                        if (totalPoints == 0) {
+                            totalPoints = assignment.getWeight();
+                        } else {
+                            totalPoints = totalPoints + assignment.getWeight();
+                        }
 
-                //Add the assignment to the appropriate list based on if the grade is known
-                if(assignment.isGradeValid() == false){
-                    allUnknownAssignments.add(displayAssignment);
-                    allAssignments.add(displayAssignment);
-                }else{
-                    //System.out.println("current 1st are " + currentPoints);
-                    if(currentPoints == 0) {currentPoints = assignment.getGrade();
-                    }else{currentPoints = currentPoints + (assignment.getGrade()/100.0) * assignment.getWeight();}
-                    //System.out.println("Current 2nd are " + currentPoints);
-                    //System.out.println("get grade is " + (assignment.getGrade() + "get weight is " + assignment.getWeight()));
-                    allKnownAssignments.add(displayAssignment);
-                    allAssignments.add(displayAssignment);
-                }
-            }
-        }
-
-        double pointsNeededForGrade = desiredClassGrade - ((currentPoints/totalPoints)*100.0);
-
-        //If we won't already get the grade by getting all 0's
-        if(pointsNeededForGrade > 0) {
-            //Sort the list by grades per min
-            allUnknownAssignments = rankByGradePerMin(allUnknownAssignments);
-
-            //Calculate predicted grade for each assignment
-            for (int i = 0; i < allUnknownAssignments.size(); i++) {
-                PredictDisplayObject assignmentToDo = allUnknownAssignments.get(i);
-                if (pointsNeededForGrade > assignmentToDo.weightInClass) {
-                    allUnknownAssignments.get(i).predictedGrade = assignmentToDo.weightInClass;
-                    pointsNeededForGrade = pointsNeededForGrade - assignmentToDo.weightInClass;
-                } else {
-                    allUnknownAssignments.get(i).predictedGrade = pointsNeededForGrade;
-                    pointsNeededForGrade = 0;
-                }
-            }
-            if (pointsNeededForGrade != 0 || desiredClassGrade < 0) {
-                Toast toast = Toast.makeText(this, "Your desired Grade cannot be reached", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            HashMap<String, Integer> isCategory = new HashMap<>();
-            //For each assignment calculate minutes needed studying and link it to its parent category
-            for (int i = 0; i < allUnknownAssignments.size(); i++) {
-                PredictDisplayObject tempCategory = new PredictDisplayObject();
-                PredictDisplayObject tempAssignment = allUnknownAssignments.get(i);
-                double minutesStudying = ((tempAssignment.predictedGrade / tempAssignment.weightInClass) * 100) / tempAssignment.gradesPerMinute;
-                allUnknownAssignments.get(i).minutesStudying = minutesStudying;
-                tempCategory.title = tempAssignment.parentCategory;
-                tempCategory.minutesStudying = tempAssignment.minutesStudying;
-                tempCategory.predictedGrade = tempAssignment.predictedGrade;
-                tempCategory.index = i;
-                if (!isCategory.containsKey(tempCategory.title)) {
-                    isCategory.put(tempCategory.title, tempCategory.index);
-                    Categories.add(tempCategory);
-                } else {
-                    Categories.get(isCategory.get(tempCategory.title)).minutesStudying =
-                            Categories.get(isCategory.get(tempCategory.title)).minutesStudying + tempAssignment.minutesStudying;
-                    Categories.get(isCategory.get(tempCategory.title)).predictedGrade =
-                            Categories.get(isCategory.get(tempCategory.title)).predictedGrade + tempAssignment.predictedGrade;
-                }
-            }
-
-            //For each category and assignment, add them to the list view
-            for (PredictDisplayObject tempCat : Categories) {
-                values.add("Category: " + tempCat.title + "\nTotal Time Studying: " + (int) tempCat.minutesStudying + " minutes");
-                for (PredictDisplayObject tempAssign : allUnknownAssignments) {
-                    if (tempAssign.parentCategory == tempCat.title) {
-                        values.add("     Assignment: " + tempAssign.title + "\n     Time Studying: " + (int) tempAssign.minutesStudying
-                                + " minutes\n     Expected Grade: " + (int) ((tempAssign.predictedGrade / tempAssign.weightInClass) * 100));
+                        //Add the assignment to the appropriate list based on if the grade is known
+                        if (assignment.isGradeValid() == false) {
+                            allUnknownAssignments.add(displayAssignment);
+                            allAssignments.add(displayAssignment);
+                        } else {
+                            //System.out.println("current 1st are " + currentPoints);
+                            if (currentPoints == 0) {
+                                currentPoints = assignment.getGrade();
+                            } else {
+                                currentPoints = currentPoints + (assignment.getGrade() / 100.0) * assignment.getWeight();
+                            }
+                            //System.out.println("Current 2nd are " + currentPoints);
+                            //System.out.println("get grade is " + (assignment.getGrade() + "get weight is " + assignment.getWeight()));
+                            allKnownAssignments.add(displayAssignment);
+                            allAssignments.add(displayAssignment);
+                        }
                     }
                 }
+
+                double pointsNeededForGrade = desiredClassGrade - ((currentPoints / totalPoints) * 100.0);
+
+                //If we won't already get the grade by getting all 0's
+                if (pointsNeededForGrade > 0) {
+                    //Sort the list by grades per min
+                    allUnknownAssignments = rankByGradePerMin(allUnknownAssignments);
+
+                    //Calculate predicted grade for each assignment
+                    for (int i = 0; i < allUnknownAssignments.size(); i++) {
+                        PredictDisplayObject assignmentToDo = allUnknownAssignments.get(i);
+                        if (pointsNeededForGrade > assignmentToDo.weightInClass) {
+                            allUnknownAssignments.get(i).predictedGrade = assignmentToDo.weightInClass;
+                            pointsNeededForGrade = pointsNeededForGrade - assignmentToDo.weightInClass;
+                        } else {
+                            allUnknownAssignments.get(i).predictedGrade = pointsNeededForGrade;
+                            pointsNeededForGrade = 0;
+                        }
+                    }
+                    if (pointsNeededForGrade != 0 || desiredClassGrade < 0) {
+                        Toast toast = Toast.makeText(this, "Your desired Grade cannot be reached", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    HashMap<String, Integer> isCategory = new HashMap<>();
+                    //For each assignment calculate minutes needed studying and link it to its parent category
+                    for (int i = 0; i < allUnknownAssignments.size(); i++) {
+                        PredictDisplayObject tempCategory = new PredictDisplayObject();
+                        PredictDisplayObject tempAssignment = allUnknownAssignments.get(i);
+                        double minutesStudying = ((tempAssignment.predictedGrade / tempAssignment.weightInClass) * 100) / tempAssignment.gradesPerMinute;
+                        allUnknownAssignments.get(i).minutesStudying = minutesStudying;
+                        tempCategory.title = tempAssignment.parentCategory;
+                        tempCategory.minutesStudying = tempAssignment.minutesStudying;
+                        tempCategory.predictedGrade = tempAssignment.predictedGrade;
+                        tempCategory.index = i;
+                        if (!isCategory.containsKey(tempCategory.title)) {
+                            isCategory.put(tempCategory.title, tempCategory.index);
+                            Categories.add(tempCategory);
+                        } else {
+                            Categories.get(isCategory.get(tempCategory.title)).minutesStudying =
+                                    Categories.get(isCategory.get(tempCategory.title)).minutesStudying + tempAssignment.minutesStudying;
+                            Categories.get(isCategory.get(tempCategory.title)).predictedGrade =
+                                    Categories.get(isCategory.get(tempCategory.title)).predictedGrade + tempAssignment.predictedGrade;
+                        }
+                    }
+
+                    //For each category and assignment, add them to the list view
+                    for (PredictDisplayObject tempCat : Categories) {
+                        values.add("Category: " + tempCat.title + "\nTotal Time Studying: " + (int) tempCat.minutesStudying + " minutes");
+                        for (PredictDisplayObject tempAssign : allUnknownAssignments) {
+                            if (tempAssign.parentCategory == tempCat.title) {
+                                values.add("     Assignment: " + tempAssign.title + "\n     Time Studying: " + (int) tempAssign.minutesStudying
+                                        + " minutes\n     Expected Grade: " + (int) ((tempAssign.predictedGrade / tempAssign.weightInClass) * 100));
+                            }
+                        }
+                    }
+                } else {
+                    values.add("You do not have to do any more work in order to get your desired grade");
+                }
+                adapter.notifyDataSetChanged();
+            }else{
+                Toast toast = Toast.makeText(this, "You do not have any information saved for your class", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }else{
-            values.add("You do not have to do any more work in order to get your desired grade");
+            Toast toast = Toast.makeText(this, "It seems that your class was not saved properly. Please delete and try again", Toast.LENGTH_SHORT);
+            toast.show();
         }
-        adapter.notifyDataSetChanged();
     }
 
     public ArrayList<PredictDisplayObject> rankByGradePerMin(ArrayList<PredictDisplayObject> unrankedList){
