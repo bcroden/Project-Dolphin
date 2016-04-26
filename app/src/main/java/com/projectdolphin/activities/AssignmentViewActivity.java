@@ -124,20 +124,14 @@ public class AssignmentViewActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("BCR", "1");
                 String title = ((TextView)v.findViewById(R.id.view_card_title)).getText().toString();
-                Log.i("BCR", "2");
                 String id = ((TextView) v.findViewById(R.id.view_card_db_id)).getText().toString();
-                Log.i("BCR", "3");
 
                 Intent intent = new Intent(AssignmentViewActivity.this, TimerActivity.class);
-                Log.i("BCR", "4");
                 intent.putExtra(TimerActivity.ACTIVITY_TITLE, title);
-                Log.i("BCR", "5");
                 intent.putExtra(TimerActivity.ACTIVITY_ID, id);
-                Log.i("BCR", "6");
+
                 startActivity(intent);
-                Log.i("BCR", "7");
             }
         };
     }

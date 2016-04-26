@@ -25,12 +25,15 @@ public class TimerActivity extends AppCompatActivity {
 
     private long startTime;
     private long elapsedTime;
+    private long existingTime;
 
     private Handler mHandler;
     private Runnable startTimer;
 
     private DBAccessHelper db;
     private long assignmentId;
+
+    private Assignment assignment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,10 @@ public class TimerActivity extends AppCompatActivity {
             public void run() {
                 elapsedTime = System.currentTimeMillis() - startTime;
                 updateTimer(elapsedTime);
+                Log.i("BCR", "========================");
+                Log.i("BCR", "startTime: " + startTime);
+                Log.i("BCR", "elapsedTime: " + elapsedTime);
+                Log.i("BCR", "existingTime: " + existingTime);
                 mHandler.postDelayed(this, 100);
             }
         };
@@ -56,40 +63,47 @@ public class TimerActivity extends AppCompatActivity {
 
         Log.i("BCR", intent.getStringExtra(ACTIVITY_TITLE));
 
-//        assignmentId = Long.parseLong(intent.getStringExtra(ACTIVITY_ID));
-//        Assignment assignment = db.getAssignmentByID(assignmentId);
-//        elapsedTime = assignment.getTimeSpentMillis();
+        assignmentId = Long.parseLong(intent.getStringExtra(ACTIVITY_ID));
+        assignment = db.getAssignmentByID(assignmentId);
+        existingTime = assignment.getTimeSpentMillis();
+
+        Log.i("BCR", "Existing: " + existingTime);
 
         startTime = intent.getLongExtra(START_TIME, -1);
-//        startTime = System.currentTimeMillis()-(9900*60*60);
 
-        if(startTime == -1) {
-            startTime = System.currentTimeMillis();
-        }
-        else {
+        if (startTime != -1) {
             showStopButton();
+
+            startTime = System.currentTimeMillis();
+
             mHandler.removeCallbacks(startTimer);
             mHandler.postDelayed(startTimer, 0);
         }
+
+        startTime = System.currentTimeMillis();
+
+        updateTimer(0);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
+        assignment.setTimeSpentMillis(existingTime+elapsedTime);
 
+        db.putAssignment(assignment);
     }
 
     public void onResetTimer(View view) {
-        timerView.setText(R.string.timer_default_text);
-
-        startTime = System.currentTimeMillis();
+        elapsedTime = 0;
+        updateTimer(0);
     }
 
     public void onStartTimer(View view) {
         showStopButton();
 
-        startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis() - elapsedTime;
+
         mHandler.removeCallbacks(startTimer);
         mHandler.postDelayed(startTimer, 0);
     }
@@ -97,11 +111,13 @@ public class TimerActivity extends AppCompatActivity {
     public void onStopTimer(View view) {
         showStartButton();
 
-        startTime = System.currentTimeMillis() - elapsedTime;
+        startTime = System.currentTimeMillis();
+
         mHandler.removeCallbacks(startTimer);
     }
 
     private void updateTimer(float time) {
+        time += existingTime;
         long secs = (long) (time / 1000);
         long mins = secs / 60;
         long hrs = mins / 60;
