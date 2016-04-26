@@ -133,10 +133,6 @@ public class predictDesiredGrade extends AppCompatActivity {
                             pointsNeededForGrade = 0;
                         }
                     }
-                    if (pointsNeededForGrade != 0 || desiredClassGrade < 0) {
-                        Toast toast = Toast.makeText(this, "Your desired Grade cannot be reached", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
                     HashMap<String, Integer> isCategory = new HashMap<>();
                     //For each assignment calculate minutes needed studying and link it to its parent category
                     for (int i = 0; i < allUnknownAssignments.size(); i++) {
@@ -160,26 +156,30 @@ public class predictDesiredGrade extends AppCompatActivity {
                     }
 
                     //For each category and assignment, add them to the list view
-                    for (PredictDisplayObject tempCat : Categories) {
-                        values.add("Category: " + tempCat.title + "\nTotal Time Studying: " + (int) tempCat.minutesStudying + " minutes");
-                        for (PredictDisplayObject tempAssign : allUnknownAssignments) {
-                            if (tempAssign.parentCategory == tempCat.title) {
-                                values.add("     Assignment: " + tempAssign.title + "\n     Time Studying: " + (int) tempAssign.minutesStudying
-                                        + " minutes\n     Expected Grade: " + (int) ((tempAssign.predictedGrade / tempAssign.weightInClass) * 100));
+                    if(!(pointsNeededForGrade != 0 || desiredClassGrade < 0)) {
+                        for (PredictDisplayObject tempCat : Categories) {
+                            values.add("Category: " + tempCat.title + "\nTotal Time Studying: " + (int) tempCat.minutesStudying + " minutes");
+                            for (PredictDisplayObject tempAssign : allUnknownAssignments) {
+                                if (tempAssign.parentCategory == tempCat.title) {
+                                    values.add("     Assignment: " + tempAssign.title + "\n     Time Studying: " + (int) tempAssign.minutesStudying
+                                            + " minutes\n     Expected Grade: " + (int) ((tempAssign.predictedGrade / tempAssign.weightInClass) * 100));
+                                }
                             }
                         }
+                    } else {
+                        values.add("Your desired Grade cannot be reached");
                     }
-                } else {
+                }else{
                     values.add("You do not have to do any more work in order to get your desired grade");
                 }
                 adapter.notifyDataSetChanged();
             }else{
-                Toast toast = Toast.makeText(this, "You do not have any information saved for your class", Toast.LENGTH_SHORT);
-                toast.show();
+                values.add("You do not have any information saved for your class");
+                adapter.notifyDataSetChanged();
             }
         }else{
-            Toast toast = Toast.makeText(this, "It seems that your class was not saved properly. Please delete and try again", Toast.LENGTH_SHORT);
-            toast.show();
+            values.add("It seems that your class was not saved properly. Please delete and try again");
+            adapter.notifyDataSetChanged();
         }
     }
 

@@ -55,7 +55,7 @@ public class ListItemRecycleAdapter extends android.support.v7.widget.RecyclerVi
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, hiddenDB_ID.getText().toString());
+                    intent.putExtra(DBAccessHelper.CLASS_DB_ID_INTENT_KEY, Long.parseLong(hiddenDB_ID.getText().toString()));
                     activity.startActivity(intent);
                 }
             };
