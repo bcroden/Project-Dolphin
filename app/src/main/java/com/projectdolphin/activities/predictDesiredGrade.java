@@ -81,7 +81,6 @@ public class predictDesiredGrade extends AppCompatActivity {
                     //Compute the Categories' grade/minute
                     double gradePerMin = keyCategory.getGrade() / (((keyCategory.getTimeSpentMillis()) / 1000) / 60);
 
-                    //System.out.println("!!!!!!!!!!!!!!!!!!!!! cateogry title is " + keyCategory.getTitle());
                     for (Assignment assignment : valueList) {
                         PredictDisplayObject displayAssignment = new PredictDisplayObject();
                         displayAssignment.title = assignment.getTitle();
@@ -107,8 +106,6 @@ public class predictDesiredGrade extends AppCompatActivity {
                             } else {
                                 currentPoints = currentPoints + (assignment.getGrade() / 100.0) * assignment.getWeight();
                             }
-                            //System.out.println("Current 2nd are " + currentPoints);
-                            //System.out.println("get grade is " + (assignment.getGrade() + "get weight is " + assignment.getWeight()));
                             allKnownAssignments.add(displayAssignment);
                             allAssignments.add(displayAssignment);
                         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -159,7 +160,17 @@ public class DBAccessHelper {
             return null;
 
         Map<Category, List<Assignment>> categoryListMap = new HashMap<>();
-        for(long cat_db_id : _class.getCategoryIDs()) {
+
+        ArrayList<Long> listOfCatIds = new ArrayList<Long>();
+
+        //Put all the Categories in an ArrayList so they can be sorted
+        for(long cat_db_id : _class.getCategoryIDs()){
+            listOfCatIds.add(cat_db_id);
+        }
+
+        listOfCatIds = arrangeAlphabetically(listOfCatIds);
+
+        for(long cat_db_id : listOfCatIds) {
             Category category = getCategoryByID(cat_db_id);
             List<Assignment> assignments = getAllAssignmentsForCategoryID(cat_db_id);
             categoryListMap.put(category, assignments);
@@ -393,9 +404,9 @@ public class DBAccessHelper {
                 columns,
                 selection,
                 selectionArgs,
+                DatabaseContract.DolphinColumns.COLUMN_TITLE,
                 null,
-                null,
-                null
+                DatabaseContract.DolphinColumns.COLUMN_TITLE
         );
     }
 
@@ -519,6 +530,29 @@ public class DBAccessHelper {
     private void prepDBToRemoveCategory(final long DB_ID) {
         for(Assignment assignment : getAllAssignmentsForCategoryID(DB_ID))
             removeAssignmentByID(assignment.getDB_ID());
+    }
+
+    private ArrayList<Long> arrangeAlphabetically(ArrayList<Long> listToArrange){
+
+        ArrayList<Long> sortedList = new ArrayList<>();
+        while(listToArrange.size() != 0) {
+            int indexOfMax = 0;
+            long maxLong = 0;
+            for (int i = 0; i < listToArrange.size(); i++) {
+                if (indexOfMax == 0) {
+                    indexOfMax = i;
+                    maxLong = listToArrange.get(i);
+                } else if (listToArrange.get(i) > maxLong) {
+                    indexOfMax = i;
+                    maxLong = listToArrange.get(i);
+                }
+            }
+            sortedList.add(listToArrange.get(indexOfMax));
+            listToArrange.remove(indexOfMax);
+        }
+
+
+        return sortedList;
     }
 
     private DolphinSQLiteOpenHelper openHelper;
