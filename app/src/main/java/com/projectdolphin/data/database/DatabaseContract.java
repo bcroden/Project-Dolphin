@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public final class DatabaseContract {
 
-    public static final int    DATABASE_VERSION    = 2;
+    public static final int    DATABASE_VERSION    = 3;
     public static final String DATABASE_NAME       = "dolphin.db";
     public static final String TEXT_TYPE           = " TEXT";
     public static final String COMMA_SEP           = ", ";
@@ -27,6 +27,7 @@ public final class DatabaseContract {
         public static final String COLUMN_PARENT_ID = "parentId";
         public static final String COLUMN_ASSIGNMENT_IDS = "assignmentIds";
         public static final String COLUMN_CATEGORY_IDS = "categoryIds";
+        public static final String COLUMN_TIMER_START_TIME = "timerStartTime";
 
         public static final String CREATE_CLASS_TABLE =
                 "CREATE TABLE " + CLASS_TABLE_NAME + " ("
@@ -57,7 +58,8 @@ public final class DatabaseContract {
                         + COLUMN_WEIGHT + TEXT_TYPE + COMMA_SEP
                         + COLUMN_TIMESPENT + TEXT_TYPE + COMMA_SEP
                         + COLUMN_PARENT_ID + " INTEGER not null" + COMMA_SEP
-                        + COLUMN_GRADE_VALIDITY + " INTEGER" + ")";
+                        + COLUMN_GRADE_VALIDITY + " INTEGER" + COMMA_SEP
+                        + COLUMN_TIMER_START_TIME + " INTEGER" + ")";
 
 
         public static final String DELETE_CLASS_TABLE = "DROP TABLE IF EXISTS " + CLASS_TABLE_NAME;

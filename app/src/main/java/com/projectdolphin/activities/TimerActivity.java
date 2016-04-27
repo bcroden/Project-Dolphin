@@ -31,7 +31,6 @@ public class TimerActivity extends AppCompatActivity {
     private Runnable startTimer;
 
     private DBAccessHelper db;
-    private long assignmentId;
 
     private Assignment assignment;
 
@@ -63,24 +62,25 @@ public class TimerActivity extends AppCompatActivity {
 
         Log.i("BCR", intent.getStringExtra(ACTIVITY_TITLE));
 
-        assignmentId = Long.parseLong(intent.getStringExtra(ACTIVITY_ID));
+        long assignmentId = Long.parseLong(intent.getStringExtra(ACTIVITY_ID));
         assignment = db.getAssignmentByID(assignmentId);
         existingTime = assignment.getTimeSpentMillis();
+        startTime = assignment.getTimerStartTime();
 
-        Log.i("BCR", "Existing: " + existingTime);
+        Log.i("BCR", "Start: " + assignment.getTimerStartTime());
 
-        startTime = intent.getLongExtra(START_TIME, -1);
+//        startTime = intent.getLongExtra(START_TIME, -1);
 
         if (startTime != -1) {
             showStopButton();
 
-            startTime = System.currentTimeMillis();
+//            startTime = System.currentTimeMillis();
 
             mHandler.removeCallbacks(startTimer);
             mHandler.postDelayed(startTimer, 0);
         }
 
-        startTime = System.currentTimeMillis();
+//        startTime = System.currentTimeMillis();
 
         updateTimer(0);
     }
@@ -89,14 +89,19 @@ public class TimerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        assignment.setTimeSpentMillis(existingTime+elapsedTime);
+        assignment.setTimeSpentMillis(existingTime + elapsedTime);
+        assignment.setTimerStartTime(startTime);
+
+        mHandler.removeCallbacks(startTimer);
 
         db.putAssignment(assignment);
     }
 
     public void onResetTimer(View view) {
+        startTime = System.currentTimeMillis();
         elapsedTime = 0;
-        updateTimer(0);
+
+        updateTimer(elapsedTime);
     }
 
     public void onStartTimer(View view) {
@@ -111,9 +116,13 @@ public class TimerActivity extends AppCompatActivity {
     public void onStopTimer(View view) {
         showStartButton();
 
-        startTime = System.currentTimeMillis();
+        startTime = -1;
 
         mHandler.removeCallbacks(startTimer);
+
+        assignment.setTimeSpentMillis(existingTime+elapsedTime);
+        assignment.setTimerStartTime(startTime);
+        db.putAssignment(assignment);
     }
 
     private void updateTimer(float time) {

@@ -35,7 +35,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
             ((CheckBox) findViewById(R.id.save_assignment_is_grade_valid_box)).setChecked(assignment.isGradeValid());
         } else if(parDB_ID >= 0) {
             isEditMode = false;
-            assignment = new Assignment(parDB_ID, "Empty Assignment", 1.0);
+            assignment = new Assignment(parDB_ID, "Empty Assignment", 1.0, -1);
         }
     }
 

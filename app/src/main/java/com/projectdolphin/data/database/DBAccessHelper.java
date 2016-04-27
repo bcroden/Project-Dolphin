@@ -63,7 +63,8 @@ public class DBAccessHelper {
                 DatabaseContract.DolphinColumns.COLUMN_GRADE,
                 DatabaseContract.DolphinColumns.COLUMN_TIMESPENT,
                 DatabaseContract.DolphinColumns.COLUMN_PARENT_ID,
-                DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY
+                DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY,
+                DatabaseContract.DolphinColumns.COLUMN_TIMER_START_TIME
         };
     }
     private static DBAccessHelper instance;
@@ -361,6 +362,7 @@ public class DBAccessHelper {
         values.put(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT, assignment.getTimeSpentMillis());
         values.put(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID, assignment.getParentDB_ID());
         values.put(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY, assignment.isGradeValid() ? 1 : 0);
+        values.put(DatabaseContract.DolphinColumns.COLUMN_TIMER_START_TIME, assignment.getTimerStartTime());
         return values;
     }
 
@@ -427,7 +429,8 @@ public class DBAccessHelper {
         long timeSpent = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMESPENT));
         long parentDB_ID = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_PARENT_ID));
         boolean isGradeValid = cursor.getInt(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_GRADE_VALIDITY)) > 0;
-        return new Assignment(db_id, parentDB_ID, timeSpent, grade, weight, title, isGradeValid);
+        long timerStartTime = cursor.getLong(cursor.getColumnIndex(DatabaseContract.DolphinColumns.COLUMN_TIMER_START_TIME));
+        return new Assignment(db_id, parentDB_ID, timeSpent, grade, weight, title, isGradeValid, timerStartTime);
     }
     public String listStringify(List<Long> listToStringify) {
         String stringifiedList = null;
