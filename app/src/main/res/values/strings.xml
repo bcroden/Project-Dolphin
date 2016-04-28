@@ -5,4 +5,9 @@
     <string name="title_activity_add_category">AddCategoryActivity</string>
     <string name="view_all_classes_menu_option">View All Classes</string>
     <string name="view_all_categories_menu_option">View All Categories</string>
+    <string name="assignment_weight_desc">Assignment Weight (Points):</string>
+    <string name="assignment_title_desc">Assignment title:</string>
+    <string name="total_time_spent_desc">Total Time Spent (minutes):</string>
+    <string name="assignment_grade_desc">Assignment Grade (%):</string>
+    <string name="grade_is_known_checkbox_desc">Grade is known</string>
 </resources>

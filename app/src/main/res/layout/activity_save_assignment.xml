@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!--Title Info-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Assignment title:"
+                android:text="@string/assignment_title_desc"
                 android:id="@+id/save_assignment_title_view"
                 android:layout_weight="0.3" />
 
@@ -34,40 +35,18 @@
                 android:layout_weight="0.7" />
         </LinearLayout>
 
+        <!--Weight Info-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Assignment Grade:"
-                android:id="@+id/save_assignment_grade_view"
-                android:layout_weight="0.37" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_assignment_grade_field"
-                android:layout_weight="0.63"
-                android:inputType="numberSigned|numberDecimal"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Assignment Weight:"
+                android:text="@string/assignment_weight_desc"
                 android:id="@+id/save_assignment_weight_view"
-                android:layout_weight="0.37" />
+                android:layout_weight="0.7" />
 
             <EditText
                 android:layout_width="0dp"
@@ -78,18 +57,18 @@
 
         </LinearLayout>
 
+        <!--Time Info-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Total Time Spent:"
+                android:text="@string/total_time_spent_desc"
                 android:id="@+id/save_assignment_time_view"
-                android:layout_weight="0.45" />
+                android:layout_weight="0.6" />
 
             <EditText
                 android:layout_width="0dp"
@@ -100,11 +79,35 @@
 
         </LinearLayout>
 
+        <!--Grade Info-->
+        <LinearLayout
+            android:id="@+id/save_assignment_grade_entry_form"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/assignment_grade_desc"
+                android:id="@+id/save_assignment_grade_view"
+                android:layout_weight="0.45" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_assignment_grade_field"
+                android:layout_weight="0.63"
+                android:inputType="numberSigned|numberDecimal"/>
+
+        </LinearLayout>
         <CheckBox
             android:id="@+id/save_assignment_is_grade_valid_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grade is known"/>
+            android:text="@string/grade_is_known_checkbox_desc"/>
 
     </LinearLayout>
 
