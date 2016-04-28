@@ -45,11 +45,12 @@ public class SaveErrorChecker {
     }
     public static void processTimeSpentMillis(GradedDBItem item, EditText timeText, List<String> errors) {
         try {
-            long timeSpentMillis = Long.parseLong(timeText.getText().toString());
-            if(timeSpentMillis < 0)
+            final int MILLIS_PER_MINUTE = 60 * 1000;
+            long timeSpentMinutes = Long.parseLong(timeText.getText().toString());
+            if(timeSpentMinutes < 0)
                 errors.add("Time spent must be a positive number");
             else
-                item.setTimeSpentMillis(timeSpentMillis);
+                item.setTimeSpentMillis(timeSpentMinutes * MILLIS_PER_MINUTE);
         } catch(NumberFormatException e) {
             errors.add("Grade must be a number");
         }

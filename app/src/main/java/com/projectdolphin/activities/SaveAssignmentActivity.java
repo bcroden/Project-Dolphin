@@ -44,9 +44,8 @@ public class SaveAssignmentActivity extends AppCompatActivity {
             ((EditText) findViewById(R.id.save_assignment_title_field)).setText(assignment.getTitle());
             ((EditText) findViewById(R.id.save_assignment_grade_field)).setText(String.format("%.2f", assignment.getGrade()));
             ((EditText) findViewById(R.id.save_assignment_weight_field)).setText(assignment.getWeightAsString());
-            ((EditText) findViewById(R.id.save_assignment_time_field)).setText(Long.toString(assignment.getTimeSpentMillis()));
+            ((EditText) findViewById(R.id.save_assignment_time_field)).setText(Long.toString(assignment.getTimeSpentMillis() / MILLIS_PER_MINUTE));
             checkBox.setChecked(assignment.isGradeValid());
-
         } else if(parDB_ID >= 0) {
             isEditMode = false;
             assignment = new Assignment(parDB_ID, "Empty Assignment", 1.0);
@@ -84,6 +83,7 @@ public class SaveAssignmentActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private final int MILLIS_PER_MINUTE = 60 * 1000;
     private boolean isEditMode;
     private Assignment assignment;
 }
