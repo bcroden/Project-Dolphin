@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,7 +87,7 @@ public class DBAccessHelper {
 
         List<Class> classes = new LinkedList<>();
 
-        if (cursor != null) {
+        if (cursor != null  && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 classes.add(getClassFromCursor(cursor));
             cursor.close();
@@ -104,7 +105,7 @@ public class DBAccessHelper {
 
         //process results
         Class _class = null;
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             _class = getClassFromCursor(cursor);
             cursor.close();
@@ -156,9 +157,21 @@ public class DBAccessHelper {
     //get all of the data which belongs to a particular class
     public ClassData getAllDataFor(long CLASS_DB_ID) {
         Class _class = getClassByID(CLASS_DB_ID);
+        if(_class == null)
+            return null;
 
         Map<Category, List<Assignment>> categoryListMap = new HashMap<>();
-        for(long cat_db_id : _class.getCategoryIDs()) {
+
+        ArrayList<Long> listOfCatIds = new ArrayList<Long>();
+
+        //Put all the Categories in an ArrayList so they can be sorted
+        for(long cat_db_id : _class.getCategoryIDs()){
+            listOfCatIds.add(cat_db_id);
+        }
+
+        listOfCatIds = arrangeAlphabetically(listOfCatIds);
+
+        for(long cat_db_id : listOfCatIds) {
             Category category = getCategoryByID(cat_db_id);
             List<Assignment> assignments = getAllAssignmentsForCategoryID(cat_db_id);
             categoryListMap.put(category, assignments);
@@ -177,7 +190,7 @@ public class DBAccessHelper {
         //compile list
         List<Category> categories = new LinkedList<>();
 
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 categories.add(getCategoryFromCursor(cursor));
             cursor.close();
@@ -195,7 +208,7 @@ public class DBAccessHelper {
 
         //process results
         Category category = null;
-        if (cursor != null) {
+        if (cursor != null  && cursor.getCount() > 0) {
             cursor.moveToFirst();
             category = getCategoryFromCursor(cursor);
             cursor.close();
@@ -258,7 +271,7 @@ public class DBAccessHelper {
 
         //collect results
         List<Assignment> assignments = new LinkedList<>();
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
                 assignments.add(getAssignmentFromCursor(cursor));
             cursor.close();
@@ -275,7 +288,7 @@ public class DBAccessHelper {
 
         //collect result
         Assignment assignment = null;
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             assignment = getAssignmentFromCursor(cursor);
             cursor.close();
@@ -393,9 +406,9 @@ public class DBAccessHelper {
                 columns,
                 selection,
                 selectionArgs,
+                DatabaseContract.DolphinColumns.COLUMN_TITLE,
                 null,
-                null,
-                null
+                DatabaseContract.DolphinColumns.COLUMN_TITLE
         );
     }
 
@@ -520,6 +533,29 @@ public class DBAccessHelper {
     private void prepDBToRemoveCategory(final long DB_ID) {
         for(Assignment assignment : getAllAssignmentsForCategoryID(DB_ID))
             removeAssignmentByID(assignment.getDB_ID());
+    }
+
+    private ArrayList<Long> arrangeAlphabetically(ArrayList<Long> listToArrange){
+
+        ArrayList<Long> sortedList = new ArrayList<>();
+        while(listToArrange.size() != 0) {
+            int indexOfMax = 0;
+            long maxLong = 0;
+            for (int i = 0; i < listToArrange.size(); i++) {
+                if (indexOfMax == 0) {
+                    indexOfMax = i;
+                    maxLong = listToArrange.get(i);
+                } else if (listToArrange.get(i) > maxLong) {
+                    indexOfMax = i;
+                    maxLong = listToArrange.get(i);
+                }
+            }
+            sortedList.add(listToArrange.get(indexOfMax));
+            listToArrange.remove(indexOfMax);
+        }
+
+
+        return sortedList;
     }
 
     private DolphinSQLiteOpenHelper openHelper;
