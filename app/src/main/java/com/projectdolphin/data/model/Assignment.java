@@ -6,15 +6,16 @@ package com.projectdolphin.data.model;
  * @author Alex
  */
 public class Assignment extends GradedDBItem {
-    public Assignment(long parDB_id, String title, double weight) {
-        this(parDB_id, 0, 1.0, weight, title, false);
+    public Assignment(long parDB_id, String title, double weight, long timerStartTime) {
+        this(parDB_id, 0, 1.0, weight, title, false, timerStartTime);
     }
-    public Assignment(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, boolean isGradeValid) {
-        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, isGradeValid);
+    public Assignment(long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, boolean isGradeValid, long timerStartTime) {
+        this(-1, PARENT_DB_ID, timeSpentMillis, grade, weight, title, isGradeValid, timerStartTime);
     }
-    public Assignment(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, boolean isGradeValid) {
+    public Assignment(long DB_ID, long PARENT_DB_ID, long timeSpentMillis, double grade, double weight, String title, boolean isGradeValid, long timerStartTime) {
         super(DB_ID, timeSpentMillis, grade, weight, title, isGradeValid);
         this.PARENT_DB_ID = PARENT_DB_ID;
+        this.timerStartTime = timerStartTime;
     }
 
     public final long getParentDB_ID() {
@@ -27,4 +28,13 @@ public class Assignment extends GradedDBItem {
     }
 
     private final long PARENT_DB_ID;
+    private long timerStartTime;
+
+    public long getTimerStartTime() {
+        return timerStartTime;
+    }
+
+    public void setTimerStartTime(long timerStartTime) {
+        this.timerStartTime = timerStartTime;
+    }
 }

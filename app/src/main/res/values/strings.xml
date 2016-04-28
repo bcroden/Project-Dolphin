@@ -10,4 +10,8 @@
     <string name="total_time_spent_desc">Total Time Spent (minutes):</string>
     <string name="assignment_grade_desc">Assignment Grade (%):</string>
     <string name="grade_is_known_checkbox_desc">Grade is known</string>
+    <string name="timer_default_text">00:00:00</string>
+    <string name="resetButtonText">Reset</string>
+    <string name="startButtonText">Start</string>
+    <string name="stopButtonText">Stop</string>
 </resources>
