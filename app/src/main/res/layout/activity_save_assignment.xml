@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!--Title Info-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -34,28 +35,7 @@
                 android:layout_weight="0.7" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Assignment Grade:"
-                android:id="@+id/save_assignment_grade_view"
-                android:layout_weight="0.37" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_assignment_grade_field"
-                android:layout_weight="0.63"
-                android:inputType="numberSigned|numberDecimal"/>
-
-        </LinearLayout>
-
+        <!--Weight Info-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -78,6 +58,7 @@
 
         </LinearLayout>
 
+        <!--Time Info-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -100,6 +81,30 @@
 
         </LinearLayout>
 
+        <!--Grade Info-->
+        <LinearLayout
+            android:id="@+id/save_assignment_grade_entry_form"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Assignment Grade:"
+                android:id="@+id/save_assignment_grade_view"
+                android:layout_weight="0.37" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_assignment_grade_field"
+                android:layout_weight="0.63"
+                android:inputType="numberSigned|numberDecimal"/>
+
+        </LinearLayout>
         <CheckBox
             android:id="@+id/save_assignment_is_grade_valid_box"
             android:layout_width="wrap_content"

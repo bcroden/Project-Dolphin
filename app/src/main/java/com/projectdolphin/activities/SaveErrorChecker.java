@@ -48,10 +48,8 @@ public class SaveErrorChecker {
             long timeSpentMillis = Long.parseLong(timeText.getText().toString());
             if(timeSpentMillis < 0)
                 errors.add("Time spent must be a positive number");
-            else {
+            else
                 item.setTimeSpentMillis(timeSpentMillis);
-                Toast.makeText(timeText.getContext(), Long.toString(timeSpentMillis), Toast.LENGTH_SHORT).show();
-            }
         } catch(NumberFormatException e) {
             errors.add("Grade must be a number");
         }
