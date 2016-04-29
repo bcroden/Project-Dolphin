@@ -102,9 +102,12 @@ public class predictDesiredGrade extends AppCompatActivity {
                         } else {
                             //System.out.println("current 1st are " + currentPoints);
                             if (currentPoints == 0) {
-                                currentPoints = assignment.getGrade();
+                                //currentPoints = (assignment.getGrade()/100.0) * assignment.getWeight();
+                                currentPoints = (keyCategory.getWeight()/100)*((assignment.getGrade()/100)*assignment.getWeight());
                             } else {
-                                currentPoints = currentPoints + (assignment.getGrade() / 100.0) * assignment.getWeight();
+                                //currentPoints = currentPoints + (assignment.getGrade() / 100.0) * assignment.getWeight();
+                                currentPoints = currentPoints + (keyCategory.getWeight()/100)*((assignment.getGrade()/100)*assignment.getWeight());
+
                             }
                             allKnownAssignments.add(displayAssignment);
                             allAssignments.add(displayAssignment);
@@ -112,7 +115,8 @@ public class predictDesiredGrade extends AppCompatActivity {
                     }
                 }
 
-                double pointsNeededForGrade = desiredClassGrade - ((currentPoints / totalPoints) * 100.0);
+                //double pointsNeededForGrade = desiredClassGrade - ((currentPoints / totalPoints) * 100.0);
+                double pointsNeededForGrade = desiredClassGrade - currentPoints;
 
                 //If we won't already get the grade by getting all 0's
                 if (pointsNeededForGrade > 0) {
@@ -122,13 +126,16 @@ public class predictDesiredGrade extends AppCompatActivity {
                     //Calculate predicted grade for each assignment
                     for (int i = 0; i < allUnknownAssignments.size(); i++) {
                         PredictDisplayObject assignmentToDo = allUnknownAssignments.get(i);
+
                         if (pointsNeededForGrade > assignmentToDo.weightInClass) {
                             allUnknownAssignments.get(i).predictedGrade = assignmentToDo.weightInClass;
                             pointsNeededForGrade = pointsNeededForGrade - assignmentToDo.weightInClass;
                         } else {
                             allUnknownAssignments.get(i).predictedGrade = pointsNeededForGrade;
+                            pointsNeededForGrade = pointsNeededForGrade - assignmentToDo.weightInClass;
                             pointsNeededForGrade = 0;
                         }
+
                     }
                     HashMap<String, Integer> isCategory = new HashMap<>();
                     //For each assignment calculate minutes needed studying and link it to its parent category
@@ -153,7 +160,7 @@ public class predictDesiredGrade extends AppCompatActivity {
                     }
 
                     //For each category and assignment, add them to the list view
-                    if(!(pointsNeededForGrade != 0 || desiredClassGrade < 0)) {
+                    if((!(pointsNeededForGrade != 0 || desiredClassGrade < 0) || desiredClassGrade < 101) && pointsNeededForGrade <= 0) {
                         for (PredictDisplayObject tempCat : Categories) {
                             values.add("Category: " + tempCat.title + "\nTotal Time Studying: " + (int) tempCat.minutesStudying + " minutes");
                             for (PredictDisplayObject tempAssign : allUnknownAssignments) {
