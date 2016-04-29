@@ -100,12 +100,9 @@ public class predictDesiredGrade extends AppCompatActivity {
                             allUnknownAssignments.add(displayAssignment);
                             allAssignments.add(displayAssignment);
                         } else {
-                            //System.out.println("current 1st are " + currentPoints);
                             if (currentPoints == 0) {
-                                //currentPoints = (assignment.getGrade()/100.0) * assignment.getWeight();
                                 currentPoints = (keyCategory.getWeight()/100)*((assignment.getGrade()/100)*assignment.getWeight());
                             } else {
-                                //currentPoints = currentPoints + (assignment.getGrade() / 100.0) * assignment.getWeight();
                                 currentPoints = currentPoints + (keyCategory.getWeight()/100)*((assignment.getGrade()/100)*assignment.getWeight());
 
                             }
